@@ -40,11 +40,3 @@ export const verifyPassword = (password) => {
     return validation
 
 }
-
-export const saveLogin = (uid) => {
-    localStorage.setItem("uid", uid)
-}
-
-export const saveLogout = () => {
-    localStorage.removeItem("uid")
-}

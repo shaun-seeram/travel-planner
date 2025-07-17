@@ -1,6 +1,6 @@
 import React from 'react';
 import {Form, useSearchParams, useActionData, redirect} from "react-router-dom"
-import { saveLogin, verifyEmail, verifyPassword } from '../util';
+import { verifyEmail, verifyPassword } from '../util';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import auth from '../firebase/authentication';
 
@@ -63,8 +63,7 @@ export const action = async ({request}) => {
 
     if (mode === "register") {
         try {
-            const res = await createUserWithEmailAndPassword(auth, email, password)
-            saveLogin(res.user.uid) // STORE ID IN MEMORY FOR LATER USE
+            await createUserWithEmailAndPassword(auth, email, password)
             return redirect("/")
         } catch(e) {
             return {
@@ -75,8 +74,7 @@ export const action = async ({request}) => {
 
     if (mode !== "register") {
         try {
-            const res = await signInWithEmailAndPassword(auth, email, password)
-            saveLogin(res.user.uid) // STORE ID IN MEMORY FOR LATER USE
+            await signInWithEmailAndPassword(auth, email, password)
             return redirect("/")
         } catch(e) {
             return {

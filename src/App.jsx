@@ -8,20 +8,22 @@ import TripDetails from "./pages/TripDetails"
 import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
+import { useDispatch } from 'react-redux'
+import { authActions } from './store'
 
 function App() {
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // user is logged in
-        console.log(user.uid)
+        dispatch(authActions.login(user.uid))
       } else {
-        // user is logged out
-        console.log("bye")
+        dispatch(authActions.logout())
       }
     })
-  }, [])
+  }, [dispatch])
 
   const router = createBrowserRouter([
     {
