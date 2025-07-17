@@ -12,8 +12,8 @@ const Navigation = () => {
                 <ul>
                     <li><Link to="trips">Trips</Link></li>
                     <li><Link to="trips/add">Add a Trip</Link></li>
-                    <li><Link to="auth">Sign Up</Link></li>
-                    <li><Link to="auth">Login</Link></li>
+                    <li><Link to="auth?mode=register">Sign Up</Link></li>
+                    <li><Link to="auth?mode=login">Login</Link></li>
                 </ul>
             </nav>
         </div>
