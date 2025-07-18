@@ -8,17 +8,17 @@ import { useSelector } from 'react-redux';
 const Navigation = () => {
 
     const isLoggedIn = useSelector((state) => state.auth.uid)
-    console.log(isLoggedIn)
 
     return (
         <div className={classes.sidebar}>
             <h1>Trip Planner</h1>
             <nav>
                 <ul>
-                    <li><Link to="trips">Trips</Link></li>
-                    <li><Link to="trips/add">Add a Trip</Link></li>
+                <li><Link to="/">Home</Link></li>
                     { isLoggedIn && (
                         <>
+                            <li><Link to="trips">Trips</Link></li>
+                            <li><Link to="trips/add">Add a Trip</Link></li>
                             <li><Link to="logout">Logout</Link></li>
                         </>
                     )}

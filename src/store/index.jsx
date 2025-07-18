@@ -1,10 +1,11 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit";
 import {Provider} from "react-redux"
+import auth from "../firebase/authentication";
 
 const authSlice = createSlice({
     name: "authentication",
     initialState: {
-        uid: null
+        uid: auth.currentUser
     },
     reducers: {
         login(state, action) {

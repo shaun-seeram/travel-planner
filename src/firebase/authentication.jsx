@@ -14,4 +14,10 @@ const firebaseConfig = {
   const auth = getAuth(app);
   export default auth
 
-  // test
+
+  // Notes
+
+  // PRIOR to init, currentUser is initially null, until init has taken place...
+  // Storing data (uid, tokenExpiration) in local storage would allow user to modify and briefly access pages they shouldn't...
+  // Issue: Might have to add loader calls to FB for each protected route...
+  // Solution? Protected loaders > If redux has UID, continue, if not, do FB check?
