@@ -11,7 +11,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
 import { useDispatch } from 'react-redux'
 import { authActions } from './store'
-import { asyncAuthCheck } from './util'
+import { rootLoader } from './pages/RootLayout'
 
 function App() {
 
@@ -33,7 +33,9 @@ function App() {
     {
       path: "/",
       element: <RootLayout />,
-      loader: async () => await asyncAuthCheck,
+      loader: rootLoader,
+      shouldRevalidate: () => false,
+      HydrateFallback: () => <></>,
       children: [
         {
           index: true,

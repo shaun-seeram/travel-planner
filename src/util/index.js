@@ -1,6 +1,3 @@
-import { onAuthStateChanged } from "firebase/auth";
-import auth from "../firebase/authentication";
-
 export const verifyEmail = (email) => {
 
     const errorChecking = [
@@ -43,12 +40,3 @@ export const verifyPassword = (password) => {
     return validation
 
 }
-
-export const asyncAuthCheck = new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, () => {
-        console.log("CHECK")
-        unsubscribe()
-        resolve()
-    })
-    return null
-})
