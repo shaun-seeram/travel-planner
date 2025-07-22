@@ -1,10 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const Trips = () => {
+
+    const trips = useSelector(state => state.auth.trips)
+
     return (
-        <div>
-            <h1>Trips</h1>
-        </div>
+        <ul>
+            {trips.map((trip) => {
+                return <li key="">Hello</li>
+            })}
+        </ul>
     );
 }
 

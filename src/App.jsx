@@ -3,7 +3,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import Home from "./pages/Home"
 import Authentication, {action as authAction} from "./pages/Authentication"
 import Trips from "./pages/Trips"
-import AddTrip from "./pages/AddTrip"
+import AddTrip, { addTripAction } from "./pages/AddTrip"
 import TripDetails from "./pages/TripDetails"
 import {logoutLoader} from "./pages/Logout"
 import { useEffect } from 'react'
@@ -56,7 +56,8 @@ function App() {
         },
         {
           path: "trips/add",
-          element: <AddTrip />
+          element: <AddTrip />,
+          action: addTripAction
         },
         {
           path: "trips/:id",

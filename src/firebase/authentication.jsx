@@ -1,9 +1,11 @@
 import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database"
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDJgweN847EblBQV-JNQ50Vu-Pw8lLCvz8",
     authDomain: "travel-planner-1091a.firebaseapp.com",
+    databaseURL: "https://travel-planner-1091a-default-rtdb.firebaseio.com",
     projectId: "travel-planner-1091a",
     storageBucket: "travel-planner-1091a.firebasestorage.app",
     messagingSenderId: "674143267200",
@@ -12,7 +14,8 @@ const firebaseConfig = {
   
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  export default auth
+  export const db = getDatabase(app)
+  export default auth;
 
 
   // Notes

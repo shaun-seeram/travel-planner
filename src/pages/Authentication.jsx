@@ -2,7 +2,8 @@ import React from 'react';
 import {Form, useSearchParams, useActionData, redirect} from "react-router-dom"
 import { verifyEmail, verifyPassword } from '../util';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import auth from '../firebase/authentication';
+import { ref, set } from 'firebase/database';
+import auth, { db } from '../firebase/authentication';
 
 const Authentication = () => {
 
@@ -63,7 +64,10 @@ export const action = async ({request}) => {
 
     if (mode === "register") {
         try {
-            await createUserWithEmailAndPassword(auth, email, password)
+            const user = await createUserWithEmailAndPassword(auth, email, password)
+            await set(ref(db, user.user.uid + "/"), {
+                init: true,
+            })
             return redirect("/")
         } catch(e) {
             return {

@@ -5,7 +5,8 @@ import auth from "../firebase/authentication";
 const authSlice = createSlice({
     name: "authentication",
     initialState: {
-        uid: auth.currentUser
+        uid: auth.currentUser,
+        trips: [1]
     },
     reducers: {
         login(state, action) {
@@ -13,6 +14,7 @@ const authSlice = createSlice({
         },
         logout(state) {
             state.uid = null
+            state.trips = []
         }
     }
 })
