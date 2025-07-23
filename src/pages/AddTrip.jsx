@@ -1,9 +1,21 @@
 import { ref, set } from 'firebase/database';
 import React from 'react';
-import { Form, redirect } from "react-router-dom"
+import { Form, useActionData, useNavigate } from "react-router-dom"
 import auth, { db } from '../firebase/authentication';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../store';
 
 const AddTrip = () => {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const tripData = useActionData();
+
+    if (tripData) {
+        dispatch(authActions.addTrip(tripData))
+        navigate("/trips/" + tripData.id)
+    }
+
     return (
         <Form method='post'>
             <label htmlFor='city'>City</label>
@@ -31,6 +43,13 @@ export const addTripAction = async ({request}) => {
         from: data.get("travelfrom"),
     })
     // IF SUCCESSFUL...
-    
-    return redirect("/trips/" + id)
+    return {
+        id,
+        trip: {
+            city: data.get("city"),
+            country: data.get("country"),
+            to: data.get("travelto"),
+            from: data.get("travelfrom"),
+        }
+    }
 }

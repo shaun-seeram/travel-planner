@@ -14,12 +14,15 @@ const authSlice = createSlice({
         login(state, action) {
             state.sessionReady = true
             state.uid = action.payload.id
-            state.trips = action.payload.trips
+            state.trips = action.payload.trips || {}
         },
         logout(state) {
             state.sessionReady = true
             state.uid = null
             state.trips = {}
+        },
+        addTrip(state, action) {
+            state.trips[action.payload.id] = action.payload.trip
         }
     }
 })
