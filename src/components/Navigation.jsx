@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 const Navigation = () => {
 
     const isLoggedIn = useSelector((state) => state.auth.uid)
+    const sessionReady = useSelector((state) => state.auth.sessionReady)
     const data = useLoaderData()
 
     return (
@@ -16,25 +17,19 @@ const Navigation = () => {
             <nav>
                 <ul>
                 <li><Link to="/">Home</Link></li>
-                <Suspense>
-                    <Await resolve={data.authCheck}>
-                        {() => <>
-                            { isLoggedIn && (
+                            { (sessionReady && isLoggedIn) && (
                                 <>
                                     <li><Link to="trips">Trips</Link></li>
                                     <li><Link to="trips/add">Add a Trip</Link></li>
                                     <li><Link to="logout">Logout</Link></li>
                                 </>
                             )}
-                            { !isLoggedIn && (
+                            { (sessionReady && !isLoggedIn) && (
                                 <>
                                     <li><Link to="auth?mode=register">Sign Up</Link></li>
                                     <li><Link to="auth?mode=login">Login</Link></li>
                                 </>
                             )}
-                        </> }
-                    </Await>
-                </Suspense>
                 </ul>
             </nav>
         </div>

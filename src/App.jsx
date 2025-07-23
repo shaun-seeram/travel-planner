@@ -10,8 +10,8 @@ import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
 import { useDispatch } from 'react-redux'
-import { authActions } from './store'
-import { rootLoader } from './pages/RootLayout'
+import { asyncLogin, authActions } from './store'
+// import { rootLoader } from './pages/RootLayout'
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("LOGIN")
-        dispatch(authActions.login(user.uid))
+        dispatch(asyncLogin(user.uid))
       } else {
         console.log("LOGOUT")
         dispatch(authActions.logout())
@@ -33,9 +33,9 @@ function App() {
     {
       path: "/",
       element: <RootLayout />,
-      loader: rootLoader,
-      shouldRevalidate: () => false,
-      HydrateFallback: () => <></>,
+      // loader: rootLoader,
+      // shouldRevalidate: () => false,
+      // HydrateFallback: () => <></>,
       children: [
         {
           index: true,

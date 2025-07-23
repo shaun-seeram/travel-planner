@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import auth from "../firebase/authentication";
 
 const RootLayout = () => {
+
     return (
         <>
             <Navigation />
@@ -19,18 +20,18 @@ const RootLayout = () => {
 
 export default RootLayout;
 
-export const rootLoader = async () => {
-    const authCheck = async () => {
-        return await new Promise((resolve) => {
-            const unsubscribe = onAuthStateChanged(auth, (user) => {
-                console.log("ARTIFICIAL DELAY")
-                unsubscribe()
-                resolve(user?.uid)
-            })
-        })
-    }
+// export const rootLoader = async () => {
+//     const authCheck = async () => {
+//         return await new Promise((resolve) => {
+//             const unsubscribe = onAuthStateChanged(auth, (user) => {
+//                 console.log("ARTIFICIAL DELAY")
+//                 unsubscribe()
+//                 resolve(user?.uid)
+//             })
+//         })
+//     }
 
-    return {
-        authCheck: authCheck()
-    }
-}
+//     return {
+//         authCheck: authCheck()
+//     }
+// }

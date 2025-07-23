@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import {Link} from "react-router-dom"
 
 const Trips = () => {
 
@@ -7,9 +8,11 @@ const Trips = () => {
 
     return (
         <ul>
-            {trips.map((trip) => {
-                return <li key="">Hello</li>
-            })}
+            {
+                trips && Object.keys(trips).map((key) => {
+                    return <li key={key}><Link to={`/trips/${key}`}>{`${trips[key].city}, ${trips[key].country}`}</Link></li>
+                })
+            }
         </ul>
     );
 }
