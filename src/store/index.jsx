@@ -23,6 +23,9 @@ const authSlice = createSlice({
         },
         addTrip(state, action) {
             state.trips[action.payload.id] = action.payload.trip
+        },
+        removeTrip(state, action) {
+            delete state.trips[action.payload]
         }
     }
 })

@@ -1,7 +1,7 @@
 import { ref, set } from 'firebase/database';
 import React from 'react';
 import { Form, useActionData, useNavigate } from "react-router-dom"
-import auth, { db } from '../firebase/authentication';
+import auth, { db, latlonkey } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
 
@@ -21,10 +21,10 @@ const AddTrip = () => {
             <label htmlFor='city'>City</label>
             <input type='text' name="city" id='city'></input>
             <label htmlFor='country'>Country</label>
-            <input type='text' name="country" id='country'></input>
-            <label htmlFor='travelto'>To</label>
             <input type='date' name="travelto" id='travelto'></input>
             <label htmlFor='travelfrom'>From</label>
+            <input type='text' name="country" id='country'></input>
+            <label htmlFor='travelto'>To</label>
             <input type='date' name="travelfrom" id='travelfrom'></input>
             <input type='submit'></input>
         </Form>
@@ -36,11 +36,19 @@ export default AddTrip;
 export const addTripAction = async ({request}) => {
     const data = await request.formData()
     const id = new Date().getTime()
+    const latlon = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${data.get("city")}&country=${data.get("country")}`, {
+        headers: {
+            "X-Api-Key": latlonkey
+        }
+    })
+    const resJson = await latlon.json()
     set(ref(db, auth.currentUser.uid + "/trips/" + id), {
         city: data.get("city"),
         country: data.get("country"),
         to: data.get("travelto"),
         from: data.get("travelfrom"),
+        latitude: resJson[0].latitude,
+        longitude: resJson[0].longitude
     })
     // IF SUCCESSFUL...
     return {
@@ -50,6 +58,8 @@ export const addTripAction = async ({request}) => {
             country: data.get("country"),
             to: data.get("travelto"),
             from: data.get("travelfrom"),
+            latitude: resJson[0].latitude,
+            longitude: resJson[0].longitude
         }
     }
 }

@@ -17,6 +17,8 @@ const firebaseConfig = {
   export const db = getDatabase(app)
   export default auth;
 
+  export const latlonkey = "QXrbYHhG2NKXNO6dGMARhg==VCu1VlzdEskHst1K"
+
 
   // Notes
 
