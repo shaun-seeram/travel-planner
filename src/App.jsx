@@ -4,12 +4,12 @@ import Home from "./pages/Home"
 import Authentication, {action as authAction} from "./pages/Authentication"
 import Trips from "./pages/Trips"
 import AddTrip, { addTripAction } from "./pages/AddTrip"
-import TripDetails from "./pages/TripDetails"
+import TripDetails, { tripDetailsLoader } from "./pages/TripDetails"
 import {logoutLoader} from "./pages/Logout"
 import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { asyncLogin, authActions } from './store'
 // import { rootLoader } from './pages/RootLayout'
 
@@ -61,7 +61,8 @@ function App() {
         },
         {
           path: "trips/:id",
-          element: <TripDetails />
+          element: <TripDetails />,
+          loader: tripDetailsLoader
         }
       ]
     }
