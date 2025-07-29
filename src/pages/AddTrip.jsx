@@ -59,7 +59,10 @@ export const addTripAction = async ({request}) => {
         from: data.get("travelfrom"),
         latitude: resJson[0].latitude,
         longitude: resJson[0].longitude,
-        currency: currencyResJson[0].currency.code
+        currency: currencyResJson[0].currency.code,
+        budget: {
+            budget: 0
+        }
     })
     // IF SUCCESSFUL...
     return {

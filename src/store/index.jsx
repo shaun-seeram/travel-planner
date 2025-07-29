@@ -34,7 +34,16 @@ const authSlice = createSlice({
 
             state.trips[action.payload.tripId].accomodations[action.payload.accomodationId] = action.payload.accomodation
 
-        }
+        },
+        addFlight(state, action) {
+            if (!state.trips[action.payload.tripId].flights) {
+                state.trips[action.payload.tripId].flights = {}
+            }
+
+            state.trips[action.payload.tripId].flights[action.payload.flightId] = action.payload.flight
+
+        },
+        editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget}
     }
 })
 

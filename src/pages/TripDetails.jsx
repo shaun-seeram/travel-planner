@@ -17,14 +17,29 @@ const TripDetails = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [accomodationAdd, setAccomodationAdd] = useState(false);
+    const [flightAdd, setFlightAdd] = useState(false);
+    const [editBudget, setEditBudget] = useState(false);
 
     useEffect(() => {
         setAccomodationAdd(false)
-        if (actionData) {
+        setFlightAdd(false)
+        setEditBudget(false)
+        if (actionData && actionData.purpose === "addAccomodation") {
             dispatch(authActions.addAccomodation({
                 tripId: id,
-                accomodationId: actionData.accomodationId,
+                accomodationId: actionData.purposeId,
                 accomodation: actionData.accomodation
+            }))
+        } else if (actionData && actionData.purpose === "addFlight") {
+            dispatch(authActions.addFlight({
+                tripId: id,
+                flightId: actionData.purposeId,
+                flight: actionData.flight
+            }))
+        } else if (actionData && actionData.purpose === "editBudget") {
+            dispatch(authActions.editBudget({
+                tripId: id,
+                budget: actionData.budget
             }))
         }
     }, [actionData, dispatch, id])
@@ -65,10 +80,10 @@ const TripDetails = () => {
                 <h2>Accomodations:</h2>
                 {trip.accomodations && Object.keys(trip.accomodations).map((key) => {
                     return (
-                        <>
+                        <div key={key}>
                             <p>{trip.accomodations[key].name}</p>
-                            <p><pre>{trip.accomodations[key].address}</pre></p>
-                        </>
+                            <pre>{trip.accomodations[key].address}</pre>
+                        </div>
                     )
                 })}
                 { accomodationAdd && <Form method='post'>
@@ -79,6 +94,62 @@ const TripDetails = () => {
                     <button type='submit' name='purpose' value="addAccomodation">Save</button>
                 </Form> }
                 <button onClick={() => setAccomodationAdd(prevValue => !prevValue)}>Add?</button>
+            </div>
+
+            <div>
+                <h2>Flights:</h2>
+                {trip.flights && Object.keys(trip.flights).map((key) => {
+                    return (
+                        <div key={key}>
+                            <p>{trip.flights[key].airline}</p>
+                            <p>{trip.flights[key].fromAirport}</p>
+                            <p>{trip.flights[key].toAirport}</p>
+                            <p>{trip.flights[key].flightNumber}</p>
+                            <p>{trip.flights[key].departureDate}</p>
+                            <p>{trip.flights[key].boarding}</p>
+
+                        </div>
+                    )
+                })}
+                { flightAdd && <Form method='post'>
+                    <label htmlFor='airline'>Airline</label>
+                    <input name='airline' id='airline'></input>
+                    <label htmlFor='fromAirport'>From Airport</label>
+                    <input name='fromAirport' id='fromAirport'></input>
+                    <label htmlFor='toAirport'>To Airport</label>
+                    <input name='toAirport' id='toAirport'></input>
+                    <label htmlFor='flightNumber'>Flight Number</label>
+                    <input name='flightNumber' id='flightNumber'></input>
+                    <label htmlFor='departureDate'>Departure Date</label>
+                    <input name='departureDate' id='departureDate'></input>
+                    <label htmlFor='boarding'>Boarding Time</label>
+                    <input name='boarding' id='boarding'></input>
+                    <button type='submit' name='purpose' value="addFlight">Save</button>
+                </Form> }
+                <button onClick={() => setFlightAdd(prevValue => !prevValue)}>Add?</button>
+            </div>
+
+            <div>
+                <h2>Budget:</h2>
+                <h3>Budget: {editBudget ? (
+                    <Form method='post'>
+                        <label htmlFor='budget' className='sr-only'>Budget</label>
+                        <input name='budget' id='budget' type='number' defaultValue={trip.budget.budget}></input>
+                        <button type='submit' name='purpose' value="editBudget">Save</button>
+                    </Form>
+                ) : trip.budget.budget}</h3>
+                <button onClick={() => setEditBudget(prevValue => !prevValue)}>Edit?</button>
+                
+                <h3>Savings: {trip.budget.savings ? (
+                    trip.budget.savings?.reduce((pT, cT) => {
+                        return pT + cT
+                    }, 0)
+                ) : 0}</h3>
+                <progress value={trip.budget.savings ? (
+                    trip.budget.savings?.reduce((pT, cT) => {
+                        return pT + cT
+                    }, 0)
+                ) : 0} max={trip.budget.budget}></progress>
             </div>
         </>
     );
@@ -94,24 +165,79 @@ export const tripDetailsLoader = async ({_, params}) => {
 }
 
 export const tripDetailsAction = async ({request, params}) => {
-    const accomodationId = new Date().getTime()
     const data = await request.formData();
-    const name = data.get("name")
-    const address = data.get("address")
     const purpose = data.get("purpose")
+    const purposeId = new Date().getTime()
     const id = params.id
 
-    purpose === "addAccomodation" && await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/accomodations/" + accomodationId), {
-        name,
-        address
-    })
-    // IF SUCCESSFUL...
-    return {
-        purpose,
-        accomodationId,
-        accomodation: {
+    if (purpose === "addAccomodation") {
+        const name = data.get("name")
+        const address = data.get("address")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/accomodations/" + purposeId), {
             name,
             address
+        })
+        
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            purposeId,
+            accomodation: {
+                name,
+                address
+            }
+        }
+
+    } else if (purpose === "addFlight") {
+        const airline = data.get("airline")
+        const fromAirport = data.get("fromAirport")
+        const toAirport = data.get("toAirport")
+        const flightNumber = data.get("flightNumber")
+        const departureDate = data.get("departureDate")
+        const boarding = data.get("boarding")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/flights/" + purposeId), {
+            airline,
+            fromAirport,
+            toAirport,
+            flightNumber,
+            departureDate,
+            boarding
+        })
+        
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            purposeId,
+            flight: {
+                airline,
+                fromAirport,
+                toAirport,
+                flightNumber,
+                departureDate,
+                boarding
+            }
+        }
+    } else if (purpose === "editBudget") {
+        const budget = data.get("budget")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/"), {
+            budget: +budget
+        })
+        
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            budget: +budget
         }
     }
+
+    
+
+
+    
+    
+
+
 }
