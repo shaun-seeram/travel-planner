@@ -26,6 +26,14 @@ const authSlice = createSlice({
         },
         removeTrip(state, action) {
             delete state.trips[action.payload]
+        },
+        addAccomodation(state, action) {
+            if (!state.trips[action.payload.tripId].accomodations) {
+                state.trips[action.payload.tripId].accomodations = {}
+            }
+
+            state.trips[action.payload.tripId].accomodations[action.payload.accomodationId] = action.payload.accomodation
+
         }
     }
 })

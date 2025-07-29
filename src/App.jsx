@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import Authentication, {action as authAction} from "./pages/Authentication"
 import Trips from "./pages/Trips"
 import AddTrip, { addTripAction } from "./pages/AddTrip"
-import TripDetails, { tripDetailsLoader } from "./pages/TripDetails"
+import TripDetails, { tripDetailsAction, tripDetailsLoader } from "./pages/TripDetails"
 import {logoutLoader} from "./pages/Logout"
 import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -62,7 +62,8 @@ function App() {
         {
           path: "trips/:id",
           element: <TripDetails />,
-          loader: tripDetailsLoader
+          loader: tripDetailsLoader,
+          action: tripDetailsAction
         }
       ]
     }
