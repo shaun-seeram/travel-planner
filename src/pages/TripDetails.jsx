@@ -19,11 +19,13 @@ const TripDetails = () => {
     const [accomodationAdd, setAccomodationAdd] = useState(false);
     const [flightAdd, setFlightAdd] = useState(false);
     const [editBudget, setEditBudget] = useState(false);
+    const [addExpense, setAddExpense] = useState(false);
 
     useEffect(() => {
         setAccomodationAdd(false)
         setFlightAdd(false)
         setEditBudget(false)
+        setAddExpense(false)
         if (actionData && actionData.purpose === "addAccomodation") {
             dispatch(authActions.addAccomodation({
                 tripId: id,
@@ -40,6 +42,12 @@ const TripDetails = () => {
             dispatch(authActions.editBudget({
                 tripId: id,
                 budget: actionData.budget
+            }))
+        } else if (actionData && actionData.purpose === "addExpense") {
+            dispatch(authActions.addExpense({
+                tripId: id,
+                expenseId: actionData.purposeId,
+                expense: actionData.expense
             }))
         }
     }, [actionData, dispatch, id])
@@ -139,15 +147,28 @@ const TripDetails = () => {
                     </Form>
                 ) : trip.budget.budget}</h3>
                 <button onClick={() => setEditBudget(prevValue => !prevValue)}>Edit?</button>
-                
-                <h3>Savings: {trip.budget.savings ? (
-                    trip.budget.savings?.reduce((pT, cT) => {
-                        return pT + cT
+
+                <h3>Expenses: {trip.budget.expenses ? (
+                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                        return pT + trip.budget.expenses[cT].cost
                     }, 0)
                 ) : 0}</h3>
-                <progress value={trip.budget.savings ? (
-                    trip.budget.savings?.reduce((pT, cT) => {
-                        return pT + cT
+
+                { addExpense && (
+                    <Form method="post">
+                        <label htmlFor='expenseName'>Expense Name</label>
+                        <input name='expenseName' id='expenseName'></input>
+                        <label htmlFor='expenseCost'>Expense Cost</label>
+                        <input name='expenseCost' id='expenseCost'></input>
+                        <button type='submit' name='purpose' value="addExpense">Save</button>
+                    </Form>
+                )}
+
+                <button onClick={() => setAddExpense(prevValue => !prevValue)}>Add?</button>
+
+                <progress value={trip.budget.expenses ? (
+                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                        return pT + trip.budget.expenses[cT].cost
                     }, 0)
                 ) : 0} max={trip.budget.budget}></progress>
             </div>
@@ -230,6 +251,24 @@ export const tripDetailsAction = async ({request, params}) => {
         return {
             purpose,
             budget: +budget
+        }
+    } else if (purpose === "addExpense") {
+        const name = data.get("expenseName")
+        const cost = data.get("expenseCost")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/expenses/" + purposeId), {
+            name,
+            cost: +cost
+        })
+        
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            purposeId,
+            expense: {
+                name,
+                cost: +cost
+            }
         }
     }
 
