@@ -1,10 +1,11 @@
-import { child, push, ref, remove, set, update } from 'firebase/database';
+import { ref, remove, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
-import {useParams, useNavigate, useLoaderData, useActionData, Form} from "react-router-dom"
-import auth, { db, latlonkey } from '../firebase/authentication';
+import { useParams, useNavigate, useLoaderData, useActionData, Form } from "react-router-dom"
+import auth, { db } from '../firebase/authentication';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions, store } from '../store';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import classes from "./TripDetails.module.css"
 
 const date = new Date();
 
@@ -66,21 +67,134 @@ const TripDetails = () => {
 
     return (
         <>
-        <MapContainer center={[trip.latitude, trip.longitude]} zoomControl={false} style={{height: "200px", width: "100%"}} zoom={13} scrollWheelZoom={false}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={[trip.latitude, trip.longitude]}>
-                <Popup>{trip.city}, {trip.country}</Popup>
-            </Marker>
-        </MapContainer>
+            <MapContainer center={[trip.latitude, trip.longitude]} style={{ "border-radius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[trip.latitude, trip.longitude]}>
+                    <Popup>{trip.city}, {trip.country}</Popup>
+                </Marker>
+            </MapContainer>
 
-            <button onClick={handleDelete}>Delete</button>
-            <div>
-                <h1>{trip.city}, {trip.country}</h1>
+            <div className={classes.titleContainer}>
+                <h1>Trip to {trip.city}, {trip.country}</h1>
                 <p>{trip.from} - {trip.to}</p>
-                <p>Today's Date: {date.toLocaleDateString()} | Days to go: {calculateDaysToGo()}</p>
+                <p>Days to go: {calculateDaysToGo()}</p>
+                <button onClick={handleDelete}>Delete</button>
+            </div>
+
+            <div className={classes.split}>
+                <div className={classes.half}>
+
+                    <div>
+                        <details open>
+                            <summary>
+                                Budget
+                                <div className={classes.summaryRight}>
+                                    ${trip.budget.expenses ? (
+                                        Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                                            return pT + trip.budget.expenses[cT].cost
+                                        }, 0)
+                                    ) : 0} / {trip.budget.budget}
+                                </div>
+                            </summary>
+                            <div className={classes.budgetContainer}>
+                                <h1>${trip.budget.expenses ? (
+                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                                        return pT + trip.budget.expenses[cT].cost
+                                    }, 0)
+                                ) : 0}</h1>
+                                <progress value={trip.budget.expenses ? (
+                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                                        return pT + trip.budget.expenses[cT].cost
+                                    }, 0)
+                                ) : 0} max={trip.budget.budget}></progress>
+                                <p>Budget: ${trip.budget.budget}</p>
+                                <div className={classes.buttonsRow}>
+                                    <button onClick={() => setAddExpense(prevValue => !prevValue)}>Add Expense</button>
+                                    <button onClick={() => setEditBudget(prevValue => !prevValue)}>Edit Budget</button>
+                                </div>
+                            </div>
+                        </details>
+
+                        {editBudget && (
+                            <Form method='post'>
+                                <label htmlFor='budget' className='sr-only'>Budget</label>
+                                <input name='budget' id='budget' type='number' defaultValue={trip.budget.budget}></input>
+                                <button type='submit' name='purpose' value="editBudget">Save</button>
+                            </Form>
+                        )}
+
+                        {addExpense && (
+                            <Form method="post">
+                                <label htmlFor='expenseName'>Expense Name</label>
+                                <input name='expenseName' id='expenseName'></input>
+                                <label htmlFor='expenseCost'>Expense Cost</label>
+                                <input name='expenseCost' id='expenseCost'></input>
+                                <button type='submit' name='purpose' value="addExpense">Save</button>
+                            </Form>
+                        )}
+                    </div>
+
+                    <div>
+                        <details open>
+                            <summary>Flights</summary>
+                            <div className={classes.budgetContainer}>
+                                <h1>${trip.budget.expenses ? (
+                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                                        return pT + trip.budget.expenses[cT].cost
+                                    }, 0)
+                                ) : 0}</h1>
+                                <progress value={trip.budget.expenses ? (
+                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                                        return pT + trip.budget.expenses[cT].cost
+                                    }, 0)
+                                ) : 0} max={trip.budget.budget}></progress>
+                                <p>Budget: ${trip.budget.budget}</p>
+                                <div className={classes.buttonsRow}>
+                                    <button onClick={() => setAddExpense(prevValue => !prevValue)}>Add Expense</button>
+                                    <button onClick={() => setEditBudget(prevValue => !prevValue)}>Edit Budget</button>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+
+                    <div>
+                        <details open>
+                            <summary>Accomodations</summary>
+                            <div className={classes.budgetContainer}>
+                                <h1>${trip.budget.expenses ? (
+                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                                        return pT + trip.budget.expenses[cT].cost
+                                    }, 0)
+                                ) : 0}</h1>
+                                <progress value={trip.budget.expenses ? (
+                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
+                                        return pT + trip.budget.expenses[cT].cost
+                                    }, 0)
+                                ) : 0} max={trip.budget.budget}></progress>
+                                <p>Budget: ${trip.budget.budget}</p>
+                                <div className={classes.buttonsRow}>
+                                    <button onClick={() => setAddExpense(prevValue => !prevValue)}>Add Expense</button>
+                                    <button onClick={() => setEditBudget(prevValue => !prevValue)}>Edit Budget</button>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+
+
+
+                </div>
+                <div className={classes.half}>
+                    <h2>Planner</h2>
+                    This will be planner
+                </div>
+            </div>
+
+            <div>
                 <p>1 CAD = {currency} {trip.currency}</p>
             </div>
 
@@ -94,13 +208,13 @@ const TripDetails = () => {
                         </div>
                     )
                 })}
-                { accomodationAdd && <Form method='post'>
+                {accomodationAdd && <Form method='post'>
                     <label htmlFor='name'>Name</label>
                     <input name='name' id='name'></input>
                     <label htmlFor='address'>Address</label>
                     <textarea name='address' id='address' rows="4"></textarea>
                     <button type='submit' name='purpose' value="addAccomodation">Save</button>
-                </Form> }
+                </Form>}
                 <button onClick={() => setAccomodationAdd(prevValue => !prevValue)}>Add?</button>
             </div>
 
@@ -119,7 +233,7 @@ const TripDetails = () => {
                         </div>
                     )
                 })}
-                { flightAdd && <Form method='post'>
+                {flightAdd && <Form method='post'>
                     <label htmlFor='airline'>Airline</label>
                     <input name='airline' id='airline'></input>
                     <label htmlFor='fromAirport'>From Airport</label>
@@ -133,59 +247,24 @@ const TripDetails = () => {
                     <label htmlFor='boarding'>Boarding Time</label>
                     <input name='boarding' id='boarding'></input>
                     <button type='submit' name='purpose' value="addFlight">Save</button>
-                </Form> }
+                </Form>}
                 <button onClick={() => setFlightAdd(prevValue => !prevValue)}>Add?</button>
             </div>
 
-            <div>
-                <h2>Budget:</h2>
-                <h3>Budget: {editBudget ? (
-                    <Form method='post'>
-                        <label htmlFor='budget' className='sr-only'>Budget</label>
-                        <input name='budget' id='budget' type='number' defaultValue={trip.budget.budget}></input>
-                        <button type='submit' name='purpose' value="editBudget">Save</button>
-                    </Form>
-                ) : trip.budget.budget}</h3>
-                <button onClick={() => setEditBudget(prevValue => !prevValue)}>Edit?</button>
-
-                <h3>Expenses: {trip.budget.expenses ? (
-                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
-                        return pT + trip.budget.expenses[cT].cost
-                    }, 0)
-                ) : 0}</h3>
-
-                { addExpense && (
-                    <Form method="post">
-                        <label htmlFor='expenseName'>Expense Name</label>
-                        <input name='expenseName' id='expenseName'></input>
-                        <label htmlFor='expenseCost'>Expense Cost</label>
-                        <input name='expenseCost' id='expenseCost'></input>
-                        <button type='submit' name='purpose' value="addExpense">Save</button>
-                    </Form>
-                )}
-
-                <button onClick={() => setAddExpense(prevValue => !prevValue)}>Add?</button>
-
-                <progress value={trip.budget.expenses ? (
-                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
-                        return pT + trip.budget.expenses[cT].cost
-                    }, 0)
-                ) : 0} max={trip.budget.budget}></progress>
-            </div>
         </>
     );
 }
 
 export default TripDetails;
 
-export const tripDetailsLoader = async ({_, params}) => {
+export const tripDetailsLoader = async ({ _, params }) => {
     const trips = store.getState().auth.trips[params.id].currency
     const res = await fetch(`https://api.fxratesapi.com/convert?from=CAD&to=${trips}&date=2012-06-24&amount=1&format=json`)
     const resJson = await res.json();
     return resJson.result.toFixed(2) || null
 }
 
-export const tripDetailsAction = async ({request, params}) => {
+export const tripDetailsAction = async ({ request, params }) => {
     const data = await request.formData();
     const purpose = data.get("purpose")
     const purposeId = new Date().getTime()
@@ -199,7 +278,7 @@ export const tripDetailsAction = async ({request, params}) => {
             name,
             address
         })
-        
+
         // IF SUCCESSFUL...
         return {
             purpose,
@@ -226,7 +305,7 @@ export const tripDetailsAction = async ({request, params}) => {
             departureDate,
             boarding
         })
-        
+
         // IF SUCCESSFUL...
         return {
             purpose,
@@ -246,7 +325,7 @@ export const tripDetailsAction = async ({request, params}) => {
         await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/"), {
             budget: +budget
         })
-        
+
         // IF SUCCESSFUL...
         return {
             purpose,
@@ -260,7 +339,7 @@ export const tripDetailsAction = async ({request, params}) => {
             name,
             cost: +cost
         })
-        
+
         // IF SUCCESSFUL...
         return {
             purpose,
@@ -272,11 +351,11 @@ export const tripDetailsAction = async ({request, params}) => {
         }
     }
 
-    
 
 
-    
-    
+
+
+
 
 
 }

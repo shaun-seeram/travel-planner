@@ -9,9 +9,8 @@ import {logoutLoader} from "./pages/Logout"
 import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { asyncLogin, authActions } from './store'
-// import { rootLoader } from './pages/RootLayout'
 
 function App() {
 
@@ -33,9 +32,6 @@ function App() {
     {
       path: "/",
       element: <RootLayout />,
-      // loader: rootLoader,
-      // shouldRevalidate: () => false,
-      // HydrateFallback: () => <></>,
       children: [
         {
           index: true,

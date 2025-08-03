@@ -1,6 +1,5 @@
-import React, { Suspense } from 'react';
 import classes from "./Navigation.module.css"
-import {Link, Await, useLoaderData} from "react-router-dom"
+import {Link} from "react-router-dom"
 import { useSelector } from 'react-redux';
 
 // Consider NavLink?
@@ -9,11 +8,10 @@ const Navigation = () => {
 
     const isLoggedIn = useSelector((state) => state.auth.uid)
     const sessionReady = useSelector((state) => state.auth.sessionReady)
-    const data = useLoaderData()
 
     return (
         <div className={classes.sidebar}>
-            <h1>Trip Planner</h1>
+            <h1>TRIPPLANNER</h1>
             <nav>
                 <ul>
                 <li><Link to="/">Home</Link></li>
