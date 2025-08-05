@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import {Form} from "react-router-dom"
 
-const AccomodationModal = ({ref}) => {
+const FlightModal = ({ref}) => {
 
     const modalRef = useRef();
     const formRef = useRef();
@@ -41,4 +41,4 @@ const AccomodationModal = ({ref}) => {
     );
 }
 
-export default AccomodationModal;
+export default FlightModal;

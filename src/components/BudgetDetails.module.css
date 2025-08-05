@@ -1,0 +1,17 @@
+.grayContainer {
+    & progress {
+        width: 100%;
+    }
+
+    & .expenses {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    & .budget {
+        margin: 0;
+        text-align: right;
+        font-size: 1.2rem;
+    }
+}

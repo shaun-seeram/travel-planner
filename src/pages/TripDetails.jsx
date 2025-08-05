@@ -1,29 +1,35 @@
 import { ref, update } from 'firebase/database';
-import React, { useEffect, useRef } from 'react';
-import { useParams, useLoaderData, useActionData, Form } from "react-router-dom"
-import auth, { db } from '../firebase/authentication';
+import React, { useEffect, useState } from 'react';
+import { useParams, useActionData } from "react-router-dom"
+import auth, { db, latlonkey } from '../firebase/authentication';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions, store } from '../store';
+import { authActions } from '../store';
 import classes from "./TripDetails.module.css"
-import AccomodationModal from '../components/AccomodationModal';
-import FlightModal from "../components/FlightModal"
-import ExpenseModal from "../components/ExpenseModal"
-import BudgetModal from '../components/BudgetModal';
 import Map from '../components/Map';
 import TitleContainer from '../components/TitleContainer';
+import GrayContainer from "../ui/GrayContainer"
+import BudgetDetails from '../components/BudgetDetails';
+import FlightDetails from '../components/FlightDetails';
+import AccomodationDetails from "../components/AccomodationDetails"
 
 const TripDetails = () => {
 
     const actionData = useActionData()
-    const currency = useLoaderData()
     const id = useParams().id
     const trip = useSelector(state => state.auth.trips[id])
     const dispatch = useDispatch()
 
-    const accomodationRef = useRef()
-    const flightRef = useRef()
-    const expenseRef = useRef()
-    const budgetRef = useRef()
+    const [conversion, setConversion] = useState(0);
+
+    useEffect(() => {
+        const getConversion = async () => {
+            const currency = trip.currency
+            const res = await fetch(`https://api.fxratesapi.com/convert?from=CAD&to=${currency}&date=2012-06-24&amount=1&format=json`)
+            const resJson = await res.json();
+            setConversion(resJson.result.toFixed(2) || 0)
+        }
+        getConversion()
+    }, [trip])
 
     useEffect(() => {
         if (actionData && actionData.purpose === "addAccomodation") {
@@ -49,114 +55,34 @@ const TripDetails = () => {
                 expenseId: actionData.purposeId,
                 expense: actionData.expense
             }))
+        } else if (actionData && actionData.purpose === "editTrip") {
+            dispatch(authActions.editTrip({
+                tripId: id,
+                city: actionData.city,
+                country: actionData.country,
+                from: actionData.from,
+                to: actionData.to,
+                currency: actionData.currency,
+                latitude: actionData.latitude,
+                longitude: actionData.longitude
+            }))
         }
     }, [actionData, dispatch, id])
 
     return (
         <>
-            <Map trip={trip} />
+            <Map key={trip.city + trip.country} trip={trip} />
             <TitleContainer id={id} trip={trip} />
-
-
-            <AccomodationModal ref={accomodationRef} />
-            <FlightModal ref={flightRef} />
-            <ExpenseModal ref={expenseRef} />
-            <BudgetModal defaultValue={trip.budget.budget} ref={budgetRef} />
-
-
 
             <div className={classes.split}>
                 <div className={classes.half}>
                     
-                    <div className={classes.budgetContainer}>
-                        <p>1 CAD = {currency} {trip.currency}</p>
-                    </div>
-
-                    <div>
-                        <details open>
-                            <summary>
-                                Budget
-                                <div className={classes.summaryRight}>
-                                    ${trip.budget.expenses ? (
-                                        Object.keys(trip.budget.expenses).reduce((pT, cT) => {
-                                            return pT + trip.budget.expenses[cT].cost
-                                        }, 0)
-                                    ) : 0} / {trip.budget.budget}
-                                </div>
-                            </summary>
-                            <div className={classes.budgetContainer}>
-                                <h1>${trip.budget.expenses ? (
-                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
-                                        return pT + trip.budget.expenses[cT].cost
-                                    }, 0)
-                                ) : 0}</h1>
-                                <progress value={trip.budget.expenses ? (
-                                    Object.keys(trip.budget.expenses).reduce((pT, cT) => {
-                                        return pT + trip.budget.expenses[cT].cost
-                                    }, 0)
-                                ) : 0} max={trip.budget.budget}></progress>
-                                <p>Budget: ${trip.budget.budget}</p>
-                                <div className={classes.buttonsRow}>
-                                    <button onClick={() => expenseRef.current.open()}>Add Expense</button>
-                                    <button onClick={() => budgetRef.current.open()}>Edit Budget</button>
-                                </div>
-                            </div>
-                            <ul>
-                                {Object.keys(trip.budget.expenses).map(key => {
-                                    const expense = trip.budget.expenses[key]
-                                    return <li>{expense.name}, {expense.cost}</li>
-                                })}
-                            </ul>
-                        </details>
-                    </div>
-
-                    <div>
-                        <details open>
-                            <summary>
-                                Flights
-                                <div className={classes.summaryRight}>
-                                    {trip.flights && Object.keys(trip.flights).length > 1 ? `${Object.keys(trip.flights).length} Flights` : `${Object.keys(trip.flights).length} Flight`}
-                                </div>
-                            </summary>
-                            <div className={classes.budgetContainer}>
-                                <div className={classes.buttonsRow}>
-                                    <button onClick={() => flightRef.current.open()}>Add Flight</button>
-                                </div>
-                            </div>
-                            <ul>
-                                {Object.keys(trip.flights).map(key => {
-                                    const flight = trip.flights[key]
-                                    return <li>{flight.airline}, {flight.boarding}, {flight.departureDate}, {flight.flightNumber}, {flight.fromAirport}, {flight.toAirport}</li>
-                                })}
-                            </ul>
-                        </details>
-                    </div>
-
-
-                    <div>
-                        <details open>
-                            <summary>
-                                Accomodations
-                                <div className={classes.summaryRight}>
-                                    {trip.accomodations && Object.keys(trip.accomodations).length > 1 ? `${Object.keys(trip.accomodations).length} Accomodations` : `${Object.keys(trip.accomodations).length} Accomodation`}
-                                </div>
-                            </summary>
-                            <div className={classes.budgetContainer}>
-                                <div className={classes.buttonsRow}>
-                                    <button onClick={() => accomodationRef.current.open()}>Add Accomodation</button>
-                                </div>
-                            </div>
-                            <ul>
-                                {Object.keys(trip.accomodations).map(key => {
-                                    const accomodation = trip.accomodations[key]
-                                    return <li>{accomodation.name}, <pre>{accomodation.address}</pre></li>
-                                })}
-                            </ul>
-                        </details>
-                    </div>
-
-
-
+                    <BudgetDetails trip={trip} />
+                    <FlightDetails trip={trip} />
+                    <AccomodationDetails trip={trip} />
+                    <GrayContainer>
+                        <p>1 CAD = {conversion} {trip.currency}</p>
+                    </GrayContainer>
 
                 </div>
                 <div className={`${classes.half} ${classes.halfRight}`}>
@@ -170,13 +96,6 @@ const TripDetails = () => {
 }
 
 export default TripDetails;
-
-export const tripDetailsLoader = async ({ _, params }) => {
-    const trips = store.getState().auth.trips[params.id].currency
-    const res = await fetch(`https://api.fxratesapi.com/convert?from=CAD&to=${trips}&date=2012-06-24&amount=1&format=json`)
-    const resJson = await res.json();
-    return resJson.result.toFixed(2) || null
-}
 
 export const tripDetailsAction = async ({ request, params }) => {
     const data = await request.formData();
@@ -263,13 +182,49 @@ export const tripDetailsAction = async ({ request, params }) => {
                 cost: +cost
             }
         }
+    } else if (purpose === "editTrip") {
+        const city = data.get("city")
+        const country = data.get("country")
+        const from = data.get("tripFrom")
+        const to = data.get("tripTo")
+
+        const latlonRes = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${data.get("city")}&country=${data.get("country")}`, {
+            headers: {
+                "X-Api-Key": latlonkey
+            }
+        })
+    
+        const latLon = await latlonRes.json()
+    
+        const currencyRes = await fetch(`https://api.api-ninjas.com/v1/country?name=${data.get("country")}`, {
+            headers: {
+                "X-Api-Key": latlonkey
+            }
+        })
+    
+        const currency = await currencyRes.json();
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id), {
+            city,
+            country,
+            from,
+            to,
+            currency: currency[0].currency.code,
+            latitude: latLon[0].latitude,
+            longitude: latLon[0].longitude
+        })
+
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            city,
+            country,
+            from,
+            to,
+            currency: currency[0].currency.code,
+            latitude: latLon[0].latitude,
+            longitude: latLon[0].longitude
+        }
     }
-
-
-
-
-
-
-
 
 }

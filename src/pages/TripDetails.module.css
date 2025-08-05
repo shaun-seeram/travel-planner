@@ -3,53 +3,13 @@
     padding: 0 10px;
     display: flex;
     gap: 50px;
-}
 
-.split .half {
-    width: 100%;
-}
+    & .half {
+        width: 100%;
+    }
 
-.split .halfRight {
-    position: relative;
-    top: -120px;
-}
-
-.split summary {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    position: relative;
-}
-
-.split .summaryRight {
-    display: inline;
-    position: absolute;
-    top: 2px;
-    right: 0;
-}
-
-.split details[open] .summaryRight {
-    display: none;
-}
-
-.budgetContainer {
-    background-color: #f5f6fa;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.budgetContainer progress {
-    width: 100%;
-}
-
-.budgetContainer p {
-    margin: 0;
-    text-align: right;
-    font-size: 1.2rem;
-}
-
-.budgetContainer .buttonsRow {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+    & .halfRight {
+        position: relative;
+        top: -60px;
+    }
 }

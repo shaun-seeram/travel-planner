@@ -1,0 +1,22 @@
+.detailsContainer {
+
+    margin-bottom: 50px;
+
+    summary {
+        font-family: "Nata Sans", sans-serif;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .summaryRight {
+        display: inline;
+        position: absolute;
+        right: 0;
+    }
+    
+    &[open] .summaryRight {
+        display: none;
+    }
+}

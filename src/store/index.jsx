@@ -50,6 +50,15 @@ const authSlice = createSlice({
             }
 
             state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId] = action.payload.expense
+        },
+        editTrip(state, action) {
+            state.trips[action.payload.tripId].city = action.payload.city;
+            state.trips[action.payload.tripId].country = action.payload.country;
+            state.trips[action.payload.tripId].from = action.payload.from;
+            state.trips[action.payload.tripId].to = action.payload.to;
+            state.trips[action.payload.tripId].currency = action.payload.currency;
+            state.trips[action.payload.tripId].latitude = action.payload.latitude;
+            state.trips[action.payload.tripId].longitude = action.payload.longitude;
         }
     }
 })
