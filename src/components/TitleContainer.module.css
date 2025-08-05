@@ -1,0 +1,50 @@
+.titleContainer {
+    background: #FFF;
+    width: max-content;
+    max-width: calc(50% - 35px);
+    padding: 20px;
+    padding-left: 15px;
+    border-radius: 5px;
+    position: relative;
+    top: -50px;
+    left: 10px;
+    z-index: 400;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    & p {
+        margin: 0;
+        margin-top: 7px;
+        font-size: 1.2rem;
+    }
+
+    & .countdown {
+        text-align: center;
+    }
+
+    & .countdownCircle {
+        background-color: #f5f6fa;
+        width: min-content;
+        min-width: 35px;
+        aspect-ratio: 1/1;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    & .countdownDTG {
+        font-size: 1.2rem;
+    }
+
+    & svg {
+        height: 1.5rem;
+        transform: translateY(2px);
+        margin-left: 10px;
+    }
+}

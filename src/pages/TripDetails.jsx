@@ -1,17 +1,16 @@
-import { ref, remove, update } from 'firebase/database';
-import React, { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate, useLoaderData, useActionData, Form } from "react-router-dom"
+import { ref, update } from 'firebase/database';
+import React, { useEffect, useRef } from 'react';
+import { useParams, useLoaderData, useActionData, Form } from "react-router-dom"
 import auth, { db } from '../firebase/authentication';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions, store } from '../store';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import classes from "./TripDetails.module.css"
 import AccomodationModal from '../components/AccomodationModal';
 import FlightModal from "../components/FlightModal"
 import ExpenseModal from "../components/ExpenseModal"
 import BudgetModal from '../components/BudgetModal';
-
-const date = new Date();
+import Map from '../components/Map';
+import TitleContainer from '../components/TitleContainer';
 
 const TripDetails = () => {
 
@@ -19,7 +18,6 @@ const TripDetails = () => {
     const currency = useLoaderData()
     const id = useParams().id
     const trip = useSelector(state => state.auth.trips[id])
-    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const accomodationRef = useRef()
@@ -54,41 +52,18 @@ const TripDetails = () => {
         }
     }, [actionData, dispatch, id])
 
-    const handleDelete = () => {
-        remove(ref(db, auth.currentUser.uid + "/trips/" + id))
-        dispatch(authActions.removeTrip(id))
-        return navigate("/trips/")
-    }
-
-    const calculateDaysToGo = () => {
-        const todaysDate = new Date(date).getTime()
-        const toDate = new Date(trip.to).getTime()
-        return Math.floor((toDate - todaysDate) / 86400000)
-    }
-
     return (
         <>
-            <MapContainer center={[trip.latitude, trip.longitude]} style={{ "borderRadius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={[trip.latitude, trip.longitude]}>
-                    <Popup>{trip.city}, {trip.country}</Popup>
-                </Marker>
-            </MapContainer>
+            <Map trip={trip} />
+            <TitleContainer id={id} trip={trip} />
+
 
             <AccomodationModal ref={accomodationRef} />
             <FlightModal ref={flightRef} />
             <ExpenseModal ref={expenseRef} />
             <BudgetModal defaultValue={trip.budget.budget} ref={budgetRef} />
 
-            <div className={classes.titleContainer}>
-                <h1>Trip to {trip.city}, {trip.country}</h1>
-                <p>{trip.from} - {trip.to}</p>
-                <p>Days to go: {calculateDaysToGo()}</p>
-                <button onClick={handleDelete}>Delete</button>
-            </div>
+
 
             <div className={classes.split}>
                 <div className={classes.half}>
@@ -185,7 +160,7 @@ const TripDetails = () => {
 
                 </div>
                 <div className={`${classes.half} ${classes.halfRight}`}>
-                    <h2>Planner</h2>
+                    <h3>Planner</h3>
                     This will be planner
                 </div>
             </div>

@@ -1,4 +1,4 @@
-.sidebar {
+.navigation {
     width: 100%;
     padding: 15px;
     display: flex;
@@ -7,20 +7,25 @@
     border: 1px solid rgb(205, 202, 199);
     border-radius: 5px;
     margin: 10px 0;
-}
 
-.sidebar h1 {
-    margin: 0;
-    font-size: 1.6rem;
-}
+    & ul {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
 
-.sidebar ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
+    & li {
+        margin: 0 15px;
+        font-weight: 700;
+    }
 
-.sidebar li {
-    margin: 0 10px;
+    & a {
+        color: gray;
+        font-size: 1.4rem;
+        &:hover {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+    }
 }
