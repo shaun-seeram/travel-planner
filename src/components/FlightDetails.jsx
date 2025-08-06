@@ -3,6 +3,7 @@ import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import FlightModal from './FlightModal';
 import ButtonsRow from "../ui/ButtonsRow"
+import Button, { add } from '../ui/Button';
 
 const FlightDetails = ({ trip }) => {
 
@@ -16,7 +17,7 @@ const FlightDetails = ({ trip }) => {
             <DetailsContainer title="Flights" rightContent={rightContent}>
                 <GrayContainer>
                     <ButtonsRow>
-                        <button onClick={() => flightRef.current.open()}>Add Flight</button>
+                        <Button icon={add} fn={() => flightRef.current.open()}>Add Flight</Button>
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>

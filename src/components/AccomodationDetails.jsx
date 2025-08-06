@@ -3,6 +3,7 @@ import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import AccomodationModal from './AccomodationModal';
 import ButtonsRow from "../ui/ButtonsRow"
+import Button, { add } from '../ui/Button';
 
 const AcomodationDetails = ({ trip }) => {
 
@@ -16,7 +17,7 @@ const AcomodationDetails = ({ trip }) => {
             <DetailsContainer title="Accomodations" rightContent={rightContent}>
                 <GrayContainer>
                     <ButtonsRow>
-                        <button onClick={() => accomodationRef.current.open()}>Add Accomodation</button>
+                        <Button icon={add} fn={() => accomodationRef.current.open()}>Add Accomodation</Button>
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>

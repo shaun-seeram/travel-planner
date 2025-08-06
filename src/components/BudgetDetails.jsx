@@ -5,6 +5,7 @@ import BudgetModal from './BudgetModal';
 import ExpenseModal from "./ExpenseModal"
 import classes from "./BudgetDetails.module.css"
 import ButtonsRow from "../ui/ButtonsRow"
+import Button, { add, edit } from '../ui/Button';
 
 const BudgetDetails = ({ trip }) => {
 
@@ -25,8 +26,8 @@ const BudgetDetails = ({ trip }) => {
                     <progress value={trip.budget.expenses ? totalExpenses : 0} max={trip.budget.budget}></progress>
                     <p className={classes.budget}>Budget: ${trip.budget.budget}</p>
                     <ButtonsRow>
-                        <button onClick={() => expenseRef.current.open()}>Add Expense</button>
-                        <button onClick={() => budgetRef.current.open()}>Edit Budget</button>
+                        <Button icon={add} fn={() => expenseRef.current.open()}>Add Expense</Button>
+                        <Button icon={edit} fn={() => budgetRef.current.open()}>Edit Budget</Button>
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
