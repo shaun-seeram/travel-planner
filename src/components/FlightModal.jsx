@@ -1,26 +1,23 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import {Form} from "react-router-dom"
+import Modal from '../ui/Modal';
+import Button, { save } from '../ui/Button';
 
 const FlightModal = ({ref}) => {
 
     const modalRef = useRef();
     const formRef = useRef();
 
-    const closeForm = () => {
-        modalRef.current.close()
-        formRef.current.reset()
-    }
-
     useImperativeHandle(ref, () => {
         return {
             open() {
-                modalRef.current.showModal()
+                modalRef.current.open()
             }
         }
     })
 
     return (
-        <dialog ref={modalRef}>
+        <Modal ref={modalRef} formRef={formRef}>
             <Form method='post' ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <label htmlFor='airline'>Airline</label>
                 <input name='airline' id='airline'></input>
@@ -34,10 +31,9 @@ const FlightModal = ({ref}) => {
                 <input name='departureDate' id='departureDate'></input>
                 <label htmlFor='boarding'>Boarding Time</label>
                 <input name='boarding' id='boarding'></input>
-                <button type='submit' name='purpose' value="addFlight">Save</button>
+                <Button icon={save} type='submit' name='purpose' value="addFlight">Save</Button>
             </Form>
-            <button onClick={closeForm}>x</button>
-        </dialog>
+        </Modal>
     );
 }
 

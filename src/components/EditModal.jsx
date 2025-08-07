@@ -4,18 +4,16 @@ import {Form, useNavigate} from "react-router-dom"
 import auth, { db } from '../firebase/authentication';
 import { authActions } from '../store';
 import { useDispatch } from 'react-redux';
+import Modal from '../ui/Modal';
+import Button, { save, trash } from '../ui/Button';
 
 const EditModal = ({id, trip, ref}) => {
 
     const modalRef = useRef();
     const formRef = useRef();
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const closeForm = () => {
-        modalRef.current.close()
-        formRef.current.reset()
-    }
 
     const handleDelete = () => {
         remove(ref(db, auth.currentUser.uid + "/trips/" + id))
@@ -26,13 +24,13 @@ const EditModal = ({id, trip, ref}) => {
     useImperativeHandle(ref, () => {
         return {
             open() {
-                modalRef.current.showModal()
+                modalRef.current.open()
             }
         }
     })
 
     return (
-        <dialog ref={modalRef}>
+        <Modal ref={modalRef} formRef={formRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <label htmlFor='city' className='sr-only'>City</label>
                 <input name='city' id='city' defaultValue={trip.city}></input>
@@ -42,11 +40,10 @@ const EditModal = ({id, trip, ref}) => {
                 <input name='tripFrom' id='tripFrom' type='date' defaultValue={trip.from}></input>
                 <label htmlFor='tripTo' className='sr-only'>To</label>
                 <input name='tripTo' id='tripTo' type='date' defaultValue={trip.to}></input>
-                <button type='submit' name='purpose' value="editTrip">Save</button>
+                <Button icon={save} type='submit' name='purpose' value="editTrip">Save</Button>
+                <Button icon={trash} fn={handleDelete} red>Delete Trip</Button>
             </Form>
-            <button onClick={handleDelete}>Delete Trip</button>
-            <button onClick={closeForm}>x</button>
-        </dialog>
+        </Modal>
     );
 }
 

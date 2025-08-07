@@ -1,0 +1,15 @@
+.modal {
+    padding-top: 40px;
+    position: relative;
+    border-radius: 15px;
+
+    & .closeButton {
+        background-color: transparent;
+        border: none;
+        height: 20px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+}

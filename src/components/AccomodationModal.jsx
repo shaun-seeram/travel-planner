@@ -1,35 +1,31 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import {Form} from "react-router-dom"
+import Modal from '../ui/Modal';
+import Button, { save } from '../ui/Button';
 
 const AccomodationModal = ({ref}) => {
 
-    const modalRef = useRef();
     const formRef = useRef();
-
-    const closeForm = () => {
-        modalRef.current.close()
-        formRef.current.reset()
-    }
+    const modalRef = useRef();
 
     useImperativeHandle(ref, () => {
         return {
             open() {
-                modalRef.current.showModal()
+                modalRef.current.open()
             }
         }
     })
 
     return (
-        <dialog ref={modalRef}>
+        <Modal ref={modalRef} formRef={formRef}>
             <Form ref={formRef} method='post' onSubmit={() => modalRef.current.close()}>
                 <label htmlFor='name'>Name</label>
                 <input name='name' id='name'></input>
                 <label htmlFor='address'>Address</label>
                 <textarea name='address' id='address' rows="4"></textarea>
-                <button type='submit' name='purpose' value="addAccomodation">Save</button>
+                <Button icon={save} type='submit' name='purpose' value="addAccomodation">Save</Button>
             </Form>
-            <button onClick={closeForm}>x</button>
-        </dialog>
+        </Modal>
     );
 }
 
