@@ -1,6 +1,6 @@
 .modal {
     padding-top: 40px;
-    position: relative;
+    /* position: relative; */
     border-radius: 15px;
 
     & .closeButton {

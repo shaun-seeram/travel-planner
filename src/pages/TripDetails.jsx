@@ -11,6 +11,7 @@ import GrayContainer from "../ui/GrayContainer"
 import BudgetDetails from '../components/BudgetDetails';
 import FlightDetails from '../components/FlightDetails';
 import AccomodationDetails from "../components/AccomodationDetails"
+import PlannerDetails from '../components/PlannerDetails';
 
 const TripDetails = () => {
 
@@ -87,7 +88,7 @@ const TripDetails = () => {
                 </div>
                 <div className={`${classes.half} ${classes.halfRight}`}>
                     <h3>Planner</h3>
-                    This will be planner
+                    <PlannerDetails trip={trip} />
                 </div>
             </div>
 
