@@ -8,7 +8,11 @@ import Button, { add } from '../ui/Button';
 const FlightDetails = ({ trip }) => {
 
     const flightRef = useRef()
-    const rightContent = trip.flights && Object.keys(trip.flights).length > 1 ? `${Object.keys(trip.flights).length} Flights` : `${Object.keys(trip.flights).length} Flight`
+    let rightContent
+
+    if (trip.flights) {
+        rightContent = Object.keys(trip.flights).length > 1 ? `${Object.keys(trip.flights).length} Flights` : `${Object.keys(trip.flights).length} Flight`
+    }
 
     return (
         <>
@@ -21,7 +25,7 @@ const FlightDetails = ({ trip }) => {
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
-                    {Object.keys(trip.flights).map(key => {
+                    {trip.flights && Object.keys(trip.flights).map(key => {
                         const flight = trip.flights[key]
                         return <li>{flight.airline}, {flight.boarding}, {flight.departureDate}, {flight.flightNumber}, {flight.fromAirport}, {flight.toAirport}</li>
                     })}

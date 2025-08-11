@@ -52,6 +52,21 @@ export const addTripAction = async ({request}) => {
     })
     const currencyResJson = await currencyRes.json();
 
+    const test = () => {
+        const from = new Date(data.get("travelfrom").split("-"))
+        const to = new Date (data.get("travelto").split("-"))
+        const planner = {}
+        const months = ["January", "February", "March", "April", "May", "June", 'July', "August", 'September', "October", "November", 'December']
+    
+        for (let i = from.getTime(); i <= (to.getTime()); i += 86400000) {
+            const iteration = new Date(i)
+            planner[i] = {
+                stringifiedDate: `${months[iteration.getMonth()]} ${iteration.getDate()}, ${iteration.getFullYear()}`
+            }
+        }
+        return planner
+    }
+
     await set(ref(db, auth.currentUser.uid + "/trips/" + id), {
         city: data.get("city"),
         country: data.get("country"),
@@ -62,7 +77,8 @@ export const addTripAction = async ({request}) => {
         currency: currencyResJson[0].currency.code,
         budget: {
             budget: 0
-        }
+        },
+        planner: test()
     })
     // IF SUCCESSFUL...
     return {
@@ -74,7 +90,11 @@ export const addTripAction = async ({request}) => {
             from: data.get("travelfrom"),
             latitude: resJson[0].latitude,
             longitude: resJson[0].longitude,
-            currency: currencyResJson[0].currency.code
+            currency: currencyResJson[0].currency.code,
+            budget: {
+                budget: 0
+            },
+            planner: test()
         }
     }
 }

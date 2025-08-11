@@ -8,7 +8,11 @@ import Button, { add } from '../ui/Button';
 const AcomodationDetails = ({ trip }) => {
 
     const accomodationRef = useRef()
-    const rightContent = trip.accomodations && Object.keys(trip.accomodations).length > 1 ? `${Object.keys(trip.accomodations).length} Accomodations` : `${Object.keys(trip.accomodations).length} Accomodation`
+    let rightContent
+
+    if (trip.accomodations) {
+        rightContent = Object.keys(trip.accomodations).length > 1 ? `${Object.keys(trip.accomodations).length} Accomodations` : `${Object.keys(trip.accomodations).length} Accomodation`
+    }
 
     return (
         <>
@@ -21,7 +25,7 @@ const AcomodationDetails = ({ trip }) => {
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
-                    {Object.keys(trip.accomodations).map(key => {
+                    {trip.accomodations && Object.keys(trip.accomodations).map(key => {
                         const accomodation = trip.accomodations[key]
                         return <li>{accomodation.name}, <pre>{accomodation.address}</pre></li>
                     })}

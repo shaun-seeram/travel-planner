@@ -12,7 +12,7 @@ const BudgetDetails = ({ trip }) => {
     const expenseRef = useRef()
     const budgetRef = useRef()
 
-    const totalExpenses = Object.keys(trip.budget?.expenses).reduce((pT, cT) => pT + trip.budget.expenses[cT].cost, 0)
+    const totalExpenses = trip.budget.expenses && Object.keys(trip.budget?.expenses).reduce((pT, cT) => pT + trip.budget.expenses[cT].cost, 0)
     const rightContent = `${trip.budget.expenses ? "$" + totalExpenses : "$" + 0} / ${"$" + trip.budget.budget}`
 
     return (
@@ -31,7 +31,7 @@ const BudgetDetails = ({ trip }) => {
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
-                    {Object.keys(trip.budget.expenses).map(key => {
+                    {trip.budget.expenses && Object.keys(trip.budget.expenses).map(key => {
                         const expense = trip.budget.expenses[key]
                         return <li>{expense.name}, {expense.cost}</li>
                     })}

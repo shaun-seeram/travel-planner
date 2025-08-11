@@ -1,4 +1,4 @@
-import { remove } from 'firebase/database';
+import { remove, ref } from 'firebase/database';
 import React, { useImperativeHandle, useRef } from 'react';
 import {Form, useNavigate} from "react-router-dom"
 import auth, { db } from '../firebase/authentication';
@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import Modal from '../ui/Modal';
 import Button, { save, trash } from '../ui/Button';
 
-const EditModal = ({id, trip, ref}) => {
+const EditModal = ({id, trip, ref: editRef}) => {
 
     const modalRef = useRef();
     const formRef = useRef();
@@ -21,7 +21,7 @@ const EditModal = ({id, trip, ref}) => {
         return navigate("/trips/")
     }
 
-    useImperativeHandle(ref, () => {
+    useImperativeHandle(editRef, () => {
         return {
             open() {
                 modalRef.current.open()
