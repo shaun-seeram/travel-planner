@@ -59,6 +59,16 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].currency = action.payload.currency;
             state.trips[action.payload.tripId].latitude = action.payload.latitude;
             state.trips[action.payload.tripId].longitude = action.payload.longitude;
+        },
+        addPlanner(state, action) {
+            if (!state.trips[action.payload.tripId].planner[action.payload.plannerId].plans) {
+                state.trips[action.payload.tripId].planner[action.payload.plannerId].plans = {}
+            }
+            state.trips[action.payload.tripId].planner[action.payload.plannerId].plans[action.payload.eventId] = {
+                place: action.payload.place,
+                address: action.payload.address,
+                notes: action.payload.notes
+            }
         }
     }
 })

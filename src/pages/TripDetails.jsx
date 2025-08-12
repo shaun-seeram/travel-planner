@@ -67,6 +67,15 @@ const TripDetails = () => {
                 latitude: actionData.latitude,
                 longitude: actionData.longitude
             }))
+        } else if (actionData && actionData.purpose === "addPlanner") {
+            dispatch(authActions.addPlanner({
+                tripId: id,
+                plannerId: actionData.plannerId,
+                eventId: actionData.purposeId,
+                place: actionData.place,
+                address: actionData.address,
+                notes: actionData.notes,
+            }))
         }
     }, [actionData, dispatch, id])
 
@@ -87,7 +96,6 @@ const TripDetails = () => {
 
                 </div>
                 <div className={`${classes.half} ${classes.halfRight}`}>
-                    <h3>Planner</h3>
                     <PlannerDetails trip={trip} />
                 </div>
             </div>
@@ -225,6 +233,27 @@ export const tripDetailsAction = async ({ request, params }) => {
             currency: currency[0].currency.code,
             latitude: latLon[0].latitude,
             longitude: latLon[0].longitude
+        }
+    } else if (purpose === "addPlanner") {
+        const plannerId = data.get("plannerDate")
+        const place = data.get("place")
+        const address = data.get("address")
+        const notes = data.get("notes")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerId + "/plans/" + purposeId ), {
+            place,
+            address,
+            notes
+        })
+
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            purposeId,
+            plannerId,
+            place,
+            address,
+            notes
         }
     }
 

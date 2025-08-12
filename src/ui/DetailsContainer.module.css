@@ -15,8 +15,19 @@
         position: absolute;
         right: 0;
     }
+
+    .summaryRightOpen {
+        display: inline;
+        position: absolute;
+        right: 0;
+        display: none;
+    }
     
     &[open] .summaryRight {
         display: none;
+    }
+
+    &[open] .summaryRightOpen {
+        display: inline;
     }
 }

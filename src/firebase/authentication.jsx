@@ -18,6 +18,7 @@ const firebaseConfig = {
   export default auth;
 
   export const latlonkey = "QXrbYHhG2NKXNO6dGMARhg==VCu1VlzdEskHst1K"
+  export const geocodingKey = "192c393f9eb54d94825b9ff5610cf057"
 
 
   // Notes

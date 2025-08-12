@@ -1,13 +1,14 @@
 import React from 'react';
 import classes from "./DetailsContainer.module.css"
 
-const DetailsContainer = ({title, rightContent, children}) => {
+const DetailsContainer = ({title, rightContent, showOnOpen = false, children}) => {
+
     return (
         <details className={classes.detailsContainer} open>
             <summary>
                 {title}
                 { 
-                    rightContent && <div className={classes.summaryRight}>
+                    rightContent && <div className={showOnOpen ? classes.summaryRightOpen : classes.summaryRight}>
                         {rightContent}
                     </div>
                 }
