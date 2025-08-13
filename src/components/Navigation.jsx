@@ -17,6 +17,7 @@ const Navigation = () => {
                         <>
                             <li><Link to="trips">Trips</Link></li>
                             <li><Link to="trips/add">Add a Trip</Link></li>
+                            <li><Link to="settings">Settings</Link></li>
                             <li><Link to="logout">Logout</Link></li>
                         </>
                     )}

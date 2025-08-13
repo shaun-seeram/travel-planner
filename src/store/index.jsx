@@ -80,6 +80,9 @@ const authSlice = createSlice({
                 lat: action.payload.lat,
                 lon: action.payload.lon
             }
+        },
+        deleteAllData(state) {
+            state.trips = {}
         }
     }
 })

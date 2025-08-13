@@ -11,6 +11,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
 import { useDispatch } from 'react-redux'
 import { asyncLogin, authActions } from './store'
+import Settings from './pages/Settings'
 
 function App() {
 
@@ -59,6 +60,10 @@ function App() {
           path: "trips/:id",
           element: <TripDetails />,
           action: tripDetailsAction
+        },
+        {
+          path: "settings",
+          element: <Settings />,
         }
       ]
     }
