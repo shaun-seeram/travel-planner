@@ -1,5 +1,7 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import classes from "./Modal.module.css"
+import { close } from './Button';
+import {createPortal} from "react-dom"
 
 const Modal = ({ref, formRef, children}) => {
 
@@ -22,10 +24,10 @@ const Modal = ({ref, formRef, children}) => {
     })
 
     return (
-        <dialog className={classes.modal} ref={modalRef}>
-            <button className={classes.closeButton} onClick={closeDialog}>x</button>
+        createPortal(<dialog className={classes.modal} ref={modalRef}>
+            <button className={classes.closeButton} onClick={closeDialog}>{close}</button>
             {children}
-        </dialog>
+        </dialog>, document.getElementById("modal"))
     );
 }
 

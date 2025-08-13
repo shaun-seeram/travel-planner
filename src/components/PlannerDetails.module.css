@@ -14,3 +14,14 @@
 .notes {
     margin: 0;
 }
+
+.editButton {
+    transform: translateY(2px);
+        margin-left: 5px;
+        background: transparent;
+        border: none;
+
+        & svg {
+            height: 1.5rem;
+        }
+}

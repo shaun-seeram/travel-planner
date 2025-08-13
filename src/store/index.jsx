@@ -67,7 +67,18 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].planner[action.payload.plannerId].plans[action.payload.eventId] = {
                 place: action.payload.place,
                 address: action.payload.address,
-                notes: action.payload.notes
+                notes: action.payload.notes,
+                lat: action.payload.lat,
+                lon: action.payload.lon
+            }
+        },
+        editPlanner(state, action) {
+            state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans[action.payload.plannerId] = {
+                place: action.payload.place,
+                address: action.payload.address,
+                notes: action.payload.notes,
+                lat: action.payload.lat,
+                lon: action.payload.lon
             }
         }
     }

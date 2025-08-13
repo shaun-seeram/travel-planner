@@ -1,7 +1,7 @@
 import { ref, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { useParams, useActionData } from "react-router-dom"
-import auth, { db, latlonkey } from '../firebase/authentication';
+import auth, { db, geocodingKey, latlonkey } from '../firebase/authentication';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../store';
 import classes from "./TripDetails.module.css"
@@ -75,6 +75,19 @@ const TripDetails = () => {
                 place: actionData.place,
                 address: actionData.address,
                 notes: actionData.notes,
+                lat: actionData.lat,
+                lon: actionData.lon
+            }))
+        } else if (actionData && actionData.purpose === "editPlanner") {
+            dispatch(authActions.editPlanner({
+                tripId: id,
+                plannerDate: actionData.plannerDate,
+                plannerId: actionData.plannerId,
+                place: actionData.place,
+                address: actionData.address,
+                notes: actionData.notes,
+                lat: actionData.lat,
+                lon: actionData.lon
             }))
         }
     }, [actionData, dispatch, id])
@@ -240,10 +253,17 @@ export const tripDetailsAction = async ({ request, params }) => {
         const address = data.get("address")
         const notes = data.get("notes")
 
+        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${address}&apiKey=${geocodingKey}`)
+        const json = await res.json()
+        const lat = json.features[0].properties.lat
+        const lon = json.features[0].properties.lon
+
         await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerId + "/plans/" + purposeId ), {
             place,
             address,
-            notes
+            notes,
+            lat,
+            lon
         })
 
         // IF SUCCESSFUL...
@@ -253,7 +273,40 @@ export const tripDetailsAction = async ({ request, params }) => {
             plannerId,
             place,
             address,
-            notes
+            notes,
+            lat,
+            lon
+        }
+    } else if (purpose === "editPlanner") {
+        const plannerDate = data.get("plannerDate")
+        const plannerId = data.get("plannerId")
+        const place = data.get("place")
+        const address = data.get("address")
+        const notes = data.get("notes")
+
+        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${address}&apiKey=${geocodingKey}`)
+        const json = await res.json()
+        const lat = json.features[0].properties.lat
+        const lon = json.features[0].properties.lon
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerDate + "/plans/" + plannerId ), {
+            place,
+            address,
+            notes,
+            lat,
+            lon
+        })
+
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            plannerDate,
+            plannerId,
+            place,
+            address,
+            notes,
+            lat,
+            lon
         }
     }
 

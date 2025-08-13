@@ -1,23 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { geocodingKey } from '../firebase/authentication';
 
 const Map = ({ trip }) => {
 
-    const keyList = useRef([])
     const [markers, setMarkers] = useState([]);
 
     useEffect(() => {
+        setMarkers([])
         Object.keys(trip.planner).forEach(dayId => {
             if (!trip.planner[dayId].plans) return
-            return trip.planner[dayId].plans && Object.keys(trip.planner[dayId].plans).forEach(async key => {
-                if (key === "stringifiedDate" || keyList.current.includes(key)) return
-    
-                const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${trip.planner[dayId].plans[key].address}&apiKey=${geocodingKey}`)
-                const json = await res.json()
-
-                keyList.current.push(key)
-                setMarkers((pv) => [...pv, <Marker position={[json.features[0].properties.lat, json.features[0].properties.lon]}><Popup>{trip.planner[dayId].plans[key].place}</Popup></Marker>])
+            return Object.keys(trip.planner[dayId].plans).forEach(key => {
+                if (key === "stringifiedDate" || !trip.planner[dayId].plans[key].lat) return
+                setMarkers((pv) => [...pv, trip.planner[dayId].plans[key]])
             })
         })
     }, [trip])
@@ -31,7 +25,13 @@ const Map = ({ trip }) => {
             <Marker position={[trip.latitude, trip.longitude]}>
                 <Popup>{trip.city}, {trip.country}</Popup>
             </Marker>
-            {markers}
+            {markers.map(marker => {
+                return (
+                    <Marker position={[marker.lat, marker.lon]}>
+                        <Popup>{marker.place}</Popup>
+                    </Marker>
+                )
+            })}
         </MapContainer>
     );
 }
