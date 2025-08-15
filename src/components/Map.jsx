@@ -14,7 +14,7 @@ const Map = ({ trip }) => {
                 setMarkers((pv) => [...pv, trip.planner[dayId].plans[key]])
             })
         })
-    }, [trip])
+    }, [trip.planner])
 
     return (
         <MapContainer center={[trip.latitude, trip.longitude]} style={{ "borderRadius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>

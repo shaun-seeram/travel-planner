@@ -1,5 +1,5 @@
-import {configureStore, createSlice} from "@reduxjs/toolkit";
-import {Provider} from "react-redux"
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Provider } from "react-redux"
 import { db } from "../firebase/authentication";
 import { child, get, ref } from "firebase/database";
 
@@ -43,7 +43,7 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].flights[action.payload.flightId] = action.payload.flight
 
         },
-        editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget},
+        editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget },
         addExpense(state, action) {
             if (!state.trips[action.payload.tripId].budget.expenses) {
                 state.trips[action.payload.tripId].budget.expenses = {}
@@ -81,6 +81,21 @@ const authSlice = createSlice({
                 lon: action.payload.lon
             }
         },
+        resetPlanner(state, action) {
+            const from = new Date(action.payload.from.split("-"))
+            const to = new Date(action.payload.to.split("-"))
+            const planner = {}
+            const months = ["January", "February", "March", "April", "May", "June", 'July', "August", 'September', "October", "November", 'December']
+
+            for (let i = from.getTime(); i <= (to.getTime()); i += 86400000) {
+                const iteration = new Date(i)
+                planner[i] = {
+                    stringifiedDate: `${months[iteration.getMonth()]} ${iteration.getDate()}, ${iteration.getFullYear()}`
+                }
+            }
+            state.trips[action.payload.tripId].planner = planner
+
+        },
         deleteAllData(state) {
             state.trips = {}
         }
@@ -93,7 +108,7 @@ export const store = configureStore({
     }
 })
 
-const StoreProvider = ({children}) => {
+const StoreProvider = ({ children }) => {
     return (
         <Provider store={store}>
             {children}

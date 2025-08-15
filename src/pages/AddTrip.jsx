@@ -52,7 +52,7 @@ export const addTripAction = async ({request}) => {
     })
     const currencyResJson = await currencyRes.json();
 
-    const test = () => {
+    const plannerMap = () => {
         const from = new Date(data.get("travelfrom").split("-"))
         const to = new Date (data.get("travelto").split("-"))
         const planner = {}
@@ -78,7 +78,7 @@ export const addTripAction = async ({request}) => {
         budget: {
             budget: 0
         },
-        planner: test()
+        planner: plannerMap()
     })
     // IF SUCCESSFUL...
     return {
@@ -94,7 +94,7 @@ export const addTripAction = async ({request}) => {
             budget: {
                 budget: 0
             },
-            planner: test()
+            planner: plannerMap()
         }
     }
 }

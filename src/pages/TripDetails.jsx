@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useActionData } from "react-router-dom"
 import auth, { db, geocodingKey, latlonkey } from '../firebase/authentication';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../store';
+import { authActions, store } from '../store';
 import classes from "./TripDetails.module.css"
 import Map from '../components/Map';
 import TitleContainer from '../components/TitleContainer';
@@ -57,6 +57,13 @@ const TripDetails = () => {
                 expense: actionData.expense
             }))
         } else if (actionData && actionData.purpose === "editTrip") {
+            if (actionData.from !== actionData.oldFrom || actionData.to !== actionData.oldTo) {
+                dispatch(authActions.resetPlanner({
+                    tripId: id,
+                    from: actionData.from,
+                    to: actionData.to
+                }))
+            }
             dispatch(authActions.editTrip({
                 tripId: id,
                 city: actionData.city,
@@ -99,7 +106,7 @@ const TripDetails = () => {
 
             <div className={classes.split}>
                 <div className={classes.half}>
-                    
+
                     <BudgetDetails trip={trip} />
                     <FlightDetails trip={trip} />
                     <AccomodationDetails trip={trip} />
@@ -209,21 +216,43 @@ export const tripDetailsAction = async ({ request, params }) => {
         const country = data.get("country")
         const from = data.get("tripFrom")
         const to = data.get("tripTo")
+        const comparedStore = store.getState().auth.trips[id]
+        const oldFrom = comparedStore.from;
+        const oldTo = comparedStore.to;
+
+
+        if (from !== oldFrom || to !== oldTo) {
+            const newFrom = new Date(from.split("-"))
+            const newTo = new Date(to.split("-"))
+            const planner = {}
+            const months = ["January", "February", "March", "April", "May", "June", 'July', "August", 'September', "October", "November", 'December']
+
+            for (let i = newFrom.getTime(); i <= (newTo.getTime()); i += 86400000) {
+                const iteration = new Date(i)
+                planner[i] = {
+                    stringifiedDate: `${months[iteration.getMonth()]} ${iteration.getDate()}, ${iteration.getFullYear()}`
+                }
+            }
+
+            await update(ref(db, auth.currentUser.uid + "/trips/" + id), {
+                planner
+            })
+        }
 
         const latlonRes = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${data.get("city")}&country=${data.get("country")}`, {
             headers: {
                 "X-Api-Key": latlonkey
             }
         })
-    
+
         const latLon = await latlonRes.json()
-    
+
         const currencyRes = await fetch(`https://api.api-ninjas.com/v1/country?name=${data.get("country")}`, {
             headers: {
                 "X-Api-Key": latlonkey
             }
         })
-    
+
         const currency = await currencyRes.json();
 
         await update(ref(db, auth.currentUser.uid + "/trips/" + id), {
@@ -243,6 +272,8 @@ export const tripDetailsAction = async ({ request, params }) => {
             country,
             from,
             to,
+            oldFrom,
+            oldTo,
             currency: currency[0].currency.code,
             latitude: latLon[0].latitude,
             longitude: latLon[0].longitude
@@ -258,7 +289,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const lat = json.features[0].properties.lat
         const lon = json.features[0].properties.lon
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerId + "/plans/" + purposeId ), {
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerId + "/plans/" + purposeId), {
             place,
             address,
             notes,
@@ -289,7 +320,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const lat = json.features[0].properties.lat
         const lon = json.features[0].properties.lon
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerDate + "/plans/" + plannerId ), {
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerDate + "/plans/" + plannerId), {
             place,
             address,
             notes,

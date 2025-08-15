@@ -36,6 +36,7 @@ const EditModal = ({id, trip, ref: editRef}) => {
                 <input name='city' id='city' defaultValue={trip.city}></input>
                 <label htmlFor='country' className='sr-only'>Country</label>
                 <input name='country' id='country' defaultValue={trip.country}></input>
+                <p>Changes to the dates will result in the reset of the itenerary module.</p>
                 <label htmlFor='tripFrom' className='sr-only'>From</label>
                 <input name='tripFrom' id='tripFrom' type='date' defaultValue={trip.from}></input>
                 <label htmlFor='tripTo' className='sr-only'>To</label>
