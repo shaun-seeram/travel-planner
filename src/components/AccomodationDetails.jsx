@@ -27,7 +27,7 @@ const AcomodationDetails = ({ trip }) => {
                 <ul>
                     {trip.accomodations && Object.keys(trip.accomodations).map(key => {
                         const accomodation = trip.accomodations[key]
-                        return <li>{accomodation.name}, <pre>{accomodation.address}</pre></li>
+                        return <li key={key}>{accomodation.name}, <pre>{accomodation.address}</pre></li>
                     })}
                 </ul>
             </DetailsContainer>

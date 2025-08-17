@@ -27,7 +27,7 @@ const FlightDetails = ({ trip }) => {
                 <ul>
                     {trip.flights && Object.keys(trip.flights).map(key => {
                         const flight = trip.flights[key]
-                        return <li>{flight.airline}, {flight.boarding}, {flight.departureDate}, {flight.flightNumber}, {flight.fromAirport}, {flight.toAirport}</li>
+                        return <li key={key}>{flight.airline}, {flight.boarding}, {flight.departureDate}, {flight.flightNumber}, {flight.fromAirport}, {flight.toAirport}</li>
                     })}
                 </ul>
             </DetailsContainer>

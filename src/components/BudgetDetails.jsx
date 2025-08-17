@@ -33,7 +33,7 @@ const BudgetDetails = ({ trip }) => {
                 <ul>
                     {trip.budget.expenses && Object.keys(trip.budget.expenses).map(key => {
                         const expense = trip.budget.expenses[key]
-                        return <li>{expense.name}, {expense.cost}</li>
+                        return <li key={key}>{expense.name}, {expense.cost}</li>
                     })}
                 </ul>
             </DetailsContainer>

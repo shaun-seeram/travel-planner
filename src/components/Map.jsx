@@ -27,7 +27,7 @@ const Map = ({ trip }) => {
             </Marker>
             {markers.map(marker => {
                 return (
-                    <Marker position={[marker.lat, marker.lon]}>
+                    <Marker key={marker.lat + marker.lon} position={[marker.lat, marker.lon]}>
                         <Popup>{marker.place}</Popup>
                     </Marker>
                 )
