@@ -4,15 +4,14 @@ import GrayContainer from '../ui/GrayContainer';
 import AccomodationModal from './AccomodationModal';
 import ButtonsRow from "../ui/ButtonsRow"
 import Button, { add } from '../ui/Button';
+import { useSelector } from 'react-redux';
 
-const AcomodationDetails = ({ trip }) => {
+const AcomodationDetails = ({ id }) => {
+
+    const accomodations = useSelector(state => state.auth.trips[id].accomodations || {})
 
     const accomodationRef = useRef()
-    let rightContent
-
-    if (trip.accomodations) {
-        rightContent = Object.keys(trip.accomodations).length > 1 ? `${Object.keys(trip.accomodations).length} Accomodations` : `${Object.keys(trip.accomodations).length} Accomodation`
-    }
+    let rightContent = Object.keys(accomodations).length !== 1 ? `${Object.keys(accomodations).length} Accomodations` : `${Object.keys(accomodations).length} Accomodation`
 
     return (
         <>
@@ -25,10 +24,7 @@ const AcomodationDetails = ({ trip }) => {
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
-                    {trip.accomodations && Object.keys(trip.accomodations).map(key => {
-                        const accomodation = trip.accomodations[key]
-                        return <li key={key}>{accomodation.name}, <pre>{accomodation.address}</pre></li>
-                    })}
+                    {Object.keys(accomodations).map(key => <li key={key}>{accomodations[key].name}, <pre>{accomodations[key].address}</pre></li>)}
                 </ul>
             </DetailsContainer>
         </>

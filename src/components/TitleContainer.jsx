@@ -2,11 +2,13 @@ import React, { useRef } from 'react';
 import EditModal from './EditModal';
 import classes from "./TitleContainer.module.css"
 import { edit } from '../ui/Button';
+import { useSelector } from 'react-redux';
 
 const date = new Date();
 
-const TitleContainer = ({id, trip}) => {
+const TitleContainer = ({id}) => {
 
+    const trip = useSelector(state => state.auth.trips[id])
     const editRef = useRef()
 
     const calculateDaysToGo = () => {

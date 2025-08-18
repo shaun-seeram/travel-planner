@@ -2,7 +2,7 @@ import { ref, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { useParams, useActionData } from "react-router-dom"
 import auth, { db, geocodingKey, latlonkey } from '../firebase/authentication';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authActions, store } from '../store';
 import classes from "./TripDetails.module.css"
 import Map from '../components/Map';
@@ -17,20 +17,19 @@ const TripDetails = () => {
 
     const actionData = useActionData()
     const id = useParams().id
-    const trip = useSelector(state => state.auth.trips[id])
     const dispatch = useDispatch()
 
-    const [conversion, setConversion] = useState(0);
+    // const [conversion, setConversion] = useState(0);
 
-    useEffect(() => {
-        const getConversion = async () => {
-            const currency = trip.currency
-            const res = await fetch(`https://api.fxratesapi.com/convert?from=CAD&to=${currency}&date=2012-06-24&amount=1&format=json`)
-            const resJson = await res.json();
-            setConversion(resJson.result.toFixed(2) || 0)
-        }
-        getConversion()
-    }, [trip])
+    // useEffect(() => {
+    //     const getConversion = async () => {
+    //         const currency = trip.currency
+    //         const res = await fetch(`https://api.fxratesapi.com/convert?from=CAD&to=${currency}&date=2012-06-24&amount=1&format=json`)
+    //         const resJson = await res.json();
+    //         setConversion(resJson.result.toFixed(2) || 0)
+    //     }
+    //     getConversion()
+    // }, [trip])
 
     useEffect(() => {
         if (actionData && actionData.purpose === "addAccomodation") {
@@ -101,22 +100,22 @@ const TripDetails = () => {
 
     return (
         <>
-            <Map key={trip.city + trip.country} trip={trip} />
-            <TitleContainer id={id} trip={trip} />
+            <Map id={id} />
+            <TitleContainer id={id} />
 
             <div className={classes.split}>
                 <div className={classes.half}>
 
-                    <BudgetDetails trip={trip} />
-                    <FlightDetails trip={trip} />
-                    <AccomodationDetails trip={trip} />
-                    <GrayContainer>
+                    <BudgetDetails id={id} />
+                    <FlightDetails id={id} />
+                    <AccomodationDetails id={id} />
+                    {/* <GrayContainer>
                         <p>1 CAD = {conversion} {trip.currency}</p>
-                    </GrayContainer>
+                    </GrayContainer> */}
 
                 </div>
                 <div className={`${classes.half} ${classes.halfRight}`}>
-                    <PlannerDetails trip={trip} />
+                    <PlannerDetails id={id} />
                 </div>
             </div>
 

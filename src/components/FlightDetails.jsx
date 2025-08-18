@@ -4,15 +4,14 @@ import GrayContainer from '../ui/GrayContainer';
 import FlightModal from './FlightModal';
 import ButtonsRow from "../ui/ButtonsRow"
 import Button, { add } from '../ui/Button';
+import { useSelector } from 'react-redux';
 
-const FlightDetails = ({ trip }) => {
+const FlightDetails = ({ id }) => {
+
+    const flights = useSelector(state => state.auth.trips[id].flights || {})
 
     const flightRef = useRef()
-    let rightContent
-
-    if (trip.flights) {
-        rightContent = Object.keys(trip.flights).length > 1 ? `${Object.keys(trip.flights).length} Flights` : `${Object.keys(trip.flights).length} Flight`
-    }
+    let rightContent = Object.keys(flights).length !== 1 ? `${Object.keys(flights).length} Flights` : `${Object.keys(flights).length} Flight`
 
     return (
         <>
@@ -25,9 +24,8 @@ const FlightDetails = ({ trip }) => {
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
-                    {trip.flights && Object.keys(trip.flights).map(key => {
-                        const flight = trip.flights[key]
-                        return <li key={key}>{flight.airline}, {flight.boarding}, {flight.departureDate}, {flight.flightNumber}, {flight.fromAirport}, {flight.toAirport}</li>
+                    {Object.keys(flights).map(key => {
+                        return <li key={key}>{flights[key].airline}, {flights[key].boarding}, {flights[key].departureDate}, {flights[key].flightNumber}, {flights[key].fromAirport}, {flights[key].toAirport}</li>
                     })}
                 </ul>
             </DetailsContainer>

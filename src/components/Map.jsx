@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { useSelector } from 'react-redux';
 
-const Map = ({ trip }) => {
+const Map = ({ id }) => {
 
+    const trip = useSelector(state => state.auth.trips[id])
     const [markers, setMarkers] = useState([]);
 
     useEffect(() => {

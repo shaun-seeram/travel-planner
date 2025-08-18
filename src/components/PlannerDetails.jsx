@@ -4,9 +4,11 @@ import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import Button, { add, edit } from '../ui/Button';
 import classes from "./PlannerDetails.module.css"
+import { useSelector } from 'react-redux';
 
-const PlannerDetails = ({ trip }) => {
+const PlannerDetails = ({ id }) => {
 
+    const planner = useSelector(state => state.auth.trips[id].planner)
     const plannerRef = useRef();
 
     const rightContent = (key) => <Button icon={add} fn={() => plannerRef.current.open(key)}>Add Plan</Button>
@@ -14,11 +16,11 @@ const PlannerDetails = ({ trip }) => {
     return (
         <>
             <PlannerModal ref={plannerRef} />
-            {trip.planner && Object.keys(trip.planner).map(key => {
+            {Object.keys(planner).map(key => {
                 return (
-                    <DetailsContainer key={key} title={trip.planner[key].stringifiedDate} rightContent={rightContent(key)} showOnOpen>
-                        {trip.planner[key].plans && Object.keys(trip.planner[key].plans).map(eventKey => {
-                            const e = trip.planner[key].plans[eventKey]
+                    <DetailsContainer key={key} title={planner[key].stringifiedDate} rightContent={rightContent(key)} showOnOpen>
+                        {planner[key].plans && Object.keys(planner[key].plans).map(eventKey => {
+                            const e = planner[key].plans[eventKey]
                             return (
                                 <GrayContainer key={eventKey} innerClasses={classes.grayContainer}>
                                     <p className={classes.place}>{e.place} <button className={classes.editButton} onClick={() => plannerRef.current.edit(key, eventKey, { place: e.place, address: e.address, notes: e.notes })}>{edit}</button></p>
