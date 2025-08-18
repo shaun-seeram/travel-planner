@@ -6,17 +6,29 @@ import ExpenseModal from "./ExpenseModal"
 import classes from "./BudgetDetails.module.css"
 import ButtonsRow from "../ui/ButtonsRow"
 import Button, { add, edit } from '../ui/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ref, remove } from 'firebase/database';
+import auth, { db } from '../firebase/authentication';
+import { authActions } from '../store';
 
 const BudgetDetails = ({id}) => {
 
     const budget = useSelector(state => state.auth.trips[id].budget)
+    const dispatch = useDispatch()
 
     const expenseRef = useRef()
     const budgetRef = useRef()
     
     const totalExpenses = budget.expenses && Object.keys(budget.expenses).reduce((pT, cT) => pT + budget.expenses[cT].cost, 0)
     const rightContent = `${budget.expenses ? "$" + totalExpenses : "$" + 0} / ${"$" + budget.budget}`
+
+    const deleteExpense = (expenseId) => {
+        remove(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/expenses/" + expenseId))
+        dispatch(authActions.deleteExpense({
+            tripId: id,
+            expenseId
+        }))
+    }
 
     return (
         <>
@@ -35,7 +47,7 @@ const BudgetDetails = ({id}) => {
                 </GrayContainer>
                 <ul>
                     {budget.expenses && Object.keys(budget.expenses).map(key => {
-                        return <li key={key}>{budget.expenses[key].name}, {budget.expenses[key].cost}</li>
+                        return <li key={key}>{budget.expenses[key].name}, {budget.expenses[key].cost} <button onClick={() => expenseRef.current.edit(id, key)}>e</button> <button onClick={() => deleteExpense(key)}>d</button></li>
                     })}
                 </ul>
             </DetailsContainer>

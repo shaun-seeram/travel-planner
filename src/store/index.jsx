@@ -51,6 +51,9 @@ const authSlice = createSlice({
 
             state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId] = action.payload.expense
         },
+        deleteExpense(state, action) {
+            delete state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId]
+        },
         editTrip(state, action) {
             state.trips[action.payload.tripId].city = action.payload.city;
             state.trips[action.payload.tripId].country = action.payload.country;

@@ -55,6 +55,12 @@ const TripDetails = () => {
                 expenseId: actionData.purposeId,
                 expense: actionData.expense
             }))
+        } else if (actionData && actionData.purpose === "editExpense") {
+            dispatch(authActions.addExpense({
+                tripId: id,
+                expenseId: actionData.expenseId,
+                expense: actionData.expense
+            }))
         } else if (actionData && actionData.purpose === "editTrip") {
             if (actionData.from !== actionData.oldFrom || actionData.to !== actionData.oldTo) {
                 dispatch(authActions.resetPlanner({
@@ -205,6 +211,25 @@ export const tripDetailsAction = async ({ request, params }) => {
         return {
             purpose,
             purposeId,
+            expense: {
+                name,
+                cost: +cost
+            }
+        }
+    } else if (purpose === "editExpense") {
+        const name = data.get("expenseName")
+        const cost = data.get("expenseCost")
+        const expenseId = data.get("expenseId")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/expenses/" + expenseId), {
+            name,
+            cost: +cost
+        })
+
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            expenseId,
             expense: {
                 name,
                 cost: +cost
