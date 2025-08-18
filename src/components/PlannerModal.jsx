@@ -1,15 +1,20 @@
 import React, { useImperativeHandle, useRef, useState } from 'react';
 import { Form } from "react-router-dom"
 import Modal from '../ui/Modal';
-import Button, { save } from '../ui/Button';
+import Button, { save, trash } from '../ui/Button';
+import { ref as reference, remove } from 'firebase/database';
+import auth, { db } from '../firebase/authentication';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../store';
 
-const PlannerModal = ({ ref }) => {
+const PlannerModal = ({ id, ref }) => {
 
     const [dateId, setDateId] = useState();
     const [plannerId, setPlannerId] = useState();
     const [defaultValues, setDefaultValues] = useState();
     const formRef = useRef();
     const modalRef = useRef();
+    const dispatch = useDispatch();
 
     useImperativeHandle(ref, () => {
         return {
@@ -26,10 +31,19 @@ const PlannerModal = ({ ref }) => {
         }
     })
 
+    const deletePlan = () => {
+        remove(reference(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + dateId + "/plans/" + plannerId))
+        dispatch(authActions.deletePlan({
+            tripId: id,
+            dateId,
+            plannerId
+        }))
+    }
+
     return (
         <Modal ref={modalRef} formRef={formRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
-                <input name="plannerDate" className='sr-only' value={dateId}></input>
+                <input name="plannerDate" className='sr-only' defaultValue={dateId}></input>
                 {plannerId && <input name="plannerId" className='sr-only' value={plannerId}></input>}
                 <label htmlFor='place'>Place</label>
                 <input name='place' id='place' defaultValue={plannerId ? defaultValues.place : ""}></input>
@@ -38,6 +52,7 @@ const PlannerModal = ({ ref }) => {
                 <label htmlFor='notes'>Notes</label>
                 <textarea name='notes' id='notes' defaultValue={plannerId ? defaultValues.notes : ""}></textarea>
                 <Button icon={save} type='submit' name='purpose' value={plannerId ? "editPlanner" : "addPlanner"}>Save</Button>
+                {plannerId && <Button icon={trash} fn={deletePlan} name='delete' red>Delete</Button>}
             </Form>
         </Modal>
     );

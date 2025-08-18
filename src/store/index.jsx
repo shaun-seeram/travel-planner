@@ -90,6 +90,9 @@ const authSlice = createSlice({
                 lon: action.payload.lon
             }
         },
+        deletePlan(state, action) {
+            delete state.trips[action.payload.tripId].planner[action.payload.dateId].plans[action.payload.plannerId]
+        },
         resetPlanner(state, action) {
             const from = new Date(action.payload.from.split("-"))
             const to = new Date(action.payload.to.split("-"))

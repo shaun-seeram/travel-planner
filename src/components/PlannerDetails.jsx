@@ -15,7 +15,7 @@ const PlannerDetails = ({ id }) => {
 
     return (
         <>
-            <PlannerModal ref={plannerRef} />
+            <PlannerModal id={id} ref={plannerRef} />
             {Object.keys(planner).map(key => {
                 return (
                     <DetailsContainer key={key} title={planner[key].stringifiedDate} rightContent={rightContent(key)} showOnOpen>
