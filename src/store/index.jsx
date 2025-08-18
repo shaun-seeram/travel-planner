@@ -43,6 +43,9 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].flights[action.payload.flightId] = action.payload.flight
 
         },
+        deleteFlight(state, action) {
+            delete state.trips[action.payload.tripId].flights[action.payload.flightId]
+        },
         editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget },
         addExpense(state, action) {
             if (!state.trips[action.payload.tripId].budget.expenses) {

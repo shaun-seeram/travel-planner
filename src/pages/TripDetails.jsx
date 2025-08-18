@@ -44,6 +44,12 @@ const TripDetails = () => {
                 flightId: actionData.purposeId,
                 flight: actionData.flight
             }))
+        } else if (actionData && actionData.purpose === "editFlight") {
+            dispatch(authActions.addFlight({
+                tripId: id,
+                flightId: actionData.flightId,
+                flight: actionData.flight
+            }))
         } else if (actionData && actionData.purpose === "editBudget") {
             dispatch(authActions.editBudget({
                 tripId: id,
@@ -177,6 +183,37 @@ export const tripDetailsAction = async ({ request, params }) => {
         return {
             purpose,
             purposeId,
+            flight: {
+                airline,
+                fromAirport,
+                toAirport,
+                flightNumber,
+                departureDate,
+                boarding
+            }
+        }
+    } else if (purpose === "editFlight") {
+        const flightId = data.get("flightId")
+        const airline = data.get("airline")
+        const fromAirport = data.get("fromAirport")
+        const toAirport = data.get("toAirport")
+        const flightNumber = data.get("flightNumber")
+        const departureDate = data.get("departureDate")
+        const boarding = data.get("boarding")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/flights/" + flightId), {
+            airline,
+            fromAirport,
+            toAirport,
+            flightNumber,
+            departureDate,
+            boarding
+        })
+
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            flightId,
             flight: {
                 airline,
                 fromAirport,
