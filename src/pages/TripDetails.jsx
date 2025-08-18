@@ -38,6 +38,12 @@ const TripDetails = () => {
                 accomodationId: actionData.purposeId,
                 accomodation: actionData.accomodation
             }))
+        } else if (actionData && actionData.purpose === "editAccomodation") {
+            dispatch(authActions.addAccomodation({
+                tripId: id,
+                accomodationId: actionData.accomodationId,
+                accomodation: actionData.accomodation
+            }))
         } else if (actionData && actionData.purpose === "addFlight") {
             dispatch(authActions.addFlight({
                 tripId: id,
@@ -156,6 +162,26 @@ export const tripDetailsAction = async ({ request, params }) => {
         return {
             purpose,
             purposeId,
+            accomodation: {
+                name,
+                address
+            }
+        }
+
+    } else if (purpose === "editAccomodation") {
+        const accomodationId = data.get("accomodationId")
+        const name = data.get("name")
+        const address = data.get("address")
+
+        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/accomodations/" + accomodationId), {
+            name,
+            address
+        })
+
+        // IF SUCCESSFUL...
+        return {
+            purpose,
+            accomodationId,
             accomodation: {
                 name,
                 address

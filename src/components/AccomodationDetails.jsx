@@ -4,14 +4,26 @@ import GrayContainer from '../ui/GrayContainer';
 import AccomodationModal from './AccomodationModal';
 import ButtonsRow from "../ui/ButtonsRow"
 import Button, { add } from '../ui/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ref, remove } from 'firebase/database';
+import auth, { db } from '../firebase/authentication';
+import { authActions } from '../store';
 
 const AcomodationDetails = ({ id }) => {
 
     const accomodations = useSelector(state => state.auth.trips[id].accomodations || {})
+    const dispatch = useDispatch()
 
     const accomodationRef = useRef()
     let rightContent = Object.keys(accomodations).length !== 1 ? `${Object.keys(accomodations).length} Accomodations` : `${Object.keys(accomodations).length} Accomodation`
+
+    const deleteAccomodation = (accomodationId) => {
+        remove(ref(db, auth.currentUser.uid + "/trips/" + id + "/accomodations/" + accomodationId))
+        dispatch(authActions.deleteAccomodation({
+            tripId: id,
+            accomodationId
+        }))
+    }
 
     return (
         <>
@@ -24,7 +36,7 @@ const AcomodationDetails = ({ id }) => {
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
-                    {Object.keys(accomodations).map(key => <li key={key}>{accomodations[key].name}, <pre>{accomodations[key].address}</pre></li>)}
+                    {Object.keys(accomodations).map(key => <li key={key}>{accomodations[key].name}, <pre>{accomodations[key].address}</pre> <button onClick={(() => accomodationRef.current.edit(id, key))}>e</button> <button onClick={() => deleteAccomodation(key)}>d</button></li>)}
                 </ul>
             </DetailsContainer>
         </>
