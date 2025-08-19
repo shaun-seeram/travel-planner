@@ -1,7 +1,6 @@
-import { ref, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { useParams, useActionData } from "react-router-dom"
-import auth, { db, geocodingKey, latlonkey } from '../firebase/authentication';
+import { fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions, store } from '../store';
 import classes from "./TripDetails.module.css"
@@ -153,7 +152,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const name = data.get("name")
         const address = data.get("address")
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/accomodations/" + purposeId), {
+        await fbUpdate("/trips/" + id + "/accomodations/" + purposeId, {
             name,
             address
         })
@@ -173,7 +172,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const name = data.get("name")
         const address = data.get("address")
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/accomodations/" + accomodationId), {
+        await fbUpdate("/trips/" + id + "/accomodations/" + accomodationId, {
             name,
             address
         })
@@ -196,7 +195,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const departureDate = data.get("departureDate")
         const boarding = data.get("boarding")
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/flights/" + purposeId), {
+        await fbUpdate("/trips/" + id + "/flights/" + purposeId, {
             airline,
             fromAirport,
             toAirport,
@@ -227,7 +226,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const departureDate = data.get("departureDate")
         const boarding = data.get("boarding")
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/flights/" + flightId), {
+        await fbUpdate("/trips/" + id + "/flights/" + flightId, {
             airline,
             fromAirport,
             toAirport,
@@ -252,7 +251,7 @@ export const tripDetailsAction = async ({ request, params }) => {
     } else if (purpose === "editBudget") {
         const budget = data.get("budget")
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/"), {
+        await fbUpdate("/trips/" + id + "/budget/", {
             budget: +budget
         })
 
@@ -265,7 +264,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const name = data.get("expenseName")
         const cost = data.get("expenseCost")
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/expenses/" + purposeId), {
+        await fbUpdate("/trips/" + id + "/budget/expenses/" + purposeId, {
             name,
             cost: +cost
         })
@@ -284,7 +283,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const cost = data.get("expenseCost")
         const expenseId = data.get("expenseId")
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/expenses/" + expenseId), {
+        await fbUpdate("/trips/" + id + "/budget/expenses/" + expenseId, {
             name,
             cost: +cost
         })
@@ -321,7 +320,7 @@ export const tripDetailsAction = async ({ request, params }) => {
                 }
             }
 
-            await update(ref(db, auth.currentUser.uid + "/trips/" + id), {
+            await fbUpdate("/trips/" + id, {
                 planner
             })
         }
@@ -342,7 +341,7 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         const currency = await currencyRes.json();
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id), {
+        await fbUpdate("/trips/" + id, {
             city,
             country,
             from,
@@ -376,7 +375,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const lat = json.features[0].properties.lat
         const lon = json.features[0].properties.lon
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerId + "/plans/" + purposeId), {
+        await fbUpdate("/trips/" + id + "/planner/" + plannerId + "/plans/" + purposeId, {
             place,
             address,
             notes,
@@ -407,7 +406,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const lat = json.features[0].properties.lat
         const lon = json.features[0].properties.lon
 
-        await update(ref(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + plannerDate + "/plans/" + plannerId), {
+        await fbUpdate("/trips/" + id + "/planner/" + plannerDate + "/plans/" + plannerId, {
             place,
             address,
             notes,

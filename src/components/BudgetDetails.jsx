@@ -7,8 +7,7 @@ import classes from "./BudgetDetails.module.css"
 import ButtonsRow from "../ui/ButtonsRow"
 import Button, { add, edit } from '../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { ref, remove } from 'firebase/database';
-import auth, { db } from '../firebase/authentication';
+import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
 
 const BudgetDetails = ({id}) => {
@@ -23,7 +22,7 @@ const BudgetDetails = ({id}) => {
     const rightContent = `${budget.expenses ? "$" + totalExpenses : "$" + 0} / ${"$" + budget.budget}`
 
     const deleteExpense = (expenseId) => {
-        remove(ref(db, auth.currentUser.uid + "/trips/" + id + "/budget/expenses/" + expenseId))
+        fbDelete("/trips/" + id + "/budget/expenses/" + expenseId)
         dispatch(authActions.deleteExpense({
             tripId: id,
             expenseId

@@ -1,7 +1,6 @@
-import { ref, set } from 'firebase/database';
 import React, { useEffect } from 'react';
 import { Form, useActionData, useNavigate } from "react-router-dom"
-import auth, { db, latlonkey } from '../firebase/authentication';
+import { fbSet, latlonkey } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
 
@@ -67,7 +66,7 @@ export const addTripAction = async ({request}) => {
         return planner
     }
 
-    await set(ref(db, auth.currentUser.uid + "/trips/" + id), {
+    await fbSet("/trips/" + id, {
         city: data.get("city"),
         country: data.get("country"),
         to: data.get("travelto"),

@@ -5,8 +5,7 @@ import AccomodationModal from './AccomodationModal';
 import ButtonsRow from "../ui/ButtonsRow"
 import Button, { add } from '../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { ref, remove } from 'firebase/database';
-import auth, { db } from '../firebase/authentication';
+import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
 
 const AcomodationDetails = ({ id }) => {
@@ -18,7 +17,7 @@ const AcomodationDetails = ({ id }) => {
     let rightContent = Object.keys(accomodations).length !== 1 ? `${Object.keys(accomodations).length} Accomodations` : `${Object.keys(accomodations).length} Accomodation`
 
     const deleteAccomodation = (accomodationId) => {
-        remove(ref(db, auth.currentUser.uid + "/trips/" + id + "/accomodations/" + accomodationId))
+        fbDelete("/trips/" + id + "/accomodations/" + accomodationId)
         dispatch(authActions.deleteAccomodation({
             tripId: id,
             accomodationId

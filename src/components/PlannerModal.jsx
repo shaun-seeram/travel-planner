@@ -2,8 +2,7 @@ import React, { useImperativeHandle, useRef, useState } from 'react';
 import { Form } from "react-router-dom"
 import Modal from '../ui/Modal';
 import Button, { save, trash } from '../ui/Button';
-import { ref as reference, remove } from 'firebase/database';
-import auth, { db } from '../firebase/authentication';
+import { fbDelete } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
 
@@ -32,7 +31,7 @@ const PlannerModal = ({ id, ref }) => {
     })
 
     const deletePlan = () => {
-        remove(reference(db, auth.currentUser.uid + "/trips/" + id + "/planner/" + dateId + "/plans/" + plannerId))
+        fbDelete("/trips/" + id + "/planner/" + dateId + "/plans/" + plannerId)
         dispatch(authActions.deletePlan({
             tripId: id,
             dateId,

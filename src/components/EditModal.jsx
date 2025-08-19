@@ -1,7 +1,6 @@
-import { remove, ref } from 'firebase/database';
 import React, { useImperativeHandle, useRef } from 'react';
 import {Form, useNavigate} from "react-router-dom"
-import auth, { db } from '../firebase/authentication';
+import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
 import { useDispatch } from 'react-redux';
 import Modal from '../ui/Modal';
@@ -16,7 +15,7 @@ const EditModal = ({id, trip, ref: editRef}) => {
     const navigate = useNavigate();
 
     const handleDelete = () => {
-        remove(ref(db, auth.currentUser.uid + "/trips/" + id))
+        fbDelete("/trips/" + id)
         dispatch(authActions.removeTrip(id))
         return navigate("/trips/")
     }

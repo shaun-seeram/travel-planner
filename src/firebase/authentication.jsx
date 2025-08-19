@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database"
+import { getDatabase, ref, remove, set, update } from "firebase/database"
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -20,6 +20,9 @@ const firebaseConfig = {
   export const latlonkey = "QXrbYHhG2NKXNO6dGMARhg==VCu1VlzdEskHst1K"
   export const geocodingKey = "192c393f9eb54d94825b9ff5610cf057"
 
+  export const fbDelete = (path = "/") => remove(ref(db, auth.currentUser.uid + path))
+  export const fbSet = async (path, data) => await set(ref(db, auth.currentUser.uid + path), data)
+  export const fbUpdate = async (path, data) => await update(ref(db, auth.currentUser.uid + path), data)
 
   // Notes
 
