@@ -19,7 +19,7 @@ const Map = ({ id }) => {
     }, [trip.planner])
 
     return (
-        <MapContainer center={[trip.latitude, trip.longitude]} style={{ "borderRadius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>
+        <MapContainer center={[trip.latitude, trip.longitude]} style={{ "borderTopLeftRadius": "10px", "borderTopRightRadius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

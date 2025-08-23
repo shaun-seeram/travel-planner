@@ -12,13 +12,19 @@ html {
     font-size: 10px;
     font-family: "Lato", sans-serif;
     /* background-color: #eeeeee; */
+    background-color: #44444E;
 }
 
 body {
     font-size: 1.6rem;
-    width: calc(100% - 20px);
+    width: 100%;
+    /* width: calc(100% - 20px); */
     max-width: 1400px;
     margin: 0 auto;
+}
+
+#root {
+    display: flex;
 }
 
 a {
@@ -33,7 +39,10 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-size: 1.8rem;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    color: #FFF;
 }
 
 h2 {

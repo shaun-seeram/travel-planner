@@ -1,31 +1,48 @@
 .navigation {
-    width: 100%;
-    padding: 15px;
-    display: flex;
+    /* width: 100%; */
+    padding: 27px 20px;
+    /* display: flex; */
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgb(205, 202, 199);
-    border-radius: 5px;
-    margin: 10px 0;
+    /* border: 1px solid rgb(205, 202, 199); */
+    /* border-radius: 5px; */
+    /* margin: 10px 0; */
 
     & ul {
-        display: flex;
+        /* display: flex; */
         margin: 0;
         padding: 0;
         list-style: none;
+        margin-top: 20px;
     }
 
     & li {
-        margin: 0 15px;
-        font-weight: 700;
+        margin: 0;
+        /* margin-bottom: 10px; */
     }
 
     & a {
+        display: block;
+        padding: 10px;
+        border-radius: 5px;
         color: gray;
-        font-size: 1.4rem;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
         &:hover {
-            text-decoration: underline;
-            text-underline-offset: 3px;
+            color: #FFF;
         }
     }
+}
+
+.activeClass {
+    color: #FFF !important;
+    background-color: #37353E;
+}
+
+.airplane {
+    margin-right: 10px;
+  background: #37353E;
+  padding: 10px;
+  border-radius: 5px;
 }

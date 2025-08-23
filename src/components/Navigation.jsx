@@ -9,10 +9,10 @@ const Navigation = () => {
 
     return (
         <div className={classes.navigation}>
-            <h1>TRIPPLANNER</h1>
+            <h1><span className={classes.airplane}>✈️</span> TRIPPLANNER</h1>
             <nav>
                 <ul>
-                <li><Link to="/">Home</Link></li>
+                <li><Link to="/" className={classes.activeClass}>Home</Link></li>
                     { (sessionReady && isLoggedIn) && (
                         <>
                             <li><Link to="trips">Trips</Link></li>
