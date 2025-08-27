@@ -1,0 +1,26 @@
+.list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+.listItem {
+    width: 49%;
+    background-color: #715A5A;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: auto;
+}
+
+.name {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.address {
+    
+}

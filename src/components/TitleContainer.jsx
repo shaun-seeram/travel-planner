@@ -25,10 +25,12 @@ const TitleContainer = ({id}) => {
                     <h2>Trip to {trip.city}, {trip.country}</h2>
                     <p>{trip.from} - {trip.to} <button onClick={() => editRef.current.open()}>{edit}</button></p>
                 </div>
-                <div className={classes.countdown}>
-                    <p className={classes.countdownCircle}>{calculateDaysToGo()}</p>
-                    <p className={classes.countdownDTG}>Days to go</p>
-                </div>
+                {
+                    calculateDaysToGo() >= 0 && <div className={classes.countdown}>
+                        <p className={classes.countdownCircle}>{calculateDaysToGo()}</p>
+                        <p className={classes.countdownDTG}>Days to go</p>
+                    </div>
+                }
             </div>
         </>
     );

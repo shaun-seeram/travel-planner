@@ -1,0 +1,30 @@
+.list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+.listItem {
+    width: 49%;
+    background-color: #715A5A;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.from {
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.airline {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.boarding {
+    font-size: 1.3rem;
+}

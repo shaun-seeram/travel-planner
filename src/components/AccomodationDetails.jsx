@@ -7,6 +7,7 @@ import Button, { add } from '../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
+import classes from "./AccomodationDetails.module.css"
 
 const AcomodationDetails = ({ id }) => {
 
@@ -34,8 +35,9 @@ const AcomodationDetails = ({ id }) => {
                         <Button icon={add} fn={() => accomodationRef.current.open()}>Add Accomodation</Button>
                     </ButtonsRow>
                 </GrayContainer>
-                <ul>
-                    {Object.keys(accomodations).map(key => <li key={key}>{accomodations[key].name}, <pre>{accomodations[key].address}</pre> <button onClick={(() => accomodationRef.current.edit(id, key))}>e</button> <button onClick={() => deleteAccomodation(key)}>d</button></li>)}
+                <ul className={classes.list}>
+                    {Object.keys(accomodations).map(key => <li className={classes.listItem} key={key}>
+                        <span className={classes.name}>{accomodations[key].name}</span> <pre className={classes.address}>{accomodations[key].address}</pre> <button onClick={(() => accomodationRef.current.edit(id, key))}>e</button> <button onClick={() => deleteAccomodation(key)}>d</button></li>)}
                 </ul>
             </DetailsContainer>
         </>

@@ -7,6 +7,7 @@ import Button, { add } from '../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
+import classes from "./FlightDetails.module.css"
 
 const FlightDetails = ({ id }) => {
 
@@ -34,9 +35,16 @@ const FlightDetails = ({ id }) => {
                         <Button icon={add} fn={() => flightRef.current.open()}>Add Flight</Button>
                     </ButtonsRow>
                 </GrayContainer>
-                <ul>
+                <ul className={classes.list}>
                     {Object.keys(flights).map(key => {
-                        return <li key={key}>{flights[key].airline}, {flights[key].boarding}, {flights[key].departureDate}, {flights[key].flightNumber}, {flights[key].fromAirport}, {flights[key].toAirport} <button onClick={() => flightRef.current.edit(id, key)}>e</button> <button onClick={() => deleteFlight(key)}>d</button></li>
+                        return <li className={classes.listItem} key={key}>
+                            <div><span className={classes.from}>{flights[key].fromAirport}</span> <span className={classes.to}>{" >"} {flights[key].toAirport}</span></div>
+                            <span className={classes.airline}>{flights[key].airline} ({flights[key].flightNumber})</span>
+                            <div className={classes.boarding}>{flights[key].departureDate} at {flights[key].boarding}</div>
+                            
+                            <button onClick={() => flightRef.current.edit(id, key)}>e</button>
+                            <button onClick={() => deleteFlight(key)}>d</button>
+                        </li>
                     })}
                 </ul>
             </DetailsContainer>

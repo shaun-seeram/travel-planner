@@ -13,6 +13,8 @@ html {
     font-family: "Lato", sans-serif;
     /* background-color: #eeeeee; */
     background-color: #44444E;
+    color: #FFF;
+    box-sizing: border-box;
 }
 
 body {
