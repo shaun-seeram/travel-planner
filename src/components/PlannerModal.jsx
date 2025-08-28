@@ -5,6 +5,7 @@ import Button, { save, trash } from '../ui/Button';
 import { fbDelete } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
+import classes from "../ui/Modal.module.css"
 
 const PlannerModal = ({ id, ref }) => {
 
@@ -44,14 +45,22 @@ const PlannerModal = ({ id, ref }) => {
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <input name="plannerDate" className='sr-only' defaultValue={dateId}></input>
                 {plannerId && <input name="plannerId" className='sr-only' value={plannerId}></input>}
-                <label htmlFor='place'>Place</label>
-                <input name='place' id='place' defaultValue={plannerId ? defaultValues.place : ""}></input>
-                <label htmlFor='address'>Address</label>
-                <input name='address' id='address' defaultValue={plannerId ? defaultValues.address : ""}></input>
-                <label htmlFor='notes'>Notes</label>
-                <textarea name='notes' id='notes' defaultValue={plannerId ? defaultValues.notes : ""}></textarea>
-                <Button icon={save} type='submit' name='purpose' value={plannerId ? "editPlanner" : "addPlanner"}>Save</Button>
-                {plannerId && <Button icon={trash} fn={deletePlan} name='delete' red>Delete</Button>}
+                <span className={classes.formGroup}>
+                    <label htmlFor='place'>Place</label>
+                    <input name='place' id='place' defaultValue={plannerId ? defaultValues.place : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='address'>Address</label>
+                    <input name='address' id='address' defaultValue={plannerId ? defaultValues.address : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='notes'>Notes</label>
+                    <textarea name='notes' id='notes' defaultValue={plannerId ? defaultValues.notes : ""}></textarea>
+                </span>
+                <span className={classes.buttonsContainer}>
+                    <Button icon={save} type='submit' name='purpose' value={plannerId ? "editPlanner" : "addPlanner"}>Save</Button>
+                    {plannerId && <Button icon={trash} fn={deletePlan} name='delete' red>Delete</Button>}
+                </span>
             </Form>
         </Modal>
     );

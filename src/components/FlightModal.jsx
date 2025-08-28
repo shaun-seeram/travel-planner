@@ -3,6 +3,7 @@ import {Form} from "react-router-dom"
 import Modal from '../ui/Modal';
 import Button, { edit, save } from '../ui/Button';
 import { useSelector } from 'react-redux';
+import classes from "../ui/Modal.module.css"
 
 const FlightModal = ({ref}) => {
 
@@ -40,19 +41,33 @@ const FlightModal = ({ref}) => {
         <Modal ref={modalRef} formRef={formRef}>
             <Form method='post' ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <input name='flightId' className="sr-only" id='flightId' defaultValue={ids.init ? ids.flightId : ""}></input>
-                <label htmlFor='airline'>Airline</label>
-                <input name='airline' id='airline' defaultValue={ids.init ? editData.airline : ""}></input>
-                <label htmlFor='fromAirport'>From Airport</label>
-                <input name='fromAirport' id='fromAirport' defaultValue={ids.init ? editData.fromAirport : ""}></input>
-                <label htmlFor='toAirport'>To Airport</label>
-                <input name='toAirport' id='toAirport' defaultValue={ids.init ? editData.toAirport : ""}></input>
-                <label htmlFor='flightNumber'>Flight Number</label>
-                <input name='flightNumber' id='flightNumber' defaultValue={ids.init ? editData.flightNumber : ""}></input>
-                <label htmlFor='departureDate'>Departure Date</label>
-                <input name='departureDate' id='departureDate' defaultValue={ids.init ? editData.departureDate : ""}></input>
-                <label htmlFor='boarding'>Boarding Time</label>
-                <input name='boarding' id='boarding' defaultValue={ids.init ? editData.boarding : ""}></input>
-                {ids.init ? <Button icon={edit} type='submit' name='purpose' value="editFlight">Edit</Button> : <Button icon={save} type='submit' name='purpose' value="addFlight">Save</Button>}
+                <span className={classes.formGroup}>
+                    <label htmlFor='airline'>Airline</label>
+                    <input name='airline' id='airline' defaultValue={ids.init ? editData.airline : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='fromAirport'>From Airport</label>
+                    <input name='fromAirport' id='fromAirport' defaultValue={ids.init ? editData.fromAirport : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='toAirport'>To Airport</label>
+                    <input name='toAirport' id='toAirport' defaultValue={ids.init ? editData.toAirport : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='flightNumber'>Flight Number</label>
+                    <input name='flightNumber' id='flightNumber' defaultValue={ids.init ? editData.flightNumber : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='departureDate'>Departure Date</label>
+                    <input type="date" name='departureDate' id='departureDate' defaultValue={ids.init ? editData.departureDate : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='boarding'>Boarding Time</label>
+                    <input type="time" name='boarding' id='boarding' defaultValue={ids.init ? editData.boarding : ""}></input>
+                </span>
+                <span className={classes.buttonsContainer}>
+                    {ids.init ? <Button icon={edit} type='submit' name='purpose' value="editFlight">Edit</Button> : <Button icon={save} type='submit' name='purpose' value="addFlight">Save</Button>}
+                </span>
             </Form>
         </Modal>
     );

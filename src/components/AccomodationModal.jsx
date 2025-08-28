@@ -3,6 +3,7 @@ import {Form} from "react-router-dom"
 import Modal from '../ui/Modal';
 import Button, { edit, save } from '../ui/Button';
 import { useSelector } from 'react-redux';
+import classes from "../ui/Modal.module.css"
 
 const AccomodationModal = ({ref}) => {
 
@@ -40,11 +41,17 @@ const AccomodationModal = ({ref}) => {
         <Modal ref={modalRef} formRef={formRef}>
             <Form ref={formRef} method='post' onSubmit={() => modalRef.current.close()}>
                 <input name='accomodationId' className="sr-only" id='accomodationId' defaultValue={ids.init ? ids.accomodationId : ""}></input>
-                <label htmlFor='name'>Name</label>
-                <input name='name' id='name' defaultValue={ids.init ? editData.name : ""}></input>
-                <label htmlFor='address'>Address</label>
-                <textarea name='address' id='address' rows="4" defaultValue={ids.init ? editData.address : ""}></textarea>
-                {ids.init ? <Button icon={edit} type='submit' name='purpose' value="editAccomodation">Edit</Button> : <Button icon={save} type='submit' name='purpose' value="addAccomodation">Save</Button>}
+                <span className={classes.formGroup}>
+                    <label htmlFor='name'>Name</label>
+                    <input name='name' id='name' defaultValue={ids.init ? editData.name : ""}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='address'>Address</label>
+                    <textarea name='address' id='address' rows="4" defaultValue={ids.init ? editData.address : ""}></textarea>
+                </span>
+                <span className={classes.buttonsContainer}>
+                    {ids.init ? <Button icon={edit} type='submit' name='purpose' value="editAccomodation">Edit</Button> : <Button icon={save} type='submit' name='purpose' value="addAccomodation">Save</Button>}
+                </span>
             </Form>
         </Modal>
     );
