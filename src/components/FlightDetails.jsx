@@ -3,11 +3,12 @@ import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import FlightModal from './FlightModal';
 import ButtonsRow from "../ui/ButtonsRow"
-import Button, { add } from '../ui/Button';
+import Button, { add, edit, trash } from '../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
 import classes from "./FlightDetails.module.css"
+import RoundButton from "../ui/RoundButton"
 
 const FlightDetails = ({ id }) => {
 
@@ -41,9 +42,10 @@ const FlightDetails = ({ id }) => {
                             <div><span className={classes.from}>{flights[key].fromAirport}</span> <span className={classes.to}>{" >"} {flights[key].toAirport}</span></div>
                             <span className={classes.airline}>{flights[key].airline} ({flights[key].flightNumber})</span>
                             <div className={classes.boarding}>{flights[key].departureDate} at {flights[key].boarding}</div>
-                            
-                            <button onClick={() => flightRef.current.edit(id, key)}>e</button>
-                            <button onClick={() => deleteFlight(key)}>d</button>
+                            <div className={classes.buttonContainer}>
+                                <RoundButton icon={edit} handleClick={() => flightRef.current.edit(id, key)} />
+                                <RoundButton icon={trash} handleClick={() => deleteFlight(key)} />
+                            </div>
                         </li>
                     })}
                 </ul>

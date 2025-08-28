@@ -5,7 +5,8 @@ import BudgetModal from './BudgetModal';
 import ExpenseModal from "./ExpenseModal"
 import classes from "./BudgetDetails.module.css"
 import ButtonsRow from "../ui/ButtonsRow"
-import Button, { add, edit } from '../ui/Button';
+import Button, { add, edit, trash } from '../ui/Button';
+import RoundButton from "../ui/RoundButton";
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
@@ -46,7 +47,13 @@ const BudgetDetails = ({id}) => {
                 </GrayContainer>
                 <ul>
                     {budget.expenses && Object.keys(budget.expenses).map(key => {
-                        return <li key={key}>{budget.expenses[key].name}, {budget.expenses[key].cost} <button onClick={() => expenseRef.current.edit(id, key)}>e</button> <button onClick={() => deleteExpense(key)}>d</button></li>
+                        return <li className={classes.listItem} key={key}>
+                            <span>{budget.expenses[key].name}</span>
+                            <span className={classes.value}>${budget.expenses[key].cost}
+                                <RoundButton icon={edit} handleClick={() => expenseRef.current.edit(id, key)} />
+                                <RoundButton icon={trash} handleClick={() => deleteExpense(key)} />
+                            </span>
+                        </li>
                     })}
                 </ul>
             </DetailsContainer>

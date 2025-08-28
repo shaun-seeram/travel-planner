@@ -1,6 +1,7 @@
 .grayContainer {
     & progress {
         width: 100%;
+        accent-color: #715A5A;
     }
 
     & .expenses {
@@ -14,4 +15,20 @@
         text-align: right;
         font-size: 1.2rem;
     }
+}
+
+.listItem {
+    list-style: none;
+    background-color: #715A5A;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.value {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

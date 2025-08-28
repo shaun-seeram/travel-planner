@@ -3,11 +3,12 @@ import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import AccomodationModal from './AccomodationModal';
 import ButtonsRow from "../ui/ButtonsRow"
-import Button, { add } from '../ui/Button';
+import Button, { add, edit, trash } from '../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
 import classes from "./AccomodationDetails.module.css"
+import RoundButton from "../ui/RoundButton"
 
 const AcomodationDetails = ({ id }) => {
 
@@ -37,7 +38,13 @@ const AcomodationDetails = ({ id }) => {
                 </GrayContainer>
                 <ul className={classes.list}>
                     {Object.keys(accomodations).map(key => <li className={classes.listItem} key={key}>
-                        <span className={classes.name}>{accomodations[key].name}</span> <pre className={classes.address}>{accomodations[key].address}</pre> <button onClick={(() => accomodationRef.current.edit(id, key))}>e</button> <button onClick={() => deleteAccomodation(key)}>d</button></li>)}
+                        <span className={classes.name}>{accomodations[key].name}</span> 
+                        <pre className={classes.address}>{accomodations[key].address}</pre> 
+                        <div className={classes.buttonContainer}>
+                                <RoundButton icon={edit} handleClick={() => accomodationRef.current.edit(id, key)} />
+                                <RoundButton icon={trash} handleClick={() => deleteAccomodation(key)} />
+                        </div>
+                    </li>)}
                 </ul>
             </DetailsContainer>
         </>

@@ -5,6 +5,7 @@ import { authActions } from '../store';
 import { useDispatch } from 'react-redux';
 import Modal from '../ui/Modal';
 import Button, { save, trash } from '../ui/Button';
+import classes from "../ui/Modal.module.css"
 
 const EditModal = ({id, trip, ref: editRef}) => {
 
@@ -31,17 +32,27 @@ const EditModal = ({id, trip, ref: editRef}) => {
     return (
         <Modal ref={modalRef} formRef={formRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
-                <label htmlFor='city' className='sr-only'>City</label>
-                <input name='city' id='city' defaultValue={trip.city}></input>
-                <label htmlFor='country' className='sr-only'>Country</label>
-                <input name='country' id='country' defaultValue={trip.country}></input>
-                <p>Changes to the dates will result in the reset of the itenerary module.</p>
-                <label htmlFor='tripFrom' className='sr-only'>From</label>
-                <input name='tripFrom' id='tripFrom' type='date' defaultValue={trip.from}></input>
-                <label htmlFor='tripTo' className='sr-only'>To</label>
-                <input name='tripTo' id='tripTo' type='date' defaultValue={trip.to}></input>
-                <Button icon={save} type='submit' name='purpose' value="editTrip">Save</Button>
-                <Button icon={trash} fn={handleDelete} red>Delete Trip</Button>
+                <span className={classes.formGroup}>
+                    <label htmlFor='city'>City</label>
+                    <input name='city' id='city' defaultValue={trip.city}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='country'>Country</label>
+                    <input name='country' id='country' defaultValue={trip.country}></input>
+                </span>
+                <p className={classes.warning}>Changes to the dates will result in the reset of the itenerary module.</p>
+                <span className={classes.formGroup}>
+                    <label htmlFor='tripFrom'>From</label>
+                    <input name='tripFrom' id='tripFrom' type='date' defaultValue={trip.from}></input>
+                </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='tripTo'>To</label>
+                    <input name='tripTo' id='tripTo' type='date' defaultValue={trip.to}></input>
+                </span>
+                <span className={classes.buttonsContainer}>
+                    <Button icon={save} type='submit' name='purpose' value="editTrip">Save</Button>
+                    <Button icon={trash} fn={handleDelete} red>Delete Trip</Button>
+                </span>
             </Form>
         </Modal>
     );
