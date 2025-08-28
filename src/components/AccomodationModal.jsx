@@ -43,11 +43,11 @@ const AccomodationModal = ({ref}) => {
                 <input name='accomodationId' className="sr-only" id='accomodationId' defaultValue={ids.init ? ids.accomodationId : ""}></input>
                 <span className={classes.formGroup}>
                     <label htmlFor='name'>Name</label>
-                    <input name='name' id='name' defaultValue={ids.init ? editData.name : ""}></input>
+                    <input name='name' id='name' defaultValue={ids.init ? editData?.name : ""}></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='address'>Address</label>
-                    <textarea name='address' id='address' rows="4" defaultValue={ids.init ? editData.address : ""}></textarea>
+                    <textarea name='address' id='address' rows="4" defaultValue={ids.init ? editData?.address : ""}></textarea>
                 </span>
                 <span className={classes.buttonsContainer}>
                     {ids.init ? <Button icon={edit} type='submit' name='purpose' value="editAccomodation">Edit</Button> : <Button icon={save} type='submit' name='purpose' value="addAccomodation">Save</Button>}

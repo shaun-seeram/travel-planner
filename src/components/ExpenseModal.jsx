@@ -43,11 +43,11 @@ const ExpenseModal = ({ref}) => {
                 <input name='expenseId' className="sr-only" id='expenseId' defaultValue={ids.init ? ids.expenseId : ""}></input>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseName'>Expense Name</label>
-                    <input name='expenseName' id='expenseName' defaultValue={ids.init ? editData.name : ""}></input>
+                    <input name='expenseName' id='expenseName' defaultValue={ids.init ? editData?.name : ""}></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseCost'>Expense Cost</label>
-                    <input name='expenseCost' id='expenseCost' defaultValue={ids.init ? editData.cost : ""}></input>
+                    <input name='expenseCost' id='expenseCost' defaultValue={ids.init ? editData?.cost : ""}></input>
                 </span>
                 <span className={classes.buttonsContainer}>
                     {ids.init ? <Button icon={edit} type='submit' name='purpose' value="editExpense">Edit</Button> : <Button icon={save} type='submit' name='purpose' value="addExpense">Save</Button>}

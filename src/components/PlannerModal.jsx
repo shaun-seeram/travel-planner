@@ -19,10 +19,13 @@ const PlannerModal = ({ id, ref }) => {
     useImperativeHandle(ref, () => {
         return {
             open(id) {
+                setPlannerId(null)
+                formRef.current.reset()
                 setDateId(id)
                 modalRef.current.open()
             },
             edit(dateId, plannerId, defaultValues) {
+                formRef.current.reset()
                 setDateId(dateId)
                 setPlannerId(plannerId)
                 setDefaultValues(defaultValues)
@@ -44,7 +47,7 @@ const PlannerModal = ({ id, ref }) => {
         <Modal ref={modalRef} formRef={formRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <input name="plannerDate" className='sr-only' defaultValue={dateId}></input>
-                {plannerId && <input name="plannerId" className='sr-only' value={plannerId}></input>}
+                {plannerId && <input name="plannerId" className='sr-only' value={plannerId} readOnly></input>}
                 <span className={classes.formGroup}>
                     <label htmlFor='place'>Place</label>
                     <input name='place' id='place' defaultValue={plannerId ? defaultValues.place : ""}></input>
