@@ -3,6 +3,8 @@ import { Form, useActionData, useNavigate } from "react-router-dom"
 import { fbSet, latlonkey } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
+import classes from "./AddTrip.module.css"
+import Button, { save } from '../ui/Button';
 
 const AddTrip = () => {
 
@@ -19,15 +21,25 @@ const AddTrip = () => {
 
     return (
         <Form method='post'>
-            <label htmlFor='city'>City</label>
-            <input type='text' name="city" id='city'></input>
-            <label htmlFor='country'>Country</label>
-            <input type='text' name="country" id='country'></input>
-            <label htmlFor='travelfrom'>From</label>
-            <input type='date' name="travelfrom" id='travelfrom'></input>
-            <label htmlFor='travelto'>To</label>
-            <input type='date' name="travelto" id='travelto'></input>
-            <input type='submit'></input>
+            <span className={classes.formGroup}>
+                <label htmlFor='city'>City</label>
+                <input type='text' name="city" id='city'></input>
+            </span>
+            <span className={classes.formGroup}>
+                <label htmlFor='country'>Country</label>
+                <input type='text' name="country" id='country'></input>
+            </span>
+            <span className={classes.formGroup}>
+                <label htmlFor='travelfrom'>From</label>
+                <input type='date' name="travelfrom" id='travelfrom'></input>
+            </span>
+            <span className={classes.formGroup}>
+                <label htmlFor='travelto'>To</label>
+                <input type='date' name="travelto" id='travelto'></input>
+            </span>
+            <span className={classes.buttonsContainer}>
+                <Button icon={save} type="submit">Add Trip</Button>
+            </span>
         </Form>
     );
 }

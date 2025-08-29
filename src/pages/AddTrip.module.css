@@ -1,0 +1,22 @@
+.formGroup {
+    display: block;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    label {
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+
+    input {
+        font-size: 3rem;
+    }
+}
+
+.buttonsContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 50px;
+}

@@ -4,6 +4,7 @@ import auth, {fbDelete} from "../firebase/authentication"
 import {useDispatch} from "react-redux"
 import { authActions } from '../store';
 import {useNavigate} from "react-router-dom"
+import Button, { trash } from '../ui/Button';
 
 const Settings = () => {
 
@@ -24,8 +25,8 @@ const Settings = () => {
 
     return (
         <div>
-            <button onClick={deleteAllData}>Delete All Data</button>
-            <button onClick={deleteUserAccount}>Delete Account</button>
+            <Button icon={trash} fn={deleteAllData}>Delete All Data</Button>
+            <Button icon={trash} fn={deleteUserAccount}>Delete Account</Button>
         </div>
     );
 }
