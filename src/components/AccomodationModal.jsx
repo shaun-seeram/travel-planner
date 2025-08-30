@@ -7,6 +7,8 @@ import classes from "../ui/Modal.module.css"
 
 const AccomodationModal = ({ref}) => {
 
+    console.log("AccomodationModal")
+
     const formRef = useRef();
     const modalRef = useRef();
     const [ids, setIds] = useState({init: false})

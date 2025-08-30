@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 
 const Navigation = () => {
 
+    console.log("Navigation")
+
     const isLoggedIn = useSelector((state) => state.auth.uid)
     const sessionReady = useSelector((state) => state.auth.sessionReady)
 

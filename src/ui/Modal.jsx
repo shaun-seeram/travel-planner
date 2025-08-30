@@ -5,6 +5,8 @@ import {createPortal} from "react-dom"
 
 const Modal = ({ref, formRef, children}) => {
 
+    console.log("UI: Modal")
+
     const modalRef = useRef();
 
     const closeDialog = () => {

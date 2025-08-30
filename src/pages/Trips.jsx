@@ -5,6 +5,8 @@ import classes from "./Trips.module.css"
 
 const Trips = () => {
 
+    console.log("Page: Trips")
+
     const trips = useSelector(state => state.auth.trips)
 
     return (

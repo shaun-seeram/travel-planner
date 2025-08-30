@@ -14,9 +14,10 @@ import PlannerDetails from '../components/PlannerDetails';
 
 const TripDetails = () => {
 
-    const actionData = useActionData()
+    console.log("Page: TripDetails")
+    // const actionData = useActionData()
     const id = useParams().id
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     // const [conversion, setConversion] = useState(0);
 
@@ -29,91 +30,6 @@ const TripDetails = () => {
     //     }
     //     getConversion()
     // }, [trip])
-
-    useEffect(() => {
-        if (actionData && actionData.purpose === "addAccomodation") {
-            dispatch(authActions.addAccomodation({
-                tripId: id,
-                accomodationId: actionData.purposeId,
-                accomodation: actionData.accomodation
-            }))
-        } else if (actionData && actionData.purpose === "editAccomodation") {
-            dispatch(authActions.addAccomodation({
-                tripId: id,
-                accomodationId: actionData.accomodationId,
-                accomodation: actionData.accomodation
-            }))
-        } else if (actionData && actionData.purpose === "addFlight") {
-            dispatch(authActions.addFlight({
-                tripId: id,
-                flightId: actionData.purposeId,
-                flight: actionData.flight
-            }))
-        } else if (actionData && actionData.purpose === "editFlight") {
-            dispatch(authActions.addFlight({
-                tripId: id,
-                flightId: actionData.flightId,
-                flight: actionData.flight
-            }))
-        } else if (actionData && actionData.purpose === "editBudget") {
-            dispatch(authActions.editBudget({
-                tripId: id,
-                budget: actionData.budget
-            }))
-        } else if (actionData && actionData.purpose === "addExpense") {
-            dispatch(authActions.addExpense({
-                tripId: id,
-                expenseId: actionData.purposeId,
-                expense: actionData.expense
-            }))
-        } else if (actionData && actionData.purpose === "editExpense") {
-            dispatch(authActions.addExpense({
-                tripId: id,
-                expenseId: actionData.expenseId,
-                expense: actionData.expense
-            }))
-        } else if (actionData && actionData.purpose === "editTrip") {
-            if (actionData.from !== actionData.oldFrom || actionData.to !== actionData.oldTo) {
-                dispatch(authActions.resetPlanner({
-                    tripId: id,
-                    from: actionData.from,
-                    to: actionData.to
-                }))
-            }
-            dispatch(authActions.editTrip({
-                tripId: id,
-                city: actionData.city,
-                country: actionData.country,
-                from: actionData.from,
-                to: actionData.to,
-                currency: actionData.currency,
-                latitude: actionData.latitude,
-                longitude: actionData.longitude
-            }))
-        } else if (actionData && actionData.purpose === "addPlanner") {
-            dispatch(authActions.addPlanner({
-                tripId: id,
-                plannerId: actionData.plannerId,
-                eventId: actionData.purposeId,
-                place: actionData.place,
-                address: actionData.address,
-                notes: actionData.notes,
-                lat: actionData.lat,
-                lon: actionData.lon
-            }))
-        } else if (actionData && actionData.purpose === "editPlanner") {
-            dispatch(authActions.editPlanner({
-                tripId: id,
-                plannerDate: actionData.plannerDate,
-                plannerId: actionData.plannerId,
-                place: actionData.place,
-                address: actionData.address,
-                notes: actionData.notes,
-                lat: actionData.lat,
-                lon: actionData.lon
-            }))
-        }
-    }, [actionData, dispatch, id])
 
     return (
         <>
@@ -158,14 +74,15 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
-            purposeId,
+        store.dispatch(authActions.addAccomodation({
+            tripId: id,
+            accomodationId: purposeId,
             accomodation: {
                 name,
                 address
             }
-        }
+        }))
+        return null
 
     } else if (purpose === "editAccomodation") {
         const accomodationId = data.get("accomodationId")
@@ -178,14 +95,15 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
+        store.dispatch(authActions.addAccomodation({
+            tripId: id,
             accomodationId,
             accomodation: {
                 name,
                 address
             }
-        }
+        }))
+        return null
 
     } else if (purpose === "addFlight") {
         const airline = data.get("airline")
@@ -205,9 +123,9 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
-            purposeId,
+        store.dispatch(authActions.addFlight({
+            tripId: id,
+            flightId: purposeId,
             flight: {
                 airline,
                 fromAirport,
@@ -216,7 +134,8 @@ export const tripDetailsAction = async ({ request, params }) => {
                 departureDate,
                 boarding
             }
-        }
+        }))
+        return null
     } else if (purpose === "editFlight") {
         const flightId = data.get("flightId")
         const airline = data.get("airline")
@@ -236,8 +155,8 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
+        store.dispatch(authActions.addFlight({
+            tripId: id,
             flightId,
             flight: {
                 airline,
@@ -247,7 +166,8 @@ export const tripDetailsAction = async ({ request, params }) => {
                 departureDate,
                 boarding
             }
-        }
+        }))
+        return null
     } else if (purpose === "editBudget") {
         const budget = data.get("budget")
 
@@ -256,10 +176,11 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
+        store.dispatch(authActions.editBudget({
+            tripId: id,
             budget: +budget
-        }
+        }))
+        return null
     } else if (purpose === "addExpense") {
         const name = data.get("expenseName")
         const cost = data.get("expenseCost")
@@ -270,14 +191,16 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
-            purposeId,
+        store.dispatch(authActions.addExpense({
+            tripId: id,
+            expenseId: purposeId,
             expense: {
                 name,
                 cost: +cost
             }
-        }
+        }))
+
+        return null
     } else if (purpose === "editExpense") {
         const name = data.get("expenseName")
         const cost = data.get("expenseCost")
@@ -289,14 +212,16 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
+        store.dispatch(authActions.addExpense({
+            tripId: id,
             expenseId,
             expense: {
                 name,
                 cost: +cost
             }
-        }
+        }))
+        return null
+
     } else if (purpose === "editTrip") {
         const city = data.get("city")
         const country = data.get("country")
@@ -352,18 +277,26 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
+
+        if (from !== oldFrom || to !== oldTo) {
+            store.dispatch(authActions.resetPlanner({
+                tripId: id,
+                from: from,
+                to: to
+            }))
+        }
+        store.dispatch(authActions.editTrip({
+            tripId: id,
             city,
             country,
             from,
             to,
-            oldFrom,
-            oldTo,
-            currency: currency[0].currency.code,
+            currency,
             latitude: latLon[0].latitude,
             longitude: latLon[0].longitude
-        }
+        }))
+        return null 
+
     } else if (purpose === "addPlanner") {
         const plannerId = data.get("plannerDate")
         const place = data.get("place")
@@ -384,16 +317,20 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
-            purposeId,
+
+        store.dispatch(authActions.addPlanner({
+            tripId: id,
             plannerId,
+            eventId: purposeId,
             place,
             address,
             notes,
             lat,
             lon
-        }
+        }))
+
+        return null
+
     } else if (purpose === "editPlanner") {
         const plannerDate = data.get("plannerDate")
         const plannerId = data.get("plannerId")
@@ -415,16 +352,18 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        return {
-            purpose,
+
+        store.dispatch(authActions.editPlanner({
+            tripId: id,
             plannerDate,
             plannerId,
             place,
             address,
             notes,
             lat,
-            lon
-        }
+            lon,
+        }))
+        return null
     }
 
 }

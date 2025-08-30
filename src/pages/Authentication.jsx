@@ -7,6 +7,8 @@ import auth, { db } from '../firebase/authentication';
 
 const Authentication = () => {
 
+    console.log("Page: Authentication")
+
     const [searchParams] = useSearchParams()
     let mode = searchParams.get("mode") || "login"
     if (mode !== "register" && mode !== "login") mode = "login";

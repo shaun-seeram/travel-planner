@@ -8,6 +8,8 @@ import Button, { trash } from '../ui/Button';
 
 const Settings = () => {
 
+    console.log("Page: Settings")
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
 

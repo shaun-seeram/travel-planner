@@ -3,6 +3,8 @@ import classes from "./DetailsContainer.module.css"
 
 const DetailsContainer = ({title, rightContent, showOnOpen = false, children}) => {
 
+    console.log("UI: DetailsContainer")
+
     return (
         <details className={classes.detailsContainer} open>
             <summary>

@@ -13,6 +13,8 @@ import { authActions } from '../store';
 
 const BudgetDetails = ({id}) => {
 
+    console.log("BudgetDetails")
+
     const budget = useSelector(state => state.auth.trips[id].budget)
     const dispatch = useDispatch()
 

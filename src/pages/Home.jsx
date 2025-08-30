@@ -5,6 +5,8 @@ import classes from "./Home.module.css"
 
 const Home = () => {
 
+    console.log("Page: Home")
+
     const state = useSelector(state => state.auth.trips)
 
     return (

@@ -9,6 +9,8 @@ import classes from "../ui/Modal.module.css"
 
 const PlannerModal = ({ id, ref }) => {
 
+    console.log("PlannerModal")
+
     const [dateId, setDateId] = useState();
     const [plannerId, setPlannerId] = useState();
     const [defaultValues, setDefaultValues] = useState();

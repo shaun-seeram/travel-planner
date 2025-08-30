@@ -8,6 +8,8 @@ const date = new Date();
 
 const TitleContainer = ({id}) => {
 
+    console.log("TitleContainer")
+
     const trip = useSelector(state => state.auth.trips[id])
     const editRef = useRef()
 

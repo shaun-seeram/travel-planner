@@ -9,6 +9,8 @@ import classes from "../ui/Modal.module.css"
 
 const EditModal = ({id, trip, ref: editRef}) => {
 
+    console.log("EditModal")
+
     const modalRef = useRef();
     const formRef = useRef();
 

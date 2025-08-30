@@ -8,6 +8,8 @@ import Button, { save } from '../ui/Button';
 
 const AddTrip = () => {
 
+    console.log("Page: AddTrip")
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const tripData = useActionData();

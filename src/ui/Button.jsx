@@ -3,6 +3,8 @@ import classes from "./Button.module.css"
 
 const Button = ({icon, fn = () => {}, red = false, children, ...props}) => {
 
+    console.log("UI: Button")
+
     const classesColor = classes.button + " " + ( red ? classes.red : classes.green)
 
     return (

@@ -7,6 +7,8 @@ import classes from "../ui/Modal.module.css"
 
 const ExpenseModal = ({ref}) => {
 
+    console.log("ExpenseModal")
+
     const modalRef = useRef();
     const formRef = useRef();
     const [ids, setIds] = useState({init: false})

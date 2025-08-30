@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 
 const PlannerDetails = ({ id }) => {
 
+    console.log("PlannerDetails")
+
     const planner = useSelector(state => state.auth.trips[id].planner)
     const plannerRef = useRef();
 

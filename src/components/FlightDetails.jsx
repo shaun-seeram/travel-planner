@@ -12,6 +12,8 @@ import RoundButton from "../ui/RoundButton"
 
 const FlightDetails = ({ id }) => {
 
+console.log("FlightDetails")
+    
     const flights = useSelector(state => state.auth.trips[id].flights || {})
     const dispatch = useDispatch()
 

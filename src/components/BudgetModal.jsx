@@ -6,6 +6,8 @@ import classes from "../ui/Modal.module.css"
 
 const BudgetModal = ({defaultValue = 0, ref}) => {
 
+    console.log("BudgetModal")
+
     const formRef = useRef();
     const modalRef = useRef();
 

@@ -5,6 +5,8 @@ import classes from "./RootLayout.module.css"
 
 const RootLayout = () => {
 
+    console.log("Page: RootLayout")
+
     return (
         <>
             <Navigation />

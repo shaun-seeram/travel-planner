@@ -10,7 +10,9 @@ import { authActions } from '../store';
 import classes from "./AccomodationDetails.module.css"
 import RoundButton from "../ui/RoundButton"
 
-const AcomodationDetails = ({ id }) => {
+const AccomodationDetails = ({ id }) => {
+
+    console.log("AccomodationDetails")
 
     const accomodations = useSelector(state => state.auth.trips[id].accomodations || {})
     const dispatch = useDispatch()
@@ -51,4 +53,4 @@ const AcomodationDetails = ({ id }) => {
     );
 }
 
-export default AcomodationDetails;
+export default AccomodationDetails;
