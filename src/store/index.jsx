@@ -8,9 +8,13 @@ const authSlice = createSlice({
     initialState: {
         sessionReady: false,
         uid: null,
-        trips: {}
+        trips: {},
+        currentPage: null
     },
     reducers: {
+        changePage(state, action) {
+            state.currentPage = action.payload
+        },
         login(state, action) {
             state.sessionReady = true
             state.uid = action.payload.id

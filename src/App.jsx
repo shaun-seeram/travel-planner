@@ -59,6 +59,13 @@ function App() {
         {
           path: "trips/:id",
           element: <TripDetails />,
+          loader: ({params}) => { 
+            dispatch(authActions.changePage(params.id))
+            return null
+          },
+          shouldRevalidate: () => {
+            return false
+          },
           action: tripDetailsAction
         },
         {

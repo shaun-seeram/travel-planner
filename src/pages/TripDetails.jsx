@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useActionData } from "react-router-dom"
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useParams, useActionData, useLoaderData } from "react-router-dom"
 import { fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authActions, store } from '../store';
 import classes from "./TripDetails.module.css"
 import Map from '../components/Map';
@@ -15,9 +15,9 @@ import PlannerDetails from '../components/PlannerDetails';
 const TripDetails = () => {
 
     console.log("Page: TripDetails")
-    // const actionData = useActionData()
-    const id = useParams().id
-    // const dispatch = useDispatch()
+
+    const id = useSelector(state => state.auth.currentPage)
+    console.log(id)
 
     // const [conversion, setConversion] = useState(0);
 
@@ -34,21 +34,21 @@ const TripDetails = () => {
     return (
         <>
             <Map id={id} />
-            <TitleContainer id={id} />
+            {/* <TitleContainer id={id} /> */}
 
             <div className={classes.split}>
                 <div className={classes.half}>
 
                     <BudgetDetails id={id} />
-                    <FlightDetails id={id} />
-                    <AccomodationDetails id={id} />
+                    {/* <FlightDetails id={id} /> */}
+                    {/* <AccomodationDetails id={id} /> */}
                     {/* <GrayContainer>
                         <p>1 CAD = {conversion} {trip.currency}</p>
                     </GrayContainer> */}
 
                 </div>
                 <div className={`${classes.half} ${classes.halfRight}`}>
-                    <PlannerDetails id={id} />
+                    {/* <PlannerDetails id={id} /> */}
                 </div>
             </div>
 
@@ -222,7 +222,8 @@ export const tripDetailsAction = async ({ request, params }) => {
         }))
         return null
 
-    } else if (purpose === "editTrip") {
+    } 
+    else if (purpose === "editTrip") {
         const city = data.get("city")
         const country = data.get("country")
         const from = data.get("tripFrom")
