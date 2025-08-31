@@ -17,7 +17,6 @@ const TripDetails = () => {
     console.log("Page: TripDetails")
 
     const id = useSelector(state => state.auth.currentPage)
-    console.log(id)
 
     // const [conversion, setConversion] = useState(0);
 
@@ -33,8 +32,8 @@ const TripDetails = () => {
 
     return (
         <>
-            <Map id={id} />
-            {/* <TitleContainer id={id} /> */}
+            {/* <Map id={id} /> */}
+            <TitleContainer id={id} />
 
             <div className={classes.split}>
                 <div className={classes.half}>
