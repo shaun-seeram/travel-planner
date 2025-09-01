@@ -1,6 +1,6 @@
 import classes from "./RoundButton.module.css"
 
-const Button = ({icon, handleClick = () => {}, ...props}) => {
+const RoundButton = ({icon, handleClick = () => {}, ...props}) => {
 
     console.log("UI: RoundButton")
 
@@ -9,4 +9,4 @@ const Button = ({icon, handleClick = () => {}, ...props}) => {
     );
 }
 
-export default Button;
+export default RoundButton;

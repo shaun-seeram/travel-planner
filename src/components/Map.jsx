@@ -1,41 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { useSelector } from 'react-redux';
+import MapMarkers from "./MapMarkers"
 
 const Map = ({ id }) => {
 
     console.log("Map")
 
-    const trip = useSelector(state => state.auth.trips[id])
-    const [markers, setMarkers] = useState([]);
-
-    useEffect(() => {
-        setMarkers([])
-        Object.keys(trip.planner).forEach(dayId => {
-            if (!trip.planner[dayId].plans) return
-            return Object.keys(trip.planner[dayId].plans).forEach(key => {
-                if (key === "stringifiedDate" || !trip.planner[dayId].plans[key].lat) return
-                setMarkers((pv) => [...pv, trip.planner[dayId].plans[key]])
-            })
-        })
-    }, [trip.planner])
+    const latitude = useSelector(state => state.auth.trips[id].latitude)
+    const longitude = useSelector(state => state.auth.trips[id].longitude)
+    const city = useSelector(state => state.auth.trips[id].city)
+    const country = useSelector(state => state.auth.trips[id].country)
 
     return (
-        <MapContainer key={trip.latitude} center={[trip.latitude, trip.longitude]} style={{ "borderTopLeftRadius": "10px", "borderTopRightRadius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>
+        <MapContainer key={latitude} center={[latitude, longitude]} style={{ "borderTopLeftRadius": "10px", "borderTopRightRadius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[trip.latitude, trip.longitude]}>
-                <Popup>{trip.city}, {trip.country}</Popup>
+            <Marker position={[latitude, longitude]}>
+                <Popup>{city}, {country}</Popup>
             </Marker>
-            {markers.map(marker => {
-                return (
-                    <Marker key={marker.lat + marker.lon} position={[marker.lat, marker.lon]}>
-                        <Popup>{marker.place}</Popup>
-                    </Marker>
-                )
-            })}
+            <MapMarkers id={id} />
         </MapContainer>
     );
 }

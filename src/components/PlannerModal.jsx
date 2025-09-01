@@ -6,6 +6,7 @@ import { fbDelete } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
 import classes from "../ui/Modal.module.css"
+import DeleteButton from '../ui/DeleteButton';
 
 const PlannerModal = ({ id, ref }) => {
 
@@ -64,7 +65,7 @@ const PlannerModal = ({ id, ref }) => {
                 </span>
                 <span className={classes.buttonsContainer}>
                     <Button icon={save} type='submit' name='purpose' value={plannerId ? "editPlanner" : "addPlanner"}>Save</Button>
-                    {plannerId && <Button icon={trash} fn={deletePlan} name='delete' red>Delete</Button>}
+                    {plannerId && <DeleteButton fn={deletePlan} name='delete'>Delete</DeleteButton>}
                 </span>
             </Form>
         </Modal>

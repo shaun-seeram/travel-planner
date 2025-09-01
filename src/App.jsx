@@ -63,9 +63,6 @@ function App() {
             dispatch(authActions.changePage(params.id))
             return null
           },
-          shouldRevalidate: () => {
-            return false
-          },
           action: tripDetailsAction
         },
         {

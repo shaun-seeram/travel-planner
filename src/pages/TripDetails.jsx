@@ -32,22 +32,22 @@ const TripDetails = () => {
 
     return (
         <>
-            {/* <Map id={id} /> */}
+            <Map id={id} />
             <TitleContainer id={id} />
 
             <div className={classes.split}>
                 <div className={classes.half}>
 
                     <BudgetDetails id={id} />
-                    {/* <FlightDetails id={id} /> */}
-                    {/* <AccomodationDetails id={id} /> */}
+                    <FlightDetails id={id} />
+                    <AccomodationDetails id={id} />
                     {/* <GrayContainer>
                         <p>1 CAD = {conversion} {trip.currency}</p>
                     </GrayContainer> */}
 
                 </div>
                 <div className={`${classes.half} ${classes.halfRight}`}>
-                    {/* <PlannerDetails id={id} /> */}
+                    <PlannerDetails id={id} />
                 </div>
             </div>
 

@@ -1,10 +1,11 @@
-import React, { useImperativeHandle, useRef } from 'react';
+import React, { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import {Form, useNavigate} from "react-router-dom"
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../ui/Modal';
 import Button, { save, trash } from '../ui/Button';
+import DeleteButton from "../ui/DeleteButton"
 import classes from "../ui/Modal.module.css"
 
 const EditModal = ({id, ref: editRef}) => {
@@ -18,15 +19,6 @@ const EditModal = ({id, ref: editRef}) => {
 
     const modalRef = useRef();
     const formRef = useRef();
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const handleDelete = () => {
-        fbDelete("/trips/" + id)
-        dispatch(authActions.removeTrip(id))
-        return navigate("/trips/")
-    }
 
     useImperativeHandle(editRef, () => {
         return {
@@ -58,7 +50,7 @@ const EditModal = ({id, ref: editRef}) => {
                 </span>
                 <span className={classes.buttonsContainer}>
                     <Button icon={save} type='submit' name='purpose' value="editTrip">Save</Button>
-                    <Button icon={trash} fn={handleDelete} red>Delete Trip</Button>
+                    <DeleteButton id={id}>Delete Trip</DeleteButton>
                 </span>
             </Form>
         </Modal>
