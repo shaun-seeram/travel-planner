@@ -4,6 +4,9 @@ import { verifyEmail, verifyPassword } from '../util';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { ref, set } from 'firebase/database';
 import auth, { db } from '../firebase/authentication';
+import formClasses from "../ui/Modal.module.css"
+import classes from "./Authentication.module.css"
+import Button from '../ui/Button';
 
 const Authentication = () => {
 
@@ -17,7 +20,7 @@ const Authentication = () => {
 
     return (
         <>
-        <h1>{mode === "register" ? "Sign Up" : "Login"}</h1>
+        <h2 className={classes.h2}>{mode === "register" ? "Sign Up" : "Login"}</h2>
         <Form method='post'>
             {data?.auth && <p>{data.auth}</p>}
             {data?.email && !data.email.valid && (
@@ -25,20 +28,22 @@ const Authentication = () => {
                     {data.email.errors.map((err) => <li key={err}>{err}</li>)}
                 </ul>
             )}
-            <p>
+            <span className={formClasses.formGroup}>
                 <label htmlFor="email">Email</label>
                 <input name="email" id="email" type="email" />
-            </p>
+            </span>
             {data?.password && !data.password.valid && (
                 <ul>
                     {data.password.errors.map((err) => <li key={err}>{err}</li>)}
                 </ul>
             )}
-            <p>
+            <span className={formClasses.formGroup}>
                 <label htmlFor="password">Password</label>
                 <input name="password" id="password" type="password" />
-            </p>
-            <button type="submit">{mode === "register" ? "Sign Up" : "Login"}</button>
+            </span>
+            <span className={formClasses.buttonsContainer}>
+                <Button type="submit">{mode === "register" ? "Sign Up" : "Login"}</Button>
+            </span>
         </Form>
         </>
     );

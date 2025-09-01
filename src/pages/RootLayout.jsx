@@ -1,7 +1,9 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
-import {Outlet} from "react-router-dom"
+import {Outlet, redirect} from "react-router-dom"
 import classes from "./RootLayout.module.css"
+import auth from '../firebase/authentication';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const RootLayout = () => {
 
@@ -18,3 +20,20 @@ const RootLayout = () => {
 }
 
 export default RootLayout;
+
+export const loader = async () => {
+    // if (!auth.currentUser) {
+    //     throw redirect("/auth")
+    // }
+    // return null
+    // return new Promise((resolve, reject) => {
+    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
+    //         unsubscribe()
+    //         if (user) {
+    //           resolve()
+    //         } else {
+    //             reject(redirect("/auth"))              
+    //         }
+    //     })
+    // })
+}

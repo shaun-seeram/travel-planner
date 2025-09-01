@@ -1,4 +1,4 @@
-import RootLayout from './pages/RootLayout'
+import RootLayout, { loader } from './pages/RootLayout'
 import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import Home from "./pages/Home"
 import Authentication, {action as authAction} from "./pages/Authentication"
@@ -15,10 +15,12 @@ import Settings from './pages/Settings'
 
 function App() {
 
+  console.log("App")
+
   const dispatch = useDispatch()
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("LOGIN")
         dispatch(asyncLogin(user.uid))
@@ -27,12 +29,15 @@ function App() {
         dispatch(authActions.logout())
       }
     })
+
+    return () => unsubscribe
   }, [dispatch])
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <RootLayout />,
+      loader: loader,
       children: [
         {
           index: true,
