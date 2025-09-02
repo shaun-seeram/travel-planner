@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useParams, useActionData, useLoaderData } from "react-router-dom"
-import { fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
+import { useParams, useActionData, useLoaderData, redirect, useNavigate } from "react-router-dom"
+import auth, { db, fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions, store } from '../store';
 import classes from "./TripDetails.module.css"
@@ -11,11 +11,13 @@ import BudgetDetails from '../components/BudgetDetails';
 import FlightDetails from '../components/FlightDetails';
 import AccomodationDetails from "../components/AccomodationDetails"
 import PlannerDetails from '../components/PlannerDetails';
+import { onAuthStateChanged } from 'firebase/auth';
+import { child, get, ref } from 'firebase/database';
 
 const TripDetails = () => {
 
     console.log("Page: TripDetails")
-
+    
     const id = useSelector(state => state.auth.currentPage)
 
     // const [conversion, setConversion] = useState(0);
@@ -56,6 +58,22 @@ const TripDetails = () => {
 }
 
 export default TripDetails;
+
+export const tripDetailsLoader = async ({ params }) => {
+    store.dispatch(authActions.changePage(params.id))
+    await new Promise((resolve) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            unsubscribe()
+            if (user) {
+                await get(child(ref(db), store.getState().auth.uid + "/trips/"))
+                resolve()
+            } else {
+                return redirect("/auth")
+            }
+        });
+    })
+    return null
+}
 
 export const tripDetailsAction = async ({ request, params }) => {
     const data = await request.formData();
@@ -221,7 +239,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         }))
         return null
 
-    } 
+    }
     else if (purpose === "editTrip") {
         const city = data.get("city")
         const country = data.get("country")
@@ -295,7 +313,7 @@ export const tripDetailsAction = async ({ request, params }) => {
             latitude: latLon[0].latitude,
             longitude: latLon[0].longitude
         }))
-        return null 
+        return null
 
     } else if (purpose === "addPlanner") {
         const plannerId = data.get("plannerDate")

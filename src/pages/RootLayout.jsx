@@ -20,20 +20,3 @@ const RootLayout = () => {
 }
 
 export default RootLayout;
-
-export const loader = async () => {
-    // if (!auth.currentUser) {
-    //     throw redirect("/auth")
-    // }
-    // return null
-    // return new Promise((resolve, reject) => {
-    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
-    //         unsubscribe()
-    //         if (user) {
-    //           resolve()
-    //         } else {
-    //             reject(redirect("/auth"))              
-    //         }
-    //     })
-    // })
-}

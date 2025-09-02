@@ -1,10 +1,10 @@
-import RootLayout, { loader } from './pages/RootLayout'
+import RootLayout from './pages/RootLayout'
 import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import Home from "./pages/Home"
 import Authentication, {action as authAction} from "./pages/Authentication"
 import Trips from "./pages/Trips"
 import AddTrip, { addTripAction } from "./pages/AddTrip"
-import TripDetails, { tripDetailsAction } from "./pages/TripDetails"
+import TripDetails, { tripDetailsAction, tripDetailsLoader } from "./pages/TripDetails"
 import {logoutLoader} from "./pages/Logout"
 import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -37,7 +37,18 @@ function App() {
     {
       path: "/",
       element: <RootLayout />,
-      loader: loader,
+      // loader: async () => {
+      //   await new Promise((resolve) => {
+      //     onAuthStateChanged(auth, (user) => {
+      //       if (user) {
+      //         resolve()
+      //       } else {
+      //         resolve()
+      //       }
+      //     });
+      //   })
+      //   return null
+      // },
       children: [
         {
           index: true,
@@ -64,10 +75,8 @@ function App() {
         {
           path: "trips/:id",
           element: <TripDetails />,
-          loader: ({params}) => { 
-            dispatch(authActions.changePage(params.id))
-            return null
-          },
+          loader: tripDetailsLoader,
+          shouldRevalidate: () => false,
           action: tripDetailsAction
         },
         {
