@@ -1,0 +1,20 @@
+.plane {
+    display: block;
+    text-align: center;
+    background-color: #44444e;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.plane svg {
+    width: 50px;
+    padding-bottom: 90px;
+    fill: #FFF;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg)
+    }
+}

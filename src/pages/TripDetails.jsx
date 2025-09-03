@@ -61,17 +61,19 @@ export default TripDetails;
 
 export const tripDetailsLoader = async ({ params }) => {
     store.dispatch(authActions.changePage(params.id))
-    await new Promise((resolve) => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (store.getState().auth.sessionReady) { return null }
+
+    await new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             unsubscribe()
             if (user) {
-                await get(child(ref(db), store.getState().auth.uid + "/trips/"))
-                resolve()
+              resolve()
             } else {
-                return redirect("/auth")
+              reject(redirect("/auth"))
             }
         });
     })
+
     return null
 }
 

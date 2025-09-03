@@ -1,5 +1,5 @@
 import RootLayout from './pages/RootLayout'
-import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import {createBrowserRouter, RouterProvider, redirect} from "react-router-dom"
 import Home from "./pages/Home"
 import Authentication, {action as authAction} from "./pages/Authentication"
 import Trips from "./pages/Trips"
@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
 import { useDispatch } from 'react-redux'
-import { asyncLogin, authActions } from './store'
+import { asyncLogin, authActions, store } from './store'
 import Settings from './pages/Settings'
 
 function App() {
@@ -37,18 +37,6 @@ function App() {
     {
       path: "/",
       element: <RootLayout />,
-      // loader: async () => {
-      //   await new Promise((resolve) => {
-      //     onAuthStateChanged(auth, (user) => {
-      //       if (user) {
-      //         resolve()
-      //       } else {
-      //         resolve()
-      //       }
-      //     });
-      //   })
-      //   return null
-      // },
       children: [
         {
           index: true,
@@ -65,23 +53,25 @@ function App() {
         },
         {
           path: "trips",
-          element: <Trips />
+          element: <Trips />,
+          loader: protectedLoader,
         },
         {
           path: "trips/add",
           element: <AddTrip />,
+          loader: protectedLoader,
           action: addTripAction
         },
         {
           path: "trips/:id",
           element: <TripDetails />,
           loader: tripDetailsLoader,
-          shouldRevalidate: () => false,
           action: tripDetailsAction
         },
         {
           path: "settings",
           element: <Settings />,
+          loader: protectedLoader,
         }
       ]
     }
@@ -95,3 +85,20 @@ function App() {
 }
 
 export default App
+
+export const protectedLoader = async () => {
+  if (store.getState().auth.sessionReady) { return null }
+
+  await new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+          unsubscribe()
+          if (user) {
+            resolve()
+          } else {
+            reject(redirect("/auth"))
+          }
+      });
+  })
+
+  return null
+}
