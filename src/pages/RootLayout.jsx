@@ -16,7 +16,7 @@ const RootLayout = () => {
         <>
             <Navigation />
             <main className={classes.main}>
-                { sessionReady ? <Outlet /> : <Loader />}
+                { !sessionReady ? <Outlet /> : <Loader />}
             </main>
         </>
     );

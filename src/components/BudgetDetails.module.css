@@ -22,10 +22,26 @@
     background-color: #715A5A;
     padding: 5px 10px;
     border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.upperRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+}
+
+.lowerRow {
+    background-color: #44444e;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.lowerRow pre {
+    margin: 0;
+    font-family: unset;
+    font-size: 1.4rem;
 }
 
 .value {

@@ -50,11 +50,19 @@ const BudgetDetails = ({id}) => {
                 <ul>
                     {budget.expenses && Object.keys(budget.expenses).map(key => {
                         return <li className={classes.listItem} key={key}>
-                            <span>{budget.expenses[key].name}</span>
-                            <span className={classes.value}>${budget.expenses[key].cost}
-                                <RoundButton icon={edit} handleClick={() => expenseRef.current.edit(id, key)} />
-                                <RoundButton icon={trash} handleClick={() => deleteExpense(key)} />
-                            </span>
+                            <div className={classes.upperRow}>
+                                <span>{budget.expenses[key].name}</span>
+                                <span className={classes.value}>
+                                    ${budget.expenses[key].cost}
+                                    <RoundButton icon={edit} handleClick={() => expenseRef.current.edit(id, key)} />
+                                    <RoundButton icon={trash} handleClick={() => deleteExpense(key)} />
+                                </span>
+                            </div>
+                            {budget.expenses[key].notes &&
+                                <div className={classes.lowerRow}>
+                                    <pre>{budget.expenses[key].notes}</pre>
+                                </div>
+                            }
                         </li>
                     })}
                 </ul>

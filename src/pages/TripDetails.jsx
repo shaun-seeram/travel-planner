@@ -200,34 +200,16 @@ export const tripDetailsAction = async ({ request, params }) => {
             budget: +budget
         }))
         return null
-    } else if (purpose === "addExpense") {
+    } else if (purpose === "updateExpenses") {
         const name = data.get("expenseName")
         const cost = data.get("expenseCost")
-
-        await fbUpdate("/trips/" + id + "/budget/expenses/" + purposeId, {
-            name,
-            cost: +cost
-        })
-
-        // IF SUCCESSFUL...
-        store.dispatch(authActions.addExpense({
-            tripId: id,
-            expenseId: purposeId,
-            expense: {
-                name,
-                cost: +cost
-            }
-        }))
-
-        return null
-    } else if (purpose === "editExpense") {
-        const name = data.get("expenseName")
-        const cost = data.get("expenseCost")
-        const expenseId = data.get("expenseId")
+        const notes = data.get("expenseNotes")
+        const expenseId = data.get("expenseId") || purposeId
 
         await fbUpdate("/trips/" + id + "/budget/expenses/" + expenseId, {
             name,
-            cost: +cost
+            cost: +cost,
+            notes
         })
 
         // IF SUCCESSFUL...
@@ -236,13 +218,14 @@ export const tripDetailsAction = async ({ request, params }) => {
             expenseId,
             expense: {
                 name,
-                cost: +cost
+                cost: +cost,
+                notes
             }
         }))
+
         return null
 
-    }
-    else if (purpose === "editTrip") {
+    } else if (purpose === "editTrip") {
         const city = data.get("city")
         const country = data.get("country")
         const from = data.get("tripFrom")
