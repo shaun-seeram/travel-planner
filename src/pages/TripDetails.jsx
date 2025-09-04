@@ -83,34 +83,22 @@ export const tripDetailsAction = async ({ request, params }) => {
     const purposeId = new Date().getTime()
     const id = params.id
 
-    if (purpose === "addAccomodation") {
+    if (purpose === "updateAccomodation") {
+        const accomodationId = data.get("accomodationId") || purposeId
         const name = data.get("name")
-        const address = data.get("address")
-
-        await fbUpdate("/trips/" + id + "/accomodations/" + purposeId, {
-            name,
-            address
-        })
-
-        // IF SUCCESSFUL...
-        store.dispatch(authActions.addAccomodation({
-            tripId: id,
-            accomodationId: purposeId,
-            accomodation: {
-                name,
-                address
-            }
-        }))
-        return null
-
-    } else if (purpose === "editAccomodation") {
-        const accomodationId = data.get("accomodationId")
-        const name = data.get("name")
-        const address = data.get("address")
+        const street = data.get("street")
+        const city = data.get("city")
+        const state = data.get("state")
+        const zip = data.get("zip")
+        const notes = data.get("notes")
 
         await fbUpdate("/trips/" + id + "/accomodations/" + accomodationId, {
             name,
-            address
+            street,
+            city,
+            state,
+            zip,
+            notes
         })
 
         // IF SUCCESSFUL...
@@ -119,50 +107,35 @@ export const tripDetailsAction = async ({ request, params }) => {
             accomodationId,
             accomodation: {
                 name,
-                address
+                street,
+                city,
+                state,
+                zip,
+                notes
             }
         }))
         return null
 
-    } else if (purpose === "addFlight") {
+    } else if (purpose === "updateFlight") {
+        const flightId = data.get("flightId") || purposeId
         const airline = data.get("airline")
         const fromAirport = data.get("fromAirport")
         const toAirport = data.get("toAirport")
         const flightNumber = data.get("flightNumber")
         const departureDate = data.get("departureDate")
         const boarding = data.get("boarding")
+        const notes = data.get("notes")
 
-        await fbUpdate("/trips/" + id + "/flights/" + purposeId, {
-            airline,
-            fromAirport,
-            toAirport,
-            flightNumber,
-            departureDate,
-            boarding
-        })
+        const splitTime = boarding.split(":")
+        let meridiem = " am"
 
-        // IF SUCCESSFUL...
-        store.dispatch(authActions.addFlight({
-            tripId: id,
-            flightId: purposeId,
-            flight: {
-                airline,
-                fromAirport,
-                toAirport,
-                flightNumber,
-                departureDate,
-                boarding
-            }
-        }))
-        return null
-    } else if (purpose === "editFlight") {
-        const flightId = data.get("flightId")
-        const airline = data.get("airline")
-        const fromAirport = data.get("fromAirport")
-        const toAirport = data.get("toAirport")
-        const flightNumber = data.get("flightNumber")
-        const departureDate = data.get("departureDate")
-        const boarding = data.get("boarding")
+        if (splitTime[0] === "00") { splitTime[0] = "12" }
+        if (+splitTime[0] > 12) {
+            splitTime[0] = +splitTime[0] - 12
+            meridiem = " pm"
+        }
+
+        const stringifiedBoarding = splitTime.join(":") + meridiem
 
         await fbUpdate("/trips/" + id + "/flights/" + flightId, {
             airline,
@@ -170,7 +143,9 @@ export const tripDetailsAction = async ({ request, params }) => {
             toAirport,
             flightNumber,
             departureDate,
-            boarding
+            boarding,
+            stringifiedBoarding,
+            notes
         })
 
         // IF SUCCESSFUL...
@@ -183,7 +158,9 @@ export const tripDetailsAction = async ({ request, params }) => {
                 toAirport,
                 flightNumber,
                 departureDate,
-                boarding
+                boarding,
+                stringifiedBoarding,
+                notes
             }
         }))
         return null

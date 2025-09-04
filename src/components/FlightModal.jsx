@@ -42,7 +42,7 @@ const FlightModal = ({ref}) => {
     return (
         <Modal ref={modalRef} formRef={formRef}>
             <Form method='post' ref={formRef} onSubmit={() => modalRef.current.close()}>
-                <input name='flightId' className="sr-only" id='flightId' defaultValue={ids.init ? ids.flightId : ""}></input>
+                <input name='flightId' className="sr-only" id='flightId' defaultValue={ids.init ? ids.flightId : undefined} readOnly></input>
                 <span className={classes.formGroup}>
                     <label htmlFor='airline'>Airline</label>
                     <input name='airline' id='airline' defaultValue={ids.init ? editData?.airline : ""}></input>
@@ -67,8 +67,12 @@ const FlightModal = ({ref}) => {
                     <label htmlFor='boarding'>Boarding Time</label>
                     <input type="time" name='boarding' id='boarding' defaultValue={ids.init ? editData?.boarding : ""}></input>
                 </span>
+                <span className={classes.formGroup}>
+                    <label htmlFor='notes'>Notes</label>
+                    <textarea name='notes' id='notes' rows="5" defaultValue={ids.init ? editData?.notes : ""}></textarea>
+                </span>
                 <span className={classes.buttonsContainer}>
-                    {ids.init ? <Button icon={edit} type='submit' name='purpose' value="editFlight">Edit</Button> : <Button icon={save} type='submit' name='purpose' value="addFlight">Save</Button>}
+                    <Button icon={ids.init ? edit : save} type='submit' name='purpose' value="updateFlight">{ids.init ? "Edit" : "Save"}</Button>
                 </span>
             </Form>
         </Modal>

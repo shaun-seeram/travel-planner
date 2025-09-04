@@ -26,8 +26,8 @@ const PlannerDetails = ({ id }) => {
                             return (
                                 <GrayContainer key={eventKey} innerClasses={classes.grayContainer}>
                                     <p className={classes.place}>{e.place} <button className={classes.editButton} onClick={() => plannerRef.current.edit(key, eventKey, { place: e.place, address: e.address, notes: e.notes })}>{edit}</button></p>
-                                    <p className={classes.address}>{e.address}</p>
-                                    <p className={classes.notes}>{e.notes}</p>
+                                    {e.address && <p className={classes.address}>{e.address}</p>}
+                                    {e.notes && <p className={classes.notes}>{e.notes}</p>}
                                 </GrayContainer>
                             )
                         })}

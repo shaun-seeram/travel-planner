@@ -43,7 +43,8 @@ console.log("FlightDetails")
                         return <li className={classes.listItem} key={key}>
                             <div><span className={classes.from}>{flights[key].fromAirport}</span> <span className={classes.to}>{" >"} {flights[key].toAirport}</span></div>
                             <span className={classes.airline}>{flights[key].airline} ({flights[key].flightNumber})</span>
-                            <div className={classes.boarding}>{flights[key].departureDate} at {flights[key].boarding}</div>
+                            <div className={classes.boarding}>{flights[key].departureDate} at {flights[key].stringifiedBoarding}</div>
+                            { flights[key].notes && <div className={classes.notes}><pre>{flights[key].notes}</pre></div> }
                             <div className={classes.buttonContainer}>
                                 <RoundButton icon={edit} handleClick={() => flightRef.current.edit(id, key)} />
                                 <RoundButton icon={trash} handleClick={() => deleteFlight(key)} />

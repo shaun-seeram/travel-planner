@@ -41,7 +41,14 @@ const AccomodationDetails = ({ id }) => {
                 <ul className={classes.list}>
                     {Object.keys(accomodations).map(key => <li className={classes.listItem} key={key}>
                         <span className={classes.name}>{accomodations[key].name}</span> 
-                        <pre className={classes.address}>{accomodations[key].address}</pre> 
+                        <address className={classes.address}>
+                            {accomodations[key].street} <br />
+                            {accomodations[key].city}, {accomodations[key].state} <br />
+                            {accomodations[key].zip} <br />
+                        </address>
+                        { accomodations[key].notes && <div className={classes.notes}>
+                            <pre>{accomodations[key].notes}</pre> 
+                        </div> }
                         <div className={classes.buttonContainer}>
                                 <RoundButton icon={edit} handleClick={() => accomodationRef.current.edit(id, key)} />
                                 <RoundButton icon={trash} handleClick={() => deleteAccomodation(key)} />
