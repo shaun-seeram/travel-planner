@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useParams, useActionData, useLoaderData, redirect, useNavigate } from "react-router-dom"
-import auth, { db, fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
-import { useDispatch, useSelector } from 'react-redux';
+import { redirect } from "react-router-dom"
+import auth, { fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
+import { useSelector } from 'react-redux';
 import { authActions, store } from '../store';
 import classes from "./TripDetails.module.css"
 import Map from '../components/Map';
@@ -12,7 +11,6 @@ import FlightDetails from '../components/FlightDetails';
 import AccomodationDetails from "../components/AccomodationDetails"
 import PlannerDetails from '../components/PlannerDetails';
 import { onAuthStateChanged } from 'firebase/auth';
-import { child, get, ref } from 'firebase/database';
 
 const TripDetails = () => {
 

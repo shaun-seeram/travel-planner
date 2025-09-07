@@ -1,10 +1,8 @@
-import React, { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
-import {Form, useNavigate} from "react-router-dom"
-import { fbDelete } from '../firebase/authentication';
-import { authActions } from '../store';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useImperativeHandle, useRef } from 'react';
+import {Form} from "react-router-dom"
+import { useSelector } from 'react-redux';
 import Modal from '../ui/Modal';
-import Button, { save, trash } from '../ui/Button';
+import Button, { save } from '../ui/Button';
 import DeleteButton from "../ui/DeleteButton"
 import classes from "../ui/Modal.module.css"
 

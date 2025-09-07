@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { useSelector } from 'react-redux';
 import MapMarkers from "./MapMarkers"

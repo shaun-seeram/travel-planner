@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { Form, useActionData, useNavigate, redirect } from "react-router-dom"
+import { Form, redirect } from "react-router-dom"
 import { fbSet, latlonkey } from '../firebase/authentication';
-import { useDispatch } from 'react-redux';
 import { authActions, store } from '../store';
 import classes from "./AddTrip.module.css"
 import Button, { save } from '../ui/Button';

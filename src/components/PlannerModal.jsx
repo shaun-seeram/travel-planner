@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useRef, useState } from 'react';
 import { Form } from "react-router-dom"
 import Modal from '../ui/Modal';
-import Button, { save, trash } from '../ui/Button';
+import Button, { save } from '../ui/Button';
 import { fbDelete } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
