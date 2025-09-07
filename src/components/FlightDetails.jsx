@@ -35,7 +35,7 @@ console.log("FlightDetails")
             <DetailsContainer title="Flights" rightContent={rightContent}>
                 <GrayContainer>
                     <ButtonsRow>
-                        <Button icon={add} fn={() => flightRef.current.open()}>Add Flight</Button>
+                        <Button icon={add} onClick={() => flightRef.current.open()}>Add Flight</Button>
                     </ButtonsRow>
                 </GrayContainer>
                 <ul className={classes.list}>
@@ -46,8 +46,8 @@ console.log("FlightDetails")
                             <div className={classes.boarding}>{flights[key].departureDate} at {flights[key].stringifiedBoarding}</div>
                             { flights[key].notes && <div className={classes.notes}><pre>{flights[key].notes}</pre></div> }
                             <div className={classes.buttonContainer}>
-                                <RoundButton icon={edit} handleClick={() => flightRef.current.edit(id, key)} />
-                                <RoundButton icon={trash} handleClick={() => deleteFlight(key)} />
+                                <RoundButton icon={edit} onClick={() => flightRef.current.edit(id, key)} />
+                                <RoundButton icon={trash} onClick={() => deleteFlight(key)} />
                             </div>
                         </li>
                     })}

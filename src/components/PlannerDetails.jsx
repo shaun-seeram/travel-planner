@@ -13,7 +13,7 @@ const PlannerDetails = ({ id }) => {
     const planner = useSelector(state => state.auth.trips[id].planner)
     const plannerRef = useRef();
 
-    const rightContent = (key) => <Button icon={add} fn={() => plannerRef.current.open(key)}>Add Plan</Button>
+    const rightContent = (key) => <Button icon={add} onClick={() => plannerRef.current.open(key)}>Add Plan</Button>
 
     return (
         <>

@@ -9,7 +9,7 @@ const Home = () => {
     console.log("Page: Home")
 
     const uid = useSelector(state => state.auth.uid)
-    const state = useSelector(state => state.auth.trips)
+    const trips = useSelector(state => state.auth.trips)
 
     return (
         <div>
@@ -21,9 +21,9 @@ const Home = () => {
                     <>
                         <h2>Upcoming Trips</h2>
                         <div className={classes.tripContainer}>
-                            {Object.keys(state).length === 0 && <p>No upcoming trips</p>}
-                            {Object.keys(state).map(key => {
-                                const trip = state[key]
+                            {Object.keys(trips).length === 0 && <p>No upcoming trips</p>}
+                            {Object.keys(trips).map(key => {
+                                const trip = trips[key]
                                 return (
                                     <Link className={classes.trip} to={`/trips/${key}`} key={key}>
                                         <p className={classes.city}>{trip.city}, {trip.country}</p>

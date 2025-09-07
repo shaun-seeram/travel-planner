@@ -43,8 +43,8 @@ const BudgetDetails = ({id}) => {
                     <progress value={budget.expenses ? totalExpenses : 0} max={budget.budget}></progress>
                     <p className={classes.budget}>Budget: ${budget.budget}</p>
                     <ButtonsRow>
-                        <Button icon={add} fn={() => expenseRef.current.open()}>Add Expense</Button>
-                        <Button icon={edit} fn={() => budgetRef.current.open()}>Edit Budget</Button>
+                        <Button icon={add} onClick={() => expenseRef.current.open()}>Add Expense</Button>
+                        <Button icon={edit} onClick={() => budgetRef.current.open()}>Edit Budget</Button>
                     </ButtonsRow>
                 </GrayContainer>
                 <ul>
@@ -54,8 +54,8 @@ const BudgetDetails = ({id}) => {
                                 <span>{budget.expenses[key].name}</span>
                                 <span className={classes.value}>
                                     ${budget.expenses[key].cost}
-                                    <RoundButton icon={edit} handleClick={() => expenseRef.current.edit(id, key)} />
-                                    <RoundButton icon={trash} handleClick={() => deleteExpense(key)} />
+                                    <RoundButton icon={edit} onClick={() => expenseRef.current.edit(id, key)} />
+                                    <RoundButton icon={trash} onClick={() => deleteExpense(key)} />
                                 </span>
                             </div>
                             {budget.expenses[key].notes &&

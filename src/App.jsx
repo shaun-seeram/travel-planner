@@ -1,7 +1,7 @@
 import RootLayout from './pages/RootLayout'
 import {createBrowserRouter, RouterProvider, redirect} from "react-router-dom"
 import Home from "./pages/Home"
-import Authentication, {action as authAction} from "./pages/Authentication"
+import Authentication, {authenticationAction} from "./pages/Authentication"
 import Trips from "./pages/Trips"
 import AddTrip, { addTripAction } from "./pages/AddTrip"
 import TripDetails, { tripDetailsAction, tripDetailsLoader } from "./pages/TripDetails"
@@ -12,6 +12,23 @@ import auth from './firebase/authentication'
 import { useDispatch } from 'react-redux'
 import { asyncLogin, authActions, store } from './store'
 import Settings from './pages/Settings'
+
+const protectedLoader = async () => {
+  if (store.getState().auth.uid) { return null }
+
+  await new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+          unsubscribe()
+          if (user) {
+            resolve()
+          } else {
+            reject(redirect("/auth"))
+          }
+      });
+  })
+
+  return null
+}
 
 function App() {
 
@@ -45,7 +62,7 @@ function App() {
         {
           path: "auth",
           element: <Authentication />,
-          action: authAction
+          action: authenticationAction
         },
         {
           path: "logout",
@@ -85,20 +102,3 @@ function App() {
 }
 
 export default App
-
-export const protectedLoader = async () => {
-  if (store.getState().auth.sessionReady) { return null }
-
-  await new Promise((resolve, reject) => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-          unsubscribe()
-          if (user) {
-            resolve()
-          } else {
-            reject(redirect("/auth"))
-          }
-      });
-  })
-
-  return null
-}

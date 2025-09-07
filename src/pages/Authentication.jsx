@@ -51,7 +51,7 @@ const Authentication = () => {
 
 export default Authentication;
 
-export const action = async ({request}) => {
+export const authenticationAction = async ({request}) => {
     const data = await request.formData();
     const url = new URL(window.location.href).searchParams
     const mode = url.get("mode")

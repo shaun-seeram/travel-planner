@@ -35,7 +35,7 @@ const AccomodationDetails = ({ id }) => {
             <DetailsContainer title="Accomodations" rightContent={rightContent}>
                 <GrayContainer>
                     <ButtonsRow>
-                        <Button icon={add} fn={() => accomodationRef.current.open()}>Add Accomodation</Button>
+                        <Button icon={add} onClick={() => accomodationRef.current.open()}>Add Accomodation</Button>
                     </ButtonsRow>
                 </GrayContainer>
                 <ul className={classes.list}>
@@ -50,8 +50,8 @@ const AccomodationDetails = ({ id }) => {
                             <pre>{accomodations[key].notes}</pre> 
                         </div> }
                         <div className={classes.buttonContainer}>
-                                <RoundButton icon={edit} handleClick={() => accomodationRef.current.edit(id, key)} />
-                                <RoundButton icon={trash} handleClick={() => deleteAccomodation(key)} />
+                                <RoundButton icon={edit} onClick={() => accomodationRef.current.edit(id, key)} />
+                                <RoundButton icon={trash} onClick={() => deleteAccomodation(key)} />
                         </div>
                     </li>)}
                 </ul>

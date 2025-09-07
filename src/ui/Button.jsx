@@ -1,14 +1,14 @@
 import React from 'react';
 import classes from "./Button.module.css"
 
-const Button = ({icon, fn = () => {}, children, ...props}) => {
+const Button = ({icon, children, ...props}) => {
 
     console.log("UI: Button")
 
     const classesColor = classes.button + " " + classes.green
 
     return (
-        <button {...props} className={classesColor} onClick={fn}>{icon} {children}</button>
+        <button {...props} className={classesColor}>{icon} {children}</button>
     );
 }
 

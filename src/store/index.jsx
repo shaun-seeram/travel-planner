@@ -12,9 +12,6 @@ const authSlice = createSlice({
         currentPage: null
     },
     reducers: {
-        changePage(state, action) {
-            state.currentPage = action.payload
-        },
         login(state, action) {
             state.sessionReady = true
             state.uid = action.payload.id
@@ -24,34 +21,25 @@ const authSlice = createSlice({
             state.sessionReady = true
             state.uid = null
             state.trips = {}
+            state.currentPage = null
+        },
+        changePage(state, action) {
+            state.currentPage = action.payload
         },
         addTrip(state, action) {
-            state.trips[action.payload.id] = action.payload.trip
+            state.trips[action.payload.tripId] = action.payload.trip
+        },
+        editTrip(state, action) {
+            state.trips[action.payload.tripId].city = action.payload.city;
+            state.trips[action.payload.tripId].country = action.payload.country;
+            state.trips[action.payload.tripId].from = action.payload.from;
+            state.trips[action.payload.tripId].to = action.payload.to;
+            state.trips[action.payload.tripId].currency = action.payload.currency;
+            state.trips[action.payload.tripId].latitude = action.payload.latitude;
+            state.trips[action.payload.tripId].longitude = action.payload.longitude;
         },
         removeTrip(state, action) {
             delete state.trips[action.payload]
-        },
-        addAccomodation(state, action) {
-            if (!state.trips[action.payload.tripId].accomodations) {
-                state.trips[action.payload.tripId].accomodations = {}
-            }
-
-            state.trips[action.payload.tripId].accomodations[action.payload.accomodationId] = action.payload.accomodation
-
-        },
-        deleteAccomodation(state, action) {
-            delete state.trips[action.payload.tripId].accomodations[action.payload.accomodationId]
-        },
-        addFlight(state, action) {
-            if (!state.trips[action.payload.tripId].flights) {
-                state.trips[action.payload.tripId].flights = {}
-            }
-
-            state.trips[action.payload.tripId].flights[action.payload.flightId] = action.payload.flight
-
-        },
-        deleteFlight(state, action) {
-            delete state.trips[action.payload.tripId].flights[action.payload.flightId]
         },
         editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget },
         addExpense(state, action) {
@@ -64,14 +52,27 @@ const authSlice = createSlice({
         deleteExpense(state, action) {
             delete state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId]
         },
-        editTrip(state, action) {
-            state.trips[action.payload.tripId].city = action.payload.city;
-            state.trips[action.payload.tripId].country = action.payload.country;
-            state.trips[action.payload.tripId].from = action.payload.from;
-            state.trips[action.payload.tripId].to = action.payload.to;
-            state.trips[action.payload.tripId].currency = action.payload.currency;
-            state.trips[action.payload.tripId].latitude = action.payload.latitude;
-            state.trips[action.payload.tripId].longitude = action.payload.longitude;
+        addFlight(state, action) {
+            if (!state.trips[action.payload.tripId].flights) {
+                state.trips[action.payload.tripId].flights = {}
+            }
+
+            state.trips[action.payload.tripId].flights[action.payload.flightId] = action.payload.flight
+
+        },
+        deleteFlight(state, action) {
+            delete state.trips[action.payload.tripId].flights[action.payload.flightId]
+        },
+        addAccomodation(state, action) {
+            if (!state.trips[action.payload.tripId].accomodations) {
+                state.trips[action.payload.tripId].accomodations = {}
+            }
+
+            state.trips[action.payload.tripId].accomodations[action.payload.accomodationId] = action.payload.accomodation
+
+        },
+        deleteAccomodation(state, action) {
+            delete state.trips[action.payload.tripId].accomodations[action.payload.accomodationId]
         },
         addPlanner(state, action) {
             if (!state.trips[action.payload.tripId].planner[action.payload.plannerId].plans) {

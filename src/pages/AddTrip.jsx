@@ -1,25 +1,14 @@
 import React, { useEffect } from 'react';
-import { Form, useActionData, useNavigate } from "react-router-dom"
+import { Form, useActionData, useNavigate, redirect } from "react-router-dom"
 import { fbSet, latlonkey } from '../firebase/authentication';
 import { useDispatch } from 'react-redux';
-import { authActions } from '../store';
+import { authActions, store } from '../store';
 import classes from "./AddTrip.module.css"
 import Button, { save } from '../ui/Button';
 
 const AddTrip = () => {
 
     console.log("Page: AddTrip")
-
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const tripData = useActionData();
-
-    useEffect(() => {
-        if (tripData) {
-            dispatch(authActions.addTrip(tripData))
-            navigate("/trips/" + tripData.id)
-        }
-    }, [tripData, dispatch, navigate])
 
     return (
         <Form method='post'>
@@ -50,7 +39,7 @@ export default AddTrip;
 
 export const addTripAction = async ({request}) => {
     const data = await request.formData()
-    const id = new Date().getTime()
+    const tripId = new Date().getTime()
     const latlonRes = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${data.get("city")}&country=${data.get("country")}`, {
         headers: {
             "X-Api-Key": latlonkey
@@ -80,7 +69,7 @@ export const addTripAction = async ({request}) => {
         return planner
     }
 
-    await fbSet("/trips/" + id, {
+    await fbSet("/trips/" + tripId, {
         city: data.get("city"),
         country: data.get("country"),
         to: data.get("travelto"),
@@ -94,8 +83,9 @@ export const addTripAction = async ({request}) => {
         planner: plannerMap()
     })
     // IF SUCCESSFUL...
-    return {
-        id,
+
+    store.dispatch(authActions.addTrip({
+        tripId,
         trip: {
             city: data.get("city"),
             country: data.get("country"),
@@ -109,5 +99,7 @@ export const addTripAction = async ({request}) => {
             },
             planner: plannerMap()
         }
-    }
+    }))
+
+    return redirect("/trips/" + tripId)
 }

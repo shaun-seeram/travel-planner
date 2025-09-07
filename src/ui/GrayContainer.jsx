@@ -14,4 +14,4 @@ const GrayContainer = ({innerClasses = "", children}) => {
     );
 }
 
-export default GrayContainer;
+export default GrayContainer; 
