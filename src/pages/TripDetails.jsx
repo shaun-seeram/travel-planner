@@ -15,7 +15,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 const TripDetails = () => {
 
     console.log("Page: TripDetails")
-    
+
     const id = useSelector(state => state.auth.currentPage)
 
     // const [conversion, setConversion] = useState(0);
@@ -65,9 +65,9 @@ export const tripDetailsLoader = async ({ params }) => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             unsubscribe()
             if (user) {
-              resolve()
+                resolve()
             } else {
-              reject(redirect("/auth"))
+                reject(redirect("/auth"))
             }
         });
     })
@@ -79,18 +79,15 @@ export const tripDetailsAction = async ({ request, params }) => {
     const data = await request.formData();
     const purpose = data.get("purpose")
     const purposeId = new Date().getTime()
-    const id = params.id
+    const tripId = params.id
+    const formData = Object.fromEntries(data.entries())
 
     if (purpose === "updateAccomodation") {
-        const accomodationId = data.get("accomodationId") || purposeId
-        const name = data.get("name")
-        const street = data.get("street")
-        const city = data.get("city")
-        const state = data.get("state")
-        const zip = data.get("zip")
-        const notes = data.get("notes")
+        formData.accomodationId = data.get("accomodationId") || purposeId
 
-        await fbUpdate("/trips/" + id + "/accomodations/" + accomodationId, {
+        const { name, street, city, state, zip, notes, accomodationId } = formData
+
+        await fbUpdate("/trips/" + tripId + "/accomodations/" + accomodationId, {
             name,
             street,
             city,
@@ -100,8 +97,8 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        store.dispatch(authActions.addAccomodation({
-            tripId: id,
+        store.dispatch(authActions.updateAccomodation({
+            tripId,
             accomodationId,
             accomodation: {
                 name,
@@ -115,14 +112,9 @@ export const tripDetailsAction = async ({ request, params }) => {
         return null
 
     } else if (purpose === "updateFlight") {
-        const flightId = data.get("flightId") || purposeId
-        const airline = data.get("airline")
-        const fromAirport = data.get("fromAirport")
-        const toAirport = data.get("toAirport")
-        const flightNumber = data.get("flightNumber")
-        const departureDate = data.get("departureDate")
-        const boarding = data.get("boarding")
-        const notes = data.get("notes")
+        formData.flightId = data.get("flightId") || purposeId
+
+        const { flightId, airline, fromAirport, toAirport, flightNumber, departureDate, boarding, notes } = formData
 
         const splitTime = boarding.split(":")
         let meridiem = " am"
@@ -135,7 +127,7 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         const stringifiedBoarding = splitTime.join(":") + meridiem
 
-        await fbUpdate("/trips/" + id + "/flights/" + flightId, {
+        await fbUpdate("/trips/" + tripId + "/flights/" + flightId, {
             airline,
             fromAirport,
             toAirport,
@@ -147,8 +139,8 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        store.dispatch(authActions.addFlight({
-            tripId: id,
+        store.dispatch(authActions.updateFlight({
+            tripId,
             flightId,
             flight: {
                 airline,
@@ -165,31 +157,30 @@ export const tripDetailsAction = async ({ request, params }) => {
     } else if (purpose === "editBudget") {
         const budget = data.get("budget")
 
-        await fbUpdate("/trips/" + id + "/budget/", {
+        await fbUpdate("/trips/" + tripId + "/budget/", {
             budget: +budget
         })
 
         // IF SUCCESSFUL...
         store.dispatch(authActions.editBudget({
-            tripId: id,
+            tripId,
             budget: +budget
         }))
         return null
     } else if (purpose === "updateExpenses") {
-        const name = data.get("expenseName")
-        const cost = data.get("expenseCost")
-        const notes = data.get("expenseNotes")
-        const expenseId = data.get("expenseId") || purposeId
+        formData.expenseId = data.get("expenseId") || purposeId
 
-        await fbUpdate("/trips/" + id + "/budget/expenses/" + expenseId, {
+        const { name, cost, notes, expenseId } = formData
+
+        await fbUpdate("/trips/" + tripId + "/budget/expenses/" + expenseId, {
             name,
             cost: +cost,
             notes
         })
 
         // IF SUCCESSFUL...
-        store.dispatch(authActions.addExpense({
-            tripId: id,
+        store.dispatch(authActions.updateExpense({
+            tripId,
             expenseId,
             expense: {
                 name,
@@ -200,15 +191,9 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         return null
 
-    } else if (purpose === "editTrip") {
-        const city = data.get("city")
-        const country = data.get("country")
-        const from = data.get("tripFrom")
-        const to = data.get("tripTo")
-        const comparedStore = store.getState().auth.trips[id]
-        const oldFrom = comparedStore.from;
-        const oldTo = comparedStore.to;
-
+    } else if (purpose === "updateTrip") {
+        const { city, country, from, to } = formData
+        const {from: oldFrom, to: oldTo} = store.getState().auth.trips[tripId]
 
         if (from !== oldFrom || to !== oldTo) {
             const newFrom = new Date(from.split("-"))
@@ -223,12 +208,12 @@ export const tripDetailsAction = async ({ request, params }) => {
                 }
             }
 
-            await fbUpdate("/trips/" + id, {
+            await fbUpdate("/trips/" + tripId, {
                 planner
             })
         }
 
-        const latlonRes = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${data.get("city")}&country=${data.get("country")}`, {
+        const latlonRes = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${city}&country=${country}`, {
             headers: {
                 "X-Api-Key": latlonkey
             }
@@ -236,7 +221,7 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         const latLon = await latlonRes.json()
 
-        const currencyRes = await fetch(`https://api.api-ninjas.com/v1/country?name=${data.get("country")}`, {
+        const currencyRes = await fetch(`https://api.api-ninjas.com/v1/country?name=${country}`, {
             headers: {
                 "X-Api-Key": latlonkey
             }
@@ -244,7 +229,7 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         const currency = await currencyRes.json();
 
-        await fbUpdate("/trips/" + id, {
+        await fbUpdate("/trips/" + tripId, {
             city,
             country,
             from,
@@ -258,13 +243,13 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         if (from !== oldFrom || to !== oldTo) {
             store.dispatch(authActions.resetPlanner({
-                tripId: id,
+                tripId,
                 from: from,
                 to: to
             }))
         }
-        store.dispatch(authActions.editTrip({
-            tripId: id,
+        store.dispatch(authActions.updateTrip({
+            tripId,
             city,
             country,
             from,
@@ -275,18 +260,16 @@ export const tripDetailsAction = async ({ request, params }) => {
         }))
         return null
 
-    } else if (purpose === "addPlanner") {
-        const plannerId = data.get("plannerDate")
-        const place = data.get("place")
-        const address = data.get("address")
-        const notes = data.get("notes")
+    } else if (purpose === "updatePlanner") {
+        formData.plannerId = data.get("plannerId") || purposeId
+        const { plannerId, plannerDate, place, address, notes } = formData
 
         const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${address}&apiKey=${geocodingKey}`)
         const json = await res.json()
         const lat = json.features[0].properties.lat
         const lon = json.features[0].properties.lon
 
-        await fbUpdate("/trips/" + id + "/planner/" + plannerId + "/plans/" + purposeId, {
+        await fbUpdate("/trips/" + tripId + "/planner/" + plannerDate + "/plans/" + plannerId, {
             place,
             address,
             notes,
@@ -296,52 +279,19 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         // IF SUCCESSFUL...
 
-        store.dispatch(authActions.addPlanner({
-            tripId: id,
+        store.dispatch(authActions.updatePlanner({
+            tripId,
             plannerId,
-            eventId: purposeId,
-            place,
-            address,
-            notes,
-            lat,
-            lon
-        }))
-
-        return null
-
-    } else if (purpose === "editPlanner") {
-        const plannerDate = data.get("plannerDate")
-        const plannerId = data.get("plannerId")
-        const place = data.get("place")
-        const address = data.get("address")
-        const notes = data.get("notes")
-
-        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${address}&apiKey=${geocodingKey}`)
-        const json = await res.json()
-        const lat = json.features[0].properties.lat
-        const lon = json.features[0].properties.lon
-
-        await fbUpdate("/trips/" + id + "/planner/" + plannerDate + "/plans/" + plannerId, {
-            place,
-            address,
-            notes,
-            lat,
-            lon
-        })
-
-        // IF SUCCESSFUL...
-
-        store.dispatch(authActions.editPlanner({
-            tripId: id,
             plannerDate,
-            plannerId,
             place,
             address,
             notes,
             lat,
-            lon,
+            lon
         }))
+
         return null
+
     }
 
 }

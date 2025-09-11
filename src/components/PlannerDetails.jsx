@@ -18,14 +18,14 @@ const PlannerDetails = ({ id }) => {
     return (
         <>
             <PlannerModal id={id} ref={plannerRef} />
-            {Object.keys(planner).map(key => {
+            {Object.keys(planner).map(plannerDate => {
                 return (
-                    <DetailsContainer key={key} title={planner[key].stringifiedDate} rightContent={rightContent(key)} showOnOpen>
-                        {planner[key].plans && Object.keys(planner[key].plans).map(eventKey => {
-                            const e = planner[key].plans[eventKey]
+                    <DetailsContainer key={plannerDate} title={planner[plannerDate].stringifiedDate} rightContent={rightContent(plannerDate)} showOnOpen>
+                        {planner[plannerDate].plans && Object.keys(planner[plannerDate].plans).map(planId => {
+                            const e = planner[plannerDate].plans[planId]
                             return (
-                                <GrayContainer key={eventKey} innerClasses={classes.grayContainer}>
-                                    <p className={classes.place}>{e.place} <button className={classes.editButton} onClick={() => plannerRef.current.edit(key, eventKey, { place: e.place, address: e.address, notes: e.notes })}>{edit}</button></p>
+                                <GrayContainer key={planId} innerClasses={classes.grayContainer}>
+                                    <p className={classes.place}>{e.place} <button className={classes.editButton} onClick={() => plannerRef.current.edit(id, plannerDate, planId)}>{edit}</button></p>
                                     {e.address && <p className={classes.address}>{e.address}</p>}
                                     {e.notes && <p className={classes.notes}>{e.notes}</p>}
                                 </GrayContainer>

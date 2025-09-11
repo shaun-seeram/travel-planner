@@ -47,7 +47,7 @@ const EditModal = ({id, ref: editRef}) => {
                     <input name='tripTo' id='tripTo' type='date' defaultValue={to}></input>
                 </span>
                 <span className={classes.buttonsContainer}>
-                    <Button icon={save} type='submit' name='purpose' value="editTrip">Save</Button>
+                    <Button icon={save} type='submit' name='purpose' value="updateTrip">Save</Button>
                     <DeleteButton id={id}>Delete Trip</DeleteButton>
                 </span>
             </Form>

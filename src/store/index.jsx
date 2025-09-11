@@ -29,7 +29,7 @@ const authSlice = createSlice({
         addTrip(state, action) {
             state.trips[action.payload.tripId] = action.payload.trip
         },
-        editTrip(state, action) {
+        updateTrip(state, action) {
             state.trips[action.payload.tripId].city = action.payload.city;
             state.trips[action.payload.tripId].country = action.payload.country;
             state.trips[action.payload.tripId].from = action.payload.from;
@@ -42,7 +42,7 @@ const authSlice = createSlice({
             delete state.trips[action.payload]
         },
         editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget },
-        addExpense(state, action) {
+        updateExpense(state, action) {
             if (!state.trips[action.payload.tripId].budget.expenses) {
                 state.trips[action.payload.tripId].budget.expenses = {}
             }
@@ -52,7 +52,7 @@ const authSlice = createSlice({
         deleteExpense(state, action) {
             delete state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId]
         },
-        addFlight(state, action) {
+        updateFlight(state, action) {
             if (!state.trips[action.payload.tripId].flights) {
                 state.trips[action.payload.tripId].flights = {}
             }
@@ -63,7 +63,7 @@ const authSlice = createSlice({
         deleteFlight(state, action) {
             delete state.trips[action.payload.tripId].flights[action.payload.flightId]
         },
-        addAccomodation(state, action) {
+        updateAccomodation(state, action) {
             if (!state.trips[action.payload.tripId].accomodations) {
                 state.trips[action.payload.tripId].accomodations = {}
             }
@@ -74,19 +74,10 @@ const authSlice = createSlice({
         deleteAccomodation(state, action) {
             delete state.trips[action.payload.tripId].accomodations[action.payload.accomodationId]
         },
-        addPlanner(state, action) {
-            if (!state.trips[action.payload.tripId].planner[action.payload.plannerId].plans) {
-                state.trips[action.payload.tripId].planner[action.payload.plannerId].plans = {}
+        updatePlanner(state, action) {
+            if (!state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans) {
+                state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans = {}
             }
-            state.trips[action.payload.tripId].planner[action.payload.plannerId].plans[action.payload.eventId] = {
-                place: action.payload.place,
-                address: action.payload.address,
-                notes: action.payload.notes,
-                lat: action.payload.lat,
-                lon: action.payload.lon
-            }
-        },
-        editPlanner(state, action) {
             state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans[action.payload.plannerId] = {
                 place: action.payload.place,
                 address: action.payload.address,
