@@ -77,46 +77,32 @@ export const tripDetailsLoader = async ({ params }) => {
 
 export const tripDetailsAction = async ({ request, params }) => {
     const data = await request.formData();
-    const purpose = data.get("purpose")
     const purposeId = new Date().getTime()
     const tripId = params.id
-    const formData = Object.fromEntries(data.entries())
+    const {purpose, ...formData} = Object.fromEntries(data.entries())
 
     if (purpose === "updateAccomodation") {
         formData.accomodationId = data.get("accomodationId") || purposeId
 
-        const { name, street, city, state, zip, notes, accomodationId } = formData
+        const { accomodationId, ...formObject } = formData
 
-        await fbUpdate("/trips/" + tripId + "/accomodations/" + accomodationId, {
-            name,
-            street,
-            city,
-            state,
-            zip,
-            notes
-        })
+        await fbUpdate("/trips/" + tripId + "/accomodations/" + accomodationId, formObject)
 
         // IF SUCCESSFUL...
         store.dispatch(authActions.updateAccomodation({
             tripId,
             accomodationId,
-            accomodation: {
-                name,
-                street,
-                city,
-                state,
-                zip,
-                notes
-            }
+            accomodation: formObject
         }))
+
         return null
 
     } else if (purpose === "updateFlight") {
         formData.flightId = data.get("flightId") || purposeId
 
-        const { flightId, airline, fromAirport, toAirport, flightNumber, departureDate, boarding, notes } = formData
+        const { flightId, ...formObject } = formData
 
-        const splitTime = boarding.split(":")
+        const splitTime = formObject.boarding.split(":")
         let meridiem = " am"
 
         if (splitTime[0] === "00") { splitTime[0] = "12" }
@@ -125,35 +111,19 @@ export const tripDetailsAction = async ({ request, params }) => {
             meridiem = " pm"
         }
 
-        const stringifiedBoarding = splitTime.join(":") + meridiem
+        formObject.stringifiedBoarding = splitTime.join(":") + meridiem
 
-        await fbUpdate("/trips/" + tripId + "/flights/" + flightId, {
-            airline,
-            fromAirport,
-            toAirport,
-            flightNumber,
-            departureDate,
-            boarding,
-            stringifiedBoarding,
-            notes
-        })
+        await fbUpdate("/trips/" + tripId + "/flights/" + flightId, formObject)
 
         // IF SUCCESSFUL...
         store.dispatch(authActions.updateFlight({
             tripId,
             flightId,
-            flight: {
-                airline,
-                fromAirport,
-                toAirport,
-                flightNumber,
-                departureDate,
-                boarding,
-                stringifiedBoarding,
-                notes
-            }
+            flight: formObject
         }))
+
         return null
+
     } else if (purpose === "editBudget") {
         const budget = data.get("budget")
 
@@ -166,27 +136,22 @@ export const tripDetailsAction = async ({ request, params }) => {
             tripId,
             budget: +budget
         }))
+
         return null
+
     } else if (purpose === "updateExpenses") {
         formData.expenseId = data.get("expenseId") || purposeId
 
-        const { name, cost, notes, expenseId } = formData
+        const { expenseId, ...formObject } = formData
+        formObject.cost = +formObject.cost
 
-        await fbUpdate("/trips/" + tripId + "/budget/expenses/" + expenseId, {
-            name,
-            cost: +cost,
-            notes
-        })
+        await fbUpdate("/trips/" + tripId + "/budget/expenses/" + expenseId, formObject)
 
         // IF SUCCESSFUL...
         store.dispatch(authActions.updateExpense({
             tripId,
             expenseId,
-            expense: {
-                name,
-                cost: +cost,
-                notes
-            }
+            expense: formObject
         }))
 
         return null
@@ -229,53 +194,38 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         const currency = await currencyRes.json();
 
-        await fbUpdate("/trips/" + tripId, {
-            city,
-            country,
-            from,
-            to,
-            currency: currency[0].currency.code,
-            latitude: latLon[0].latitude,
-            longitude: latLon[0].longitude
-        })
+        formData.currency = currency[0].currency.code
+        formData.latitude = latLon[0].latitude
+        formData.longitude = latLon[0].longitude
+
+        await fbUpdate("/trips/" + tripId, formData)
 
         // IF SUCCESSFUL...
 
         if (from !== oldFrom || to !== oldTo) {
             store.dispatch(authActions.resetPlanner({
                 tripId,
-                from: from,
-                to: to
+                from,
+                to
             }))
         }
         store.dispatch(authActions.updateTrip({
             tripId,
-            city,
-            country,
-            from,
-            to,
-            currency,
-            latitude: latLon[0].latitude,
-            longitude: latLon[0].longitude
+            trip: formData
         }))
+        
         return null
 
     } else if (purpose === "updatePlanner") {
         formData.plannerId = data.get("plannerId") || purposeId
-        const { plannerId, plannerDate, place, address, notes } = formData
+        const { plannerId, plannerDate, ...formObject } = formData
 
-        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${address}&apiKey=${geocodingKey}`)
+        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${formObject.address}&apiKey=${geocodingKey}`)
         const json = await res.json()
-        const lat = json.features[0].properties.lat
-        const lon = json.features[0].properties.lon
+        formObject.lat = json.features[0].properties.lat
+        formObject.lon = json.features[0].properties.lon
 
-        await fbUpdate("/trips/" + tripId + "/planner/" + plannerDate + "/plans/" + plannerId, {
-            place,
-            address,
-            notes,
-            lat,
-            lon
-        })
+        await fbUpdate("/trips/" + tripId + "/planner/" + plannerDate + "/plans/" + plannerId, formObject)
 
         // IF SUCCESSFUL...
 
@@ -283,11 +233,7 @@ export const tripDetailsAction = async ({ request, params }) => {
             tripId,
             plannerId,
             plannerDate,
-            place,
-            address,
-            notes,
-            lat,
-            lon
+            planner: formObject
         }))
 
         return null

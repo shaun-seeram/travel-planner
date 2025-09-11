@@ -83,6 +83,7 @@ function App() {
           path: "trips/:id",
           element: <TripDetails />,
           loader: tripDetailsLoader,
+          shouldRevalidate: () => false,
           action: tripDetailsAction
         },
         {

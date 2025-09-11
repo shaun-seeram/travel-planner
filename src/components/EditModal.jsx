@@ -40,11 +40,11 @@ const EditModal = ({id, ref: editRef}) => {
                 <p className={classes.warning}>Changes to the dates will result in the reset of the itenerary module.</p>
                 <span className={classes.formGroup}>
                     <label htmlFor='tripFrom'>From</label>
-                    <input name='tripFrom' id='tripFrom' type='date' defaultValue={from}></input>
+                    <input name='from' id='tripFrom' type='date' defaultValue={from}></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='tripTo'>To</label>
-                    <input name='tripTo' id='tripTo' type='date' defaultValue={to}></input>
+                    <input name='to' id='tripTo' type='date' defaultValue={to}></input>
                 </span>
                 <span className={classes.buttonsContainer}>
                     <Button icon={save} type='submit' name='purpose' value="updateTrip">Save</Button>

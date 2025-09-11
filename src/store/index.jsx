@@ -23,24 +23,10 @@ const authSlice = createSlice({
             state.trips = {}
             state.currentPage = null
         },
-        changePage(state, action) {
-            state.currentPage = action.payload
-        },
-        addTrip(state, action) {
-            state.trips[action.payload.tripId] = action.payload.trip
-        },
-        updateTrip(state, action) {
-            state.trips[action.payload.tripId].city = action.payload.city;
-            state.trips[action.payload.tripId].country = action.payload.country;
-            state.trips[action.payload.tripId].from = action.payload.from;
-            state.trips[action.payload.tripId].to = action.payload.to;
-            state.trips[action.payload.tripId].currency = action.payload.currency;
-            state.trips[action.payload.tripId].latitude = action.payload.latitude;
-            state.trips[action.payload.tripId].longitude = action.payload.longitude;
-        },
-        removeTrip(state, action) {
-            delete state.trips[action.payload]
-        },
+        changePage(state, action) { state.currentPage = action.payload },
+        addTrip(state, action) { state.trips[action.payload.tripId] = action.payload.trip },
+        updateTrip(state, action) { state.trips[action.payload.tripId] = {...state.trips[action.payload.tripId], ...action.payload.trip} },
+        removeTrip(state, action) { delete state.trips[action.payload] },
         editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget },
         updateExpense(state, action) {
             if (!state.trips[action.payload.tripId].budget.expenses) {
@@ -49,9 +35,7 @@ const authSlice = createSlice({
 
             state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId] = action.payload.expense
         },
-        deleteExpense(state, action) {
-            delete state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId]
-        },
+        deleteExpense(state, action) { delete state.trips[action.payload.tripId].budget.expenses[action.payload.expenseId] },
         updateFlight(state, action) {
             if (!state.trips[action.payload.tripId].flights) {
                 state.trips[action.payload.tripId].flights = {}
@@ -60,9 +44,7 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].flights[action.payload.flightId] = action.payload.flight
 
         },
-        deleteFlight(state, action) {
-            delete state.trips[action.payload.tripId].flights[action.payload.flightId]
-        },
+        deleteFlight(state, action) { delete state.trips[action.payload.tripId].flights[action.payload.flightId] },
         updateAccomodation(state, action) {
             if (!state.trips[action.payload.tripId].accomodations) {
                 state.trips[action.payload.tripId].accomodations = {}
@@ -71,24 +53,14 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].accomodations[action.payload.accomodationId] = action.payload.accomodation
 
         },
-        deleteAccomodation(state, action) {
-            delete state.trips[action.payload.tripId].accomodations[action.payload.accomodationId]
-        },
+        deleteAccomodation(state, action) { delete state.trips[action.payload.tripId].accomodations[action.payload.accomodationId] },
         updatePlanner(state, action) {
             if (!state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans) {
                 state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans = {}
             }
-            state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans[action.payload.plannerId] = {
-                place: action.payload.place,
-                address: action.payload.address,
-                notes: action.payload.notes,
-                lat: action.payload.lat,
-                lon: action.payload.lon
-            }
+            state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans[action.payload.plannerId] = action.payload.planner
         },
-        deletePlan(state, action) {
-            delete state.trips[action.payload.tripId].planner[action.payload.dateId].plans[action.payload.plannerId]
-        },
+        deletePlan(state, action) { delete state.trips[action.payload.tripId].planner[action.payload.dateId].plans[action.payload.plannerId] },
         resetPlanner(state, action) {
             const from = new Date(action.payload.from.split("-"))
             const to = new Date(action.payload.to.split("-"))
@@ -104,9 +76,7 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].planner = planner
 
         },
-        deleteAllData(state) {
-            state.trips = {}
-        }
+        deleteAllData(state) { state.trips = {} }
     }
 })
 

@@ -45,15 +45,15 @@ const ExpenseModal = ({ref}) => {
                 <input name='expenseId' className="sr-only" id='expenseId' defaultValue={ids.init ? ids.expenseId : undefined} readOnly></input>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseName'>Expense Name</label>
-                    <input name='expenseName' id='expenseName' defaultValue={ids.init ? editData?.name : ""}></input>
+                    <input name='name' id='expenseName' defaultValue={ids.init ? editData?.name : ""}></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseCost'>Expense Cost</label>
-                    <input name='expenseCost' id='expenseCost' defaultValue={ids.init ? editData?.cost : ""}></input>
+                    <input name='cost' id='expenseCost' defaultValue={ids.init ? editData?.cost : ""}></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseNotes'>Notes</label>
-                    <textarea rows="5" name='expenseNotes' id='expenseNotes' defaultValue={ids.init ? editData?.notes : ""}></textarea>
+                    <textarea rows="5" name='notes' id='expenseNotes' defaultValue={ids.init ? editData?.notes : ""}></textarea>
                 </span>
                 <span className={classes.buttonsContainer}>
                     <Button icon={ids.init ? edit : save} type='submit' name='purpose' value="updateExpenses">{ids.init ? "Edit" : "Save"}</Button>
