@@ -21,3 +21,15 @@
     margin: 0;
     font-size: 1.3rem;
 }
+
+.noTrip {
+    color: #FFF;
+    font-size: 2rem;
+    text-align: center;
+
+    a {
+        color: #FFF;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+}

@@ -40,3 +40,19 @@ export const verifyPassword = (password) => {
     return validation
 
 }
+
+export const plannerMapping = (from, to) => {
+    const newFrom = new Date(from.split("-"))
+    const newTo = new Date(to.split("-"))
+    const planner = {}
+    const months = ["January", "February", "March", "April", "May", "June", 'July', "August", 'September', "October", "November", 'December']
+
+    for (let i = newFrom.getTime(); i <= (newTo.getTime()); i += 86400000) {
+        const iteration = new Date(i)
+        planner[i] = {
+            stringifiedDate: `${months[iteration.getMonth()]} ${iteration.getDate()}, ${iteration.getFullYear()}`
+        }
+    }
+
+    return planner
+}

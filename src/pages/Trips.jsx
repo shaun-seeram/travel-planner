@@ -11,6 +11,9 @@ const Trips = () => {
     return (
         <>
             {
+                !trips && <p className={classes.noTrip}>You have nothing planned! Why not <Link to="/trips/add">Add a Trip</Link></p>
+            }
+            {
                 trips && Object.keys(trips).map((key) => {
                     const trip = trips[key]
                     return <Link className={classes.trip} to={`/trips/${key}`} key={key}>

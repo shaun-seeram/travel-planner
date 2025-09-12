@@ -2,6 +2,7 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider } from "react-redux"
 import { db } from "../firebase/authentication";
 import { child, get, ref } from "firebase/database";
+import { plannerMapping } from "../util";
 
 const authSlice = createSlice({
     name: "authentication",
@@ -61,21 +62,7 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans[action.payload.plannerId] = action.payload.planner
         },
         deletePlan(state, action) { delete state.trips[action.payload.tripId].planner[action.payload.dateId].plans[action.payload.plannerId] },
-        resetPlanner(state, action) {
-            const from = new Date(action.payload.from.split("-"))
-            const to = new Date(action.payload.to.split("-"))
-            const planner = {}
-            const months = ["January", "February", "March", "April", "May", "June", 'July', "August", 'September', "October", "November", 'December']
-
-            for (let i = from.getTime(); i <= (to.getTime()); i += 86400000) {
-                const iteration = new Date(i)
-                planner[i] = {
-                    stringifiedDate: `${months[iteration.getMonth()]} ${iteration.getDate()}, ${iteration.getFullYear()}`
-                }
-            }
-            state.trips[action.payload.tripId].planner = planner
-
-        },
+        resetPlanner(state, action) { state.trips[action.payload.tripId].planner = plannerMapping(action.payload.from, action.payload.to) },
         deleteAllData(state) { state.trips = {} }
     }
 })

@@ -11,6 +11,7 @@ import FlightDetails from '../components/FlightDetails';
 import AccomodationDetails from "../components/AccomodationDetails"
 import PlannerDetails from '../components/PlannerDetails';
 import { onAuthStateChanged } from 'firebase/auth';
+import { plannerMapping } from "../util";
 
 const TripDetails = () => {
 
@@ -161,17 +162,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         const {from: oldFrom, to: oldTo} = store.getState().auth.trips[tripId]
 
         if (from !== oldFrom || to !== oldTo) {
-            const newFrom = new Date(from.split("-"))
-            const newTo = new Date(to.split("-"))
-            const planner = {}
-            const months = ["January", "February", "March", "April", "May", "June", 'July', "August", 'September', "October", "November", 'December']
-
-            for (let i = newFrom.getTime(); i <= (newTo.getTime()); i += 86400000) {
-                const iteration = new Date(i)
-                planner[i] = {
-                    stringifiedDate: `${months[iteration.getMonth()]} ${iteration.getDate()}, ${iteration.getFullYear()}`
-                }
-            }
+            const planner = plannerMapping(from, to)
 
             await fbUpdate("/trips/" + tripId, {
                 planner
@@ -213,7 +204,7 @@ export const tripDetailsAction = async ({ request, params }) => {
             tripId,
             trip: formData
         }))
-        
+
         return null
 
     } else if (purpose === "updatePlanner") {
