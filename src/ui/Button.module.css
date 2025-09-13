@@ -6,6 +6,7 @@
     border-radius: 100px;
     display: flex;
     align-items: center;
+    background-color: #D3DAD9;
 
     & svg {
         height: 12px;
@@ -16,8 +17,4 @@
 
 .red {
     background-color: #EB8181;
-}
-
-.green {
-    background-color: #D3DAD9;
 }

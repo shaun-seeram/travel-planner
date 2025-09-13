@@ -12,6 +12,7 @@ import AccomodationDetails from "../components/AccomodationDetails"
 import PlannerDetails from '../components/PlannerDetails';
 import { onAuthStateChanged } from 'firebase/auth';
 import { plannerMapping } from "../util";
+import Notes from "../components/Notes";
 
 const TripDetails = () => {
 
@@ -39,6 +40,7 @@ const TripDetails = () => {
             <div className={classes.split}>
                 <div className={classes.half}>
 
+                    <Notes id={id} />
                     <BudgetDetails id={id} />
                     <FlightDetails id={id} />
                     <AccomodationDetails id={id} />

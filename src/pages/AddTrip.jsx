@@ -78,7 +78,8 @@ export const addTripAction = async ({request}) => {
         budget: {
             budget: 0
         },
-        planner: plannerMap()
+        planner: plannerMap(),
+        notes: ""
     })
     // IF SUCCESSFUL...
 
@@ -95,7 +96,8 @@ export const addTripAction = async ({request}) => {
             budget: {
                 budget: 0
             },
-            planner: plannerMap()
+            planner: plannerMap(),
+            notes: ""
         }
     }))
 

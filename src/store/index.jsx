@@ -28,6 +28,7 @@ const authSlice = createSlice({
         addTrip(state, action) { state.trips[action.payload.tripId] = action.payload.trip },
         updateTrip(state, action) { state.trips[action.payload.tripId] = {...state.trips[action.payload.tripId], ...action.payload.trip} },
         removeTrip(state, action) { delete state.trips[action.payload] },
+        saveNotes(state, action) { state.trips[action.payload.tripId].notes = action.payload.notes },
         editBudget(state, action) { state.trips[action.payload.tripId].budget.budget = action.payload.budget },
         updateExpense(state, action) {
             if (!state.trips[action.payload.tripId].budget.expenses) {
