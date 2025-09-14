@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import PlannerModal from './PlannerModal';
 import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
-import Button, { add, edit } from '../ui/Button';
+import Button from '../ui/buttons/Button';
+import { add, edit } from '../ui/buttons/buttonIcons';
 import classes from "./PlannerDetails.module.css"
 import { useSelector } from 'react-redux';
 

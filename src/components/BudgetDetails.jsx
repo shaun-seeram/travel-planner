@@ -5,8 +5,9 @@ import BudgetModal from './BudgetModal';
 import ExpenseModal from "./ExpenseModal"
 import classes from "./BudgetDetails.module.css"
 import ButtonsRow from "../ui/ButtonsRow"
-import Button, { add, edit, trash } from '../ui/Button';
-import RoundButton from "../ui/RoundButton";
+import Button from '../ui/buttons/Button';
+import { add, edit, trash } from '../ui/buttons/buttonIcons';
+import RoundButton from "../ui/buttons/RoundButton";
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';

@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from "./GrayContainer.module.css"
 
 const GrayContainer = ({innerClasses = "", children}) => {

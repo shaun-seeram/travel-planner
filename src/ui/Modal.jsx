@@ -1,9 +1,9 @@
-import React, { useImperativeHandle, useRef } from 'react';
+import { useImperativeHandle, useRef } from 'react';
 import classes from "./Modal.module.css"
-import { close } from './Button';
 import {createPortal} from "react-dom"
+import { close } from './buttons/buttonIcons';
 
-const Modal = ({ref, formRef, children}) => {
+const Modal = ({ref, children}) => {
 
     console.log("UI: Modal")
 
@@ -11,7 +11,6 @@ const Modal = ({ref, formRef, children}) => {
 
     const closeDialog = () => {
         modalRef.current.close()
-        formRef.current.reset()
     }
 
     useImperativeHandle(ref, () => {

@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import EditModal from './EditModal';
 import classes from "./TitleContainer.module.css"
-import { edit } from '../ui/Button';
 import { useSelector } from 'react-redux';
+import { edit } from '../ui/buttons/buttonIcons';
 
 const date = new Date();
 

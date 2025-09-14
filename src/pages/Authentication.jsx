@@ -6,7 +6,7 @@ import { ref, set } from 'firebase/database';
 import auth, { db } from '../firebase/authentication';
 import formClasses from "../ui/Modal.module.css"
 import classes from "./Authentication.module.css"
-import Button from '../ui/Button';
+import Button from '../ui/buttons/Button';
 
 const Authentication = () => {
 

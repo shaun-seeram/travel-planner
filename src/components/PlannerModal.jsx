@@ -1,12 +1,13 @@
-import React, { useImperativeHandle, useRef, useState } from "react";
+import { useImperativeHandle, useRef, useState } from "react";
 import { Form } from "react-router-dom";
 import Modal from "../ui/Modal";
-import Button, { edit, save } from "../ui/Button";
+import Button from "../ui/buttons/Button";
+import { edit, save } from '../ui/buttons/buttonIcons';
 import { fbDelete } from "../firebase/authentication";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store";
 import classes from "../ui/Modal.module.css";
-import DeleteButton from "../ui/DeleteButton";
+import DeleteButton from "../ui/buttons/DeleteButton";
 
 const PlannerModal = ({ ref }) => {
     console.log("PlannerModal");
@@ -58,7 +59,7 @@ const PlannerModal = ({ ref }) => {
     };
 
     return (
-        <Modal ref={modalRef} formRef={formRef}>
+        <Modal ref={modalRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <input name="plannerDate" className="sr-only" defaultValue={ids.plannerDate} readOnly></input>
                 { ids.init && <input name="plannerId" className="sr-only" value={ids.plannerId} readOnly></input> }

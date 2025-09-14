@@ -1,4 +1,4 @@
-.button {
+.deleteButton {
     font-size: 1.2rem;
     background: unset;
     border: unset;
@@ -6,15 +6,11 @@
     border-radius: 100px;
     display: flex;
     align-items: center;
-    background-color: #D3DAD9;
+    background-color: #EB8181;
 
     & svg {
         height: 12px;
         margin-right: 5px;
         transform: translateY(-1px);
     }
-}
-
-.red {
-    background-color: #EB8181;
 }

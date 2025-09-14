@@ -2,7 +2,9 @@ import { Form, redirect } from "react-router-dom"
 import { fbSet, latlonkey } from '../firebase/authentication';
 import { authActions, store } from '../store';
 import classes from "./AddTrip.module.css"
-import Button, { save } from '../ui/Button';
+import Button from '../ui/buttons/Button';
+import { save } from '../ui/buttons/buttonIcons';
+
 
 const AddTrip = () => {
 

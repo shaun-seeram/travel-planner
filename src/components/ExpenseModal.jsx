@@ -1,7 +1,8 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
+import { useImperativeHandle, useRef, useState } from 'react';
 import {Form} from "react-router-dom"
 import Modal from '../ui/Modal';
-import Button, { edit, save } from '../ui/Button';
+import Button from '../ui/buttons/Button';
+import { edit, save } from '../ui/buttons/buttonIcons';
 import { useSelector } from 'react-redux';
 import classes from "../ui/Modal.module.css"
 
@@ -11,9 +12,9 @@ const ExpenseModal = ({ref}) => {
 
     const modalRef = useRef();
     const formRef = useRef();
-    const [ids, setIds] = useState({init: false})
+    const [ids, setIds] = useState(false)
     const editData = useSelector(state => {
-        if (ids.init) {
+        if (ids) {
             return state.auth.trips[ids.tripId].budget.expenses[ids.expenseId]
         } else {
             return null
@@ -24,13 +25,12 @@ const ExpenseModal = ({ref}) => {
         return {
             open() {
                 formRef.current.reset()
-                setIds({init: false})
+                setIds(false)
                 modalRef.current.open()
             },
             edit(tripId, expenseId) {
                 formRef.current.reset()
                 setIds({
-                    init: true,
                     tripId,
                     expenseId
                 })
@@ -40,23 +40,23 @@ const ExpenseModal = ({ref}) => {
     })
 
     return (
-        <Modal ref={modalRef} formRef={formRef}>
+        <Modal ref={modalRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
-                <input name='expenseId' className="sr-only" id='expenseId' defaultValue={ids.init ? ids.expenseId : undefined} readOnly></input>
+                <input name='expenseId' className="sr-only" id='expenseId' defaultValue={ids ? ids.expenseId : undefined} readOnly></input>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseName'>Expense Name</label>
-                    <input name='name' id='expenseName' defaultValue={ids.init ? editData?.name : ""}></input>
+                    <input name='name' id='expenseName' defaultValue={ids ? editData?.name : ""}></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseCost'>Expense Cost</label>
-                    <input name='cost' id='expenseCost' defaultValue={ids.init ? editData?.cost : ""}></input>
+                    <input name='cost' id='expenseCost' defaultValue={ids ? editData?.cost : ""}></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='expenseNotes'>Notes</label>
-                    <textarea rows="5" name='notes' id='expenseNotes' defaultValue={ids.init ? editData?.notes : ""}></textarea>
+                    <textarea rows="5" name='notes' id='expenseNotes' defaultValue={ids ? editData?.notes : ""}></textarea>
                 </span>
                 <span className={classes.buttonsContainer}>
-                    <Button icon={ids.init ? edit : save} type='submit' name='purpose' value="updateExpenses">{ids.init ? "Edit" : "Save"}</Button>
+                    <Button icon={ids ? edit : save} type='submit' name='purpose' value="updateExpenses">{ids ? "Edit" : "Save"}</Button>
                 </span>
             </Form>
         </Modal>

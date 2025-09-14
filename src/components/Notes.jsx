@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import GrayContainer from "../ui/GrayContainer";
 import classes from "./Notes.module.css"
 import { useRef, useState } from "react";
-import Button, { save } from "../ui/Button";
+import Button from "../ui/buttons/Button";
+import { save } from '../ui/buttons/buttonIcons';
 import { authActions } from "../store";
 import { fbSet } from "../firebase/authentication";
 import DetailsContainer from "../ui/DetailsContainer";

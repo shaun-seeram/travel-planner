@@ -3,12 +3,13 @@ import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import FlightModal from './FlightModal';
 import ButtonsRow from "../ui/ButtonsRow"
-import Button, { add, edit, trash } from '../ui/Button';
+import Button from '../ui/buttons/Button';
+import { add, edit, trash } from '../ui/buttons/buttonIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
 import { authActions } from '../store';
 import classes from "./FlightDetails.module.css"
-import RoundButton from "../ui/RoundButton"
+import RoundButton from "../ui/buttons/RoundButton"
 
 const FlightDetails = ({ id }) => {
 

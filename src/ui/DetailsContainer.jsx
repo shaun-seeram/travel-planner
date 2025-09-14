@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from "./DetailsContainer.module.css"
 
 const DetailsContainer = ({title, rightContent, showOnOpen = false, children}) => {

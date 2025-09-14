@@ -1,10 +1,10 @@
-import React from 'react';
 import { deleteUser } from 'firebase/auth';
 import auth, {fbDelete} from "../firebase/authentication"
 import {useDispatch} from "react-redux"
 import { authActions } from '../store';
 import {useNavigate} from "react-router-dom"
-import Button, { trash } from '../ui/Button';
+import Button from '../ui/buttons/Button';
+import { trash } from '../ui/buttons/buttonIcons';
 
 const Settings = () => {
 
@@ -27,8 +27,8 @@ const Settings = () => {
 
     return (
         <div>
-            <Button icon={trash} fn={deleteAllData}>Delete All Data</Button>
-            <Button icon={trash} fn={deleteUserAccount}>Delete Account</Button>
+            <Button icon={trash} onClick={deleteAllData}>Delete All Data</Button>
+            <Button icon={trash} onClick={deleteUserAccount}>Delete Account</Button>
         </div>
     );
 }

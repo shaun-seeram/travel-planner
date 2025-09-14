@@ -2,8 +2,9 @@ import React, { useImperativeHandle, useRef } from 'react';
 import {Form} from "react-router-dom"
 import { useSelector } from 'react-redux';
 import Modal from '../ui/Modal';
-import Button, { save } from '../ui/Button';
-import DeleteButton from "../ui/DeleteButton"
+import Button from '../ui/buttons/Button';
+import { save } from '../ui/buttons/buttonIcons';
+import DeleteButton from "../ui/buttons/DeleteButton"
 import classes from "../ui/Modal.module.css"
 
 const EditModal = ({id, ref: editRef}) => {
@@ -27,7 +28,7 @@ const EditModal = ({id, ref: editRef}) => {
     })
 
     return (
-        <Modal ref={modalRef} formRef={formRef}>
+        <Modal ref={modalRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <span className={classes.formGroup}>
                     <label htmlFor='city'>City</label>

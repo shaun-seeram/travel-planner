@@ -1,7 +1,8 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import {Form} from "react-router-dom"
 import Modal from '../ui/Modal';
-import Button, { save } from '../ui/Button';
+import Button from '../ui/buttons/Button';
+import { save } from '../ui/buttons/buttonIcons';
 import classes from "../ui/Modal.module.css"
 
 const BudgetModal = ({defaultValue = 0, ref}) => {
@@ -20,7 +21,7 @@ const BudgetModal = ({defaultValue = 0, ref}) => {
     })
 
     return (
-        <Modal ref={modalRef} formRef={formRef}>
+        <Modal ref={modalRef}>
             <Form method="post" ref={formRef} onSubmit={() => modalRef.current.close()}>
                 <span className={classes.formGroup}>
                     <label htmlFor='budget'>Budget</label>
