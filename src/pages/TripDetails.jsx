@@ -89,6 +89,11 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         const { accomodationId, ...formObject } = formData
 
+        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${`${formObject.street} ${formObject.city} ${formObject.state} ${formObject.zip}`}&apiKey=${geocodingKey}`)
+        const json = await res.json()
+        formObject.lat = json.features[0].properties.lat
+        formObject.lon = json.features[0].properties.lon
+
         await fbUpdate("/trips/" + tripId + "/accomodations/" + accomodationId, formObject)
 
         // IF SUCCESSFUL...

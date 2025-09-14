@@ -7,6 +7,7 @@ const MapMarkers = ({ id }) => {
     console.log("MapMarkers")
 
     const trip = useSelector(state => state.auth.trips[id].planner)
+    const accomodations = useSelector(state => state.auth.trips[id].accomodations)
     const [markers, setMarkers] = useState([]);
 
     useEffect(() => {
@@ -18,7 +19,15 @@ const MapMarkers = ({ id }) => {
                 setMarkers((pv) => [...pv, trip[dayId].plans[key]])
             })
         })
-    }, [trip])
+        Object.keys(accomodations).forEach(accomodation => {
+            if (!accomodations[accomodation].lat) return
+            setMarkers((pv) => [...pv, {
+                place: accomodations[accomodation].name,
+                lat: accomodations[accomodation].lat,
+                lon: accomodations[accomodation].lon
+            }])
+        })
+    }, [trip, accomodations])
 
     return (
         <>
