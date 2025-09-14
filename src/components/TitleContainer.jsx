@@ -10,10 +10,10 @@ const TitleContainer = ({id}) => {
 
     console.log("TitleContainer")
 
-    const city = useSelector(state => state.auth.trips[id].city)
-    const country = useSelector(state => state.auth.trips[id].country)
-    const from = useSelector(state => state.auth.trips[id].from)
-    const to = useSelector(state => state.auth.trips[id].to)
+    const city = useSelector(state => state.trips.trips[id].city)
+    const country = useSelector(state => state.trips.trips[id].country)
+    const from = useSelector(state => state.trips.trips[id].from)
+    const to = useSelector(state => state.trips.trips[id].to)
 
     const editRef = useRef()
 

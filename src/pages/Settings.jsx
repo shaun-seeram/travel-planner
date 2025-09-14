@@ -1,7 +1,7 @@
 import { deleteUser } from 'firebase/auth';
 import auth, {fbDelete} from "../firebase/authentication"
 import {useDispatch} from "react-redux"
-import { authActions } from '../store';
+import { tripActions } from '../store';
 import {useNavigate} from "react-router-dom"
 import Button from '../ui/buttons/Button';
 import { trash } from '../ui/buttons/buttonIcons';
@@ -15,12 +15,12 @@ const Settings = () => {
 
     const deleteAllData = () => {
         fbDelete("/trips/")
-        dispatch(authActions.deleteAllData())
+        dispatch(tripActions.logout())
     }
 
     const deleteUserAccount = () => {
         fbDelete()
-        dispatch(authActions.deleteAllData())
+        dispatch(tripActions.logout())
         deleteUser(auth.currentUser)
         return navigate("/")
     }

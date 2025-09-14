@@ -6,10 +6,10 @@ const Map = ({ id }) => {
 
     console.log("Map")
 
-    const latitude = useSelector(state => state.auth.trips[id].latitude)
-    const longitude = useSelector(state => state.auth.trips[id].longitude)
-    const city = useSelector(state => state.auth.trips[id].city)
-    const country = useSelector(state => state.auth.trips[id].country)
+    const latitude = useSelector(state => state.trips.trips[id].latitude)
+    const longitude = useSelector(state => state.trips.trips[id].longitude)
+    const city = useSelector(state => state.trips.trips[id].city)
+    const country = useSelector(state => state.trips.trips[id].country)
 
     return (
         <MapContainer key={latitude} center={[latitude, longitude]} style={{ "borderTopLeftRadius": "10px", "borderTopRightRadius": "10px", height: "250px", width: "100%" }} zoom={13} scrollWheelZoom={false}>

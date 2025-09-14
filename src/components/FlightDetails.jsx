@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import FlightModal from './FlightModal';
@@ -7,7 +7,7 @@ import Button from '../ui/buttons/Button';
 import { add, edit, trash } from '../ui/buttons/buttonIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
-import { authActions } from '../store';
+import { tripActions } from '../store';
 import classes from "./FlightDetails.module.css"
 import RoundButton from "../ui/buttons/RoundButton"
 
@@ -15,7 +15,7 @@ const FlightDetails = ({ id }) => {
 
 console.log("FlightDetails")
     
-    const flights = useSelector(state => state.auth.trips[id].flights || {})
+    const flights = useSelector(state => state.trips.trips[id].flights || {})
     const dispatch = useDispatch()
 
     const flightRef = useRef()
@@ -23,7 +23,7 @@ console.log("FlightDetails")
 
     const deleteFlight = (flightId) => {
         fbDelete("/trips/" + id + "/flights/" + flightId)
-        dispatch(authActions.deleteFlight({
+        dispatch(tripActions.deleteFlight({
             tripId: id,
             flightId
         }))

@@ -1,4 +1,3 @@
-import React from 'react';
 import {Form, useSearchParams, useActionData, redirect} from "react-router-dom"
 import { verifyEmail, verifyPassword } from '../util';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';

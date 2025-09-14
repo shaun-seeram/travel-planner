@@ -4,7 +4,7 @@ import classes from "./Notes.module.css"
 import { useRef, useState } from "react";
 import Button from "../ui/buttons/Button";
 import { save } from '../ui/buttons/buttonIcons';
-import { authActions } from "../store";
+import { tripActions } from "../store";
 import { fbSet } from "../firebase/authentication";
 import DetailsContainer from "../ui/DetailsContainer";
 
@@ -12,7 +12,7 @@ export default function Notes({id}) {
 
     const dispatch = useDispatch()
     const [isChanged, setIsChanged] = useState(false)
-    const {text: notes = "", height = ""} = useSelector(state => state.auth.trips[id].notes)
+    const {text: notes = "", height = ""} = useSelector(state => state.trips.trips[id].notes)
     const [text, setText] = useState(notes)
     const textRef = useRef()
 
@@ -26,7 +26,7 @@ export default function Notes({id}) {
             height: textRef.current.style.height,
             text
         })
-        dispatch(authActions.saveNotes({
+        dispatch(tripActions.saveNotes({
             tripId: id,
             notes: {
                 text: notes,

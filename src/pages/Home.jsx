@@ -7,7 +7,7 @@ const Home = () => {
     console.log("Page: Home")
 
     const uid = useSelector(state => state.auth.uid)
-    const trips = useSelector(state => state.auth.trips)
+    const trips = useSelector(state => state.trips.trips)
 
     return (
         <div>

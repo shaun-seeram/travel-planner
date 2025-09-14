@@ -15,7 +15,7 @@ const FlightModal = ({ref}) => {
     const [ids, setIds] = useState(false)
     const editData = useSelector(state => {
         if (ids) {
-            return state.auth.trips[ids.tripId].flights[ids.flightId]
+            return state.trips.trips[ids.tripId].flights[ids.flightId]
         } else {
             return null
         }

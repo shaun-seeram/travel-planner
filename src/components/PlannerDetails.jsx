@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import PlannerModal from './PlannerModal';
 import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
@@ -11,7 +11,7 @@ const PlannerDetails = ({ id }) => {
 
     console.log("PlannerDetails")
 
-    const planner = useSelector(state => state.auth.trips[id].planner)
+    const planner = useSelector(state => state.trips.trips[id].planner)
     const plannerRef = useRef();
 
     const rightContent = (key) => <Button icon={add} onClick={() => plannerRef.current.open(key)}>Add Plan</Button>

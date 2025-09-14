@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import auth from './firebase/authentication'
 import { useDispatch } from 'react-redux'
-import { asyncLogin, authActions, store } from './store'
+import { asyncLogin, authActions, store, tripActions } from './store'
 import Settings from './pages/Settings'
 
 const protectedLoader = async () => {
@@ -43,6 +43,7 @@ function App() {
         dispatch(asyncLogin(user.uid))
       } else {
         console.log("LOGOUT")
+        dispatch(tripActions.logout())
         dispatch(authActions.logout())
       }
     })

@@ -1,9 +1,10 @@
 import { Form, redirect } from "react-router-dom"
 import { fbSet, latlonkey } from '../firebase/authentication';
-import { authActions, store } from '../store';
+import { tripActions, store } from '../store';
 import classes from "./AddTrip.module.css"
 import Button from '../ui/buttons/Button';
 import { save } from '../ui/buttons/buttonIcons';
+import { plannerMapping } from "../util";
 
 
 const AddTrip = () => {
@@ -54,20 +55,7 @@ export const addTripAction = async ({request}) => {
     })
     const currencyResJson = await currencyRes.json();
 
-    const plannerMap = () => {
-        const from = new Date(data.get("travelfrom").split("-"))
-        const to = new Date (data.get("travelto").split("-"))
-        const planner = {}
-        const months = ["January", "February", "March", "April", "May", "June", 'July', "August", 'September', "October", "November", 'December']
-    
-        for (let i = from.getTime(); i <= (to.getTime()); i += 86400000) {
-            const iteration = new Date(i)
-            planner[i] = {
-                stringifiedDate: `${months[iteration.getMonth()]} ${iteration.getDate()}, ${iteration.getFullYear()}`
-            }
-        }
-        return planner
-    }
+    const plannerMap = plannerMapping(data.get("travelfrom"), data.get("travelto"))
 
     await fbSet("/trips/" + tripId, {
         city: data.get("city"),
@@ -85,7 +73,7 @@ export const addTripAction = async ({request}) => {
     })
     // IF SUCCESSFUL...
 
-    store.dispatch(authActions.addTrip({
+    store.dispatch(tripActions.addTrip({
         tripId,
         trip: {
             city: data.get("city"),

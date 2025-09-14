@@ -9,22 +9,34 @@ const authSlice = createSlice({
     initialState: {
         sessionReady: false,
         uid: null,
-        trips: {},
         currentPage: null
     },
     reducers: {
         login(state, action) {
             state.sessionReady = true
-            state.uid = action.payload.id
-            state.trips = action.payload.trips || {}
+            state.uid = action.payload.uid
         },
         logout(state) {
             state.sessionReady = true
             state.uid = null
-            state.trips = {}
             state.currentPage = null
         },
         changePage(state, action) { state.currentPage = action.payload },
+    }
+})
+
+const tripSlice = createSlice({
+    name: "tripData",
+    initialState: {
+        trips: {},
+    },
+    reducers: {
+        login(state, action) {
+            state.trips = action.payload.trips || {}
+        },
+        logout(state) {
+            state.trips = {}
+        },
         addTrip(state, action) { state.trips[action.payload.tripId] = action.payload.trip },
         updateTrip(state, action) { state.trips[action.payload.tripId] = {...state.trips[action.payload.tripId], ...action.payload.trip} },
         removeTrip(state, action) { delete state.trips[action.payload] },
@@ -63,14 +75,14 @@ const authSlice = createSlice({
             state.trips[action.payload.tripId].planner[action.payload.plannerDate].plans[action.payload.plannerId] = action.payload.planner
         },
         deletePlan(state, action) { delete state.trips[action.payload.tripId].planner[action.payload.dateId].plans[action.payload.plannerId] },
-        resetPlanner(state, action) { state.trips[action.payload.tripId].planner = plannerMapping(action.payload.from, action.payload.to) },
-        deleteAllData(state) { state.trips = {} }
+        resetPlanner(state, action) { state.trips[action.payload.tripId].planner = plannerMapping(action.payload.from, action.payload.to) }
     }
 })
 
 export const store = configureStore({
     reducer: {
-        auth: authSlice.reducer
+        auth: authSlice.reducer,
+        trips: tripSlice.reducer
     }
 })
 
@@ -83,13 +95,16 @@ const StoreProvider = ({ children }) => {
 }
 
 export const authActions = authSlice.actions
+export const tripActions = tripSlice.actions
 export default StoreProvider;
 
-export const asyncLogin = (id) => {
+export const asyncLogin = (uid) => {
     return async (dispatch) => {
-        const tripsSnapshot = await get(child(ref(db), id + "/trips/"))
+        const tripsSnapshot = await get(child(ref(db), uid + "/trips/"))
         dispatch(authActions.login({
-            id,
+            uid,
+        }))
+        dispatch(tripActions.login({
             trips: tripsSnapshot.val()
         }))
     }

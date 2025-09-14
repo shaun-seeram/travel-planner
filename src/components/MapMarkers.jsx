@@ -6,8 +6,8 @@ const MapMarkers = ({ id }) => {
 
     console.log("MapMarkers")
 
-    const trip = useSelector(state => state.auth.trips[id].planner)
-    const accomodations = useSelector(state => state.auth.trips[id].accomodations)
+    const trip = useSelector(state => state.trips.trips[id].planner)
+    const accomodations = useSelector(state => state.trips.trips[id].accomodations)
     const [markers, setMarkers] = useState([]);
 
     useEffect(() => {

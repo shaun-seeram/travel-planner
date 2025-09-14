@@ -7,7 +7,7 @@ import Button from '../ui/buttons/Button';
 import { add, edit, trash } from '../ui/buttons/buttonIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
-import { authActions } from '../store';
+import { tripActions } from '../store';
 import classes from "./AccomodationDetails.module.css"
 import RoundButton from "../ui/buttons/RoundButton"
 
@@ -15,7 +15,7 @@ const AccomodationDetails = ({ id }) => {
 
     console.log("AccomodationDetails")
 
-    const accomodations = useSelector(state => state.auth.trips[id].accomodations || {})
+    const accomodations = useSelector(state => state.trips.trips[id].accomodations || {})
     const dispatch = useDispatch()
 
     const accomodationRef = useRef()
@@ -23,7 +23,7 @@ const AccomodationDetails = ({ id }) => {
 
     const deleteAccomodation = (accomodationId) => {
         fbDelete("/trips/" + id + "/accomodations/" + accomodationId)
-        dispatch(authActions.deleteAccomodation({
+        dispatch(tripActions.deleteAccomodation({
             tripId: id,
             accomodationId
         }))

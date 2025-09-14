@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef } from 'react';
+import { useImperativeHandle, useRef } from 'react';
 import {Form} from "react-router-dom"
 import { useSelector } from 'react-redux';
 import Modal from '../ui/Modal';
@@ -11,10 +11,10 @@ const EditModal = ({id, ref: editRef}) => {
 
     console.log("EditModal")
 
-    const city = useSelector(state => state.auth.trips[id].city)
-    const country = useSelector(state => state.auth.trips[id].country)
-    const from = useSelector(state => state.auth.trips[id].from)
-    const to = useSelector(state => state.auth.trips[id].to)
+    const city = useSelector(state => state.trips.trips[id].city)
+    const country = useSelector(state => state.trips.trips[id].country)
+    const from = useSelector(state => state.trips.trips[id].from)
+    const to = useSelector(state => state.trips.trips[id].to)
 
     const modalRef = useRef();
     const formRef = useRef();

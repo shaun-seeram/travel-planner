@@ -15,7 +15,7 @@ const ExpenseModal = ({ref}) => {
     const [ids, setIds] = useState(false)
     const editData = useSelector(state => {
         if (ids) {
-            return state.auth.trips[ids.tripId].budget.expenses[ids.expenseId]
+            return state.trips.trips[ids.tripId].budget.expenses[ids.expenseId]
         } else {
             return null
         }

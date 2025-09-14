@@ -2,7 +2,7 @@ import classes from "./DeleteButton.module.css"
 import { fbDelete } from "../../firebase/authentication";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { authActions } from "../../store";
+import { tripActions } from "../../store";
 import { trash } from "./buttonIcons";
 
 const DeleteButton = ({id, children, fn, ...props}) => {
@@ -14,7 +14,7 @@ const DeleteButton = ({id, children, fn, ...props}) => {
 
     const handleDelete = () => {
         fbDelete("/trips/" + id)
-        dispatch(authActions.removeTrip(id))
+        dispatch(tripActions.removeTrip(id))
         return navigate("/trips/")
     }
 

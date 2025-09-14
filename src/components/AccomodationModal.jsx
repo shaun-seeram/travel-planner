@@ -15,7 +15,7 @@ const AccomodationModal = ({ref}) => {
     const [ids, setIds] = useState(false)
     const editData = useSelector(state => {
         if (ids) {
-            return state.auth.trips[ids.tripId].accomodations[ids.accomodationId]
+            return state.trips.trips[ids.tripId].accomodations[ids.accomodationId]
         } else {
             return null
         }

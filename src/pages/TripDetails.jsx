@@ -1,7 +1,7 @@
 import { redirect } from "react-router-dom"
 import auth, { fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
 import { useSelector } from 'react-redux';
-import { authActions, store } from '../store';
+import { authActions, tripActions, store } from '../store';
 import classes from "./TripDetails.module.css"
 import Map from '../components/Map';
 import TitleContainer from '../components/TitleContainer';
@@ -97,7 +97,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         await fbUpdate("/trips/" + tripId + "/accomodations/" + accomodationId, formObject)
 
         // IF SUCCESSFUL...
-        store.dispatch(authActions.updateAccomodation({
+        store.dispatch(tripActions.updateAccomodation({
             tripId,
             accomodationId,
             accomodation: formObject
@@ -124,7 +124,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         await fbUpdate("/trips/" + tripId + "/flights/" + flightId, formObject)
 
         // IF SUCCESSFUL...
-        store.dispatch(authActions.updateFlight({
+        store.dispatch(tripActions.updateFlight({
             tripId,
             flightId,
             flight: formObject
@@ -140,7 +140,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         })
 
         // IF SUCCESSFUL...
-        store.dispatch(authActions.editBudget({
+        store.dispatch(tripActions.editBudget({
             tripId,
             budget: +budget
         }))
@@ -156,7 +156,7 @@ export const tripDetailsAction = async ({ request, params }) => {
         await fbUpdate("/trips/" + tripId + "/budget/expenses/" + expenseId, formObject)
 
         // IF SUCCESSFUL...
-        store.dispatch(authActions.updateExpense({
+        store.dispatch(tripActions.updateExpense({
             tripId,
             expenseId,
             expense: formObject
@@ -201,13 +201,13 @@ export const tripDetailsAction = async ({ request, params }) => {
         // IF SUCCESSFUL...
 
         if (from !== oldFrom || to !== oldTo) {
-            store.dispatch(authActions.resetPlanner({
+            store.dispatch(tripActions.resetPlanner({
                 tripId,
                 from,
                 to
             }))
         }
-        store.dispatch(authActions.updateTrip({
+        store.dispatch(tripActions.updateTrip({
             tripId,
             trip: formData
         }))
@@ -227,7 +227,7 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         // IF SUCCESSFUL...
 
-        store.dispatch(authActions.updatePlanner({
+        store.dispatch(tripActions.updatePlanner({
             tripId,
             plannerId,
             plannerDate,

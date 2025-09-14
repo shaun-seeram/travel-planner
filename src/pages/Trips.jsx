@@ -6,7 +6,7 @@ const Trips = () => {
 
     console.log("Page: Trips")
 
-    const trips = useSelector(state => state.auth.trips)
+    const trips = useSelector(state => state.trips.trips)
 
     return (
         <>

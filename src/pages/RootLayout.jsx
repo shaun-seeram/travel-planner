@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navigation from '../components/Navigation';
 import {Outlet} from "react-router-dom"
 import classes from "./RootLayout.module.css"

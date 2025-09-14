@@ -5,7 +5,7 @@ import Button from "../ui/buttons/Button";
 import { edit, save } from '../ui/buttons/buttonIcons';
 import { fbDelete } from "../firebase/authentication";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store";
+import { tripActions } from "../store";
 import classes from "../ui/Modal.module.css";
 import DeleteButton from "../ui/buttons/DeleteButton";
 
@@ -18,7 +18,7 @@ const PlannerModal = ({ ref }) => {
     const [ids, setIds] = useState({ init: false, plannerDate: "" });
     const editData = useSelector((state) => {
         if (ids.init) {
-            return state.auth.trips[ids.tripId].planner[ids.plannerDate].plans[ids.plannerId];
+            return state.trips.trips[ids.tripId].planner[ids.plannerDate].plans[ids.plannerId];
         } else {
             return null;
         }
@@ -50,7 +50,7 @@ const PlannerModal = ({ ref }) => {
     const deletePlan = () => {
         fbDelete("/trips/" + ids.tripId + "/planner/" + ids.plannerDate + "/plans/" + ids.plannerId);
         dispatch(
-            authActions.deletePlan({
+            tripActions.deletePlan({
                 tripId: ids.tripId,
                 dateId: ids.plannerDate,
                 plannerId: ids.plannerId,

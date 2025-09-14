@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import DetailsContainer from '../ui/DetailsContainer';
 import GrayContainer from '../ui/GrayContainer';
 import BudgetModal from './BudgetModal';
@@ -10,13 +10,13 @@ import { add, edit, trash } from '../ui/buttons/buttonIcons';
 import RoundButton from "../ui/buttons/RoundButton";
 import { useDispatch, useSelector } from 'react-redux';
 import { fbDelete } from '../firebase/authentication';
-import { authActions } from '../store';
+import { tripActions } from '../store';
 
 const BudgetDetails = ({id}) => {
 
     console.log("BudgetDetails")
 
-    const budget = useSelector(state => state.auth.trips[id].budget)
+    const budget = useSelector(state => state.trips.trips[id].budget)
     const dispatch = useDispatch()
 
     const expenseRef = useRef()
@@ -27,7 +27,7 @@ const BudgetDetails = ({id}) => {
 
     const deleteExpense = (expenseId) => {
         fbDelete("/trips/" + id + "/budget/expenses/" + expenseId)
-        dispatch(authActions.deleteExpense({
+        dispatch(tripActions.deleteExpense({
             tripId: id,
             expenseId
         }))
