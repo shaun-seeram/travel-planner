@@ -8,6 +8,7 @@ const Navigation = () => {
 
     const isLoggedIn = useSelector((state) => state.auth.uid)
     const sessionReady = useSelector((state) => state.auth.sessionReady)
+    const name = useSelector((state) => state.auth.name)
 
     return (
         <div className={classes.navigation}>
@@ -21,6 +22,7 @@ const Navigation = () => {
                             <li><Link to="trips/add">Add a Trip</Link></li>
                             <li><Link to="settings">Settings</Link></li>
                             <li><Link to="logout">Logout</Link></li>
+                            <li><Link to="settings" className={classes.userBox}><span className={classes.letter}>{name[0]}</span> {name}</Link></li>
                         </>
                     )}
                     { (sessionReady && !isLoggedIn) && (

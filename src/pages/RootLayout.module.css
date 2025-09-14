@@ -1,5 +1,7 @@
 .main {
-    width: 100%;
+    /* width: 100%; */
+    width: calc(100% - 235px);
+    margin-left: auto;
     background-color: #37353E;
     margin-top: 15px;
     border-radius: 10px;

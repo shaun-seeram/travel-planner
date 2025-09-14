@@ -22,6 +22,12 @@ const Authentication = () => {
         <h2 className={classes.h2}>{mode === "register" ? "Sign Up" : "Login"}</h2>
         <Form method='post'>
             {data?.auth && <p>{data.auth}</p>}
+            {mode === "register" && (
+                <span className={formClasses.formGroup}>
+                    <label htmlFor="name">Name</label>
+                    <input name="name" id="name" />
+                </span>
+            )}
             {data?.email && !data.email.valid && (
                 <ul>
                     {data.email.errors.map((err) => <li key={err}>{err}</li>)}
@@ -61,6 +67,8 @@ export const authenticationAction = async ({request}) => {
     const password = data.get("password");
     const passwordValidity = verifyPassword(password);
 
+    const name = data.get("name");
+
     if (!emailValidity.valid || !passwordValidity.valid) {
         return {
             email: emailValidity,
@@ -72,7 +80,7 @@ export const authenticationAction = async ({request}) => {
         try {
             const user = await createUserWithEmailAndPassword(auth, email, password)
             await set(ref(db, user.user.uid + "/"), {
-                init: true,
+                name,
             })
             return redirect("/")
         } catch(e) {

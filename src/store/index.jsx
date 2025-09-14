@@ -9,16 +9,19 @@ const authSlice = createSlice({
     initialState: {
         sessionReady: false,
         uid: null,
+        name: "",
         currentPage: null
     },
     reducers: {
         login(state, action) {
             state.sessionReady = true
             state.uid = action.payload.uid
+            state.name = action.payload.name
         },
         logout(state) {
             state.sessionReady = true
             state.uid = null
+            state.name = ""
             state.currentPage = null
         },
         changePage(state, action) { state.currentPage = action.payload },
@@ -100,12 +103,13 @@ export default StoreProvider;
 
 export const asyncLogin = (uid) => {
     return async (dispatch) => {
-        const tripsSnapshot = await get(child(ref(db), uid + "/trips/"))
+        const tripsSnapshot = await get(child(ref(db), uid))
         dispatch(authActions.login({
             uid,
+            name: tripsSnapshot.val().name
         }))
         dispatch(tripActions.login({
-            trips: tripsSnapshot.val()
+            trips: tripsSnapshot.val().trips
         }))
     }
 }

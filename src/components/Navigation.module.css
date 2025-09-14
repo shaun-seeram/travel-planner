@@ -4,6 +4,10 @@
     /* display: flex; */
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    height: 100vh;
+    position: fixed;
+    top: 0;
     /* border: 1px solid rgb(205, 202, 199); */
     /* border-radius: 5px; */
     /* margin: 10px 0; */
@@ -29,6 +33,7 @@
         font-size: 2rem;
         font-weight: 700;
         letter-spacing: 0.5px;
+
         &:hover {
             color: #FFF;
         }
@@ -42,7 +47,34 @@
 
 .airplane {
     margin-right: 10px;
-  background: #715A5A;
-  padding: 10px;
-  border-radius: 5px;
+    background: #715A5A;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.userBox {
+    font-size: 1.5rem;
+    background-color: #37353E;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 700;
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 40px);
+}
+
+.letter {
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    padding-bottom: 3px;
+    margin-right: 10px;
 }
