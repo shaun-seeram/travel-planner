@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom"
-import auth, { fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
+import auth, { fbSet, fbUpdate, geocodingKey, latlonkey } from '../firebase/authentication';
 import { useSelector } from 'react-redux';
 import { authActions, tripActions, store } from '../store';
 import classes from "./TripDetails.module.css"
@@ -89,10 +89,12 @@ export const tripDetailsAction = async ({ request, params }) => {
 
         const { accomodationId, ...formObject } = formData
 
-        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${`${formObject.street} ${formObject.city} ${formObject.state} ${formObject.zip}`}&apiKey=${geocodingKey}`)
-        const json = await res.json()
-        formObject.lat = json.features[0].properties.lat
-        formObject.lon = json.features[0].properties.lon
+        if (formObject.street) {
+            const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${`${formObject.street} ${formObject.city} ${formObject.state} ${formObject.zip}`}&apiKey=${geocodingKey}`)
+            const json = await res.json()
+            formObject.lat = json.features[0].properties.lat
+            formObject.lon = json.features[0].properties.lon
+        }
 
         await fbUpdate("/trips/" + tripId + "/accomodations/" + accomodationId, formObject)
 
@@ -166,7 +168,7 @@ export const tripDetailsAction = async ({ request, params }) => {
 
     } else if (purpose === "updateTrip") {
         const { city, country, from, to } = formData
-        const {from: oldFrom, to: oldTo} = store.getState().auth.trips[tripId]
+        const {from: oldFrom, to: oldTo, city: oldCity, country: oldCountry} = store.getState().auth.trips[tripId]
 
         if (from !== oldFrom || to !== oldTo) {
             const planner = plannerMapping(from, to)
@@ -176,25 +178,29 @@ export const tripDetailsAction = async ({ request, params }) => {
             })
         }
 
-        const latlonRes = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${city}&country=${country}`, {
-            headers: {
-                "X-Api-Key": latlonkey
-            }
-        })
+        if (country !== oldCountry || city !== oldCity) {
+            const latlonRes = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${city}&country=${country}`, {
+                headers: {
+                    "X-Api-Key": latlonkey
+                }
+            })
+    
+            const latLon = await latlonRes.json()
+            formData.latitude = latLon[0].latitude
+            formData.longitude = latLon[0].longitude
+        }
 
-        const latLon = await latlonRes.json()
+        if (country !== oldCountry) {
+            const currencyRes = await fetch(`https://api.api-ninjas.com/v1/country?name=${country}`, {
+                headers: {
+                    "X-Api-Key": latlonkey
+                }
+            })
+    
+            const currency = await currencyRes.json();
+            formData.currency = currency[0].currency.code
+        }
 
-        const currencyRes = await fetch(`https://api.api-ninjas.com/v1/country?name=${country}`, {
-            headers: {
-                "X-Api-Key": latlonkey
-            }
-        })
-
-        const currency = await currencyRes.json();
-
-        formData.currency = currency[0].currency.code
-        formData.latitude = latLon[0].latitude
-        formData.longitude = latLon[0].longitude
 
         await fbUpdate("/trips/" + tripId, formData)
 
@@ -218,12 +224,14 @@ export const tripDetailsAction = async ({ request, params }) => {
         formData.plannerId = data.get("plannerId") || purposeId
         const { plannerId, plannerDate, ...formObject } = formData
 
-        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${formObject.address}&apiKey=${geocodingKey}`)
-        const json = await res.json()
-        formObject.lat = json.features[0].properties.lat
-        formObject.lon = json.features[0].properties.lon
+        if (formObject.address) {
+            const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${formObject.address}&apiKey=${geocodingKey}`)
+            const json = await res.json()
+            formObject.lat = json.features[0].properties.lat
+            formObject.lon = json.features[0].properties.lon
+        }
 
-        await fbUpdate("/trips/" + tripId + "/planner/" + plannerDate + "/plans/" + plannerId, formObject)
+        await fbSet("/trips/" + tripId + "/planner/" + plannerDate + "/plans/" + plannerId, formObject)
 
         // IF SUCCESSFUL...
 

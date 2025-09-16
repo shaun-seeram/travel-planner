@@ -25,7 +25,7 @@ const Authentication = () => {
             {mode === "register" && (
                 <span className={formClasses.formGroup}>
                     <label htmlFor="name">First Name</label>
-                    <input name="name" id="name" />
+                    <input name="name" id="name" required />
                 </span>
             )}
             {data?.email && !data.email.valid && (
@@ -35,7 +35,7 @@ const Authentication = () => {
             )}
             <span className={formClasses.formGroup}>
                 <label htmlFor="email">Email</label>
-                <input name="email" id="email" type="email" />
+                <input name="email" id="email" type="email" required />
             </span>
             {data?.password && !data.password.valid && (
                 <ul>
@@ -44,7 +44,7 @@ const Authentication = () => {
             )}
             <span className={formClasses.formGroup}>
                 <label htmlFor="password">Password</label>
-                <input name="password" id="password" type="password" />
+                <input name="password" id="password" type="password" required />
             </span>
             <span className={formClasses.buttonsContainer}>
                 <Button type="submit">{mode === "register" ? "Sign Up" : "Login"}</Button>

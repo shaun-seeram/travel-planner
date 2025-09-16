@@ -65,7 +65,7 @@ const PlannerModal = ({ ref }) => {
                 { ids.init && <input name="plannerId" className="sr-only" value={ids.plannerId} readOnly></input> }
                 <span className={classes.formGroup}>
                     <label htmlFor="place">Place</label>
-                    <input name="place" id="place" defaultValue={ids.init ? editData?.place : ""}></input>
+                    <input name="place" id="place" defaultValue={ids.init ? editData?.place : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor="address">Address</label>

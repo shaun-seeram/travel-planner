@@ -45,27 +45,27 @@ const FlightModal = ({ref}) => {
                 <input name='flightId' className="sr-only" id='flightId' defaultValue={ids ? ids.flightId : undefined} readOnly></input>
                 <span className={classes.formGroup}>
                     <label htmlFor='airline'>Airline</label>
-                    <input name='airline' id='airline' defaultValue={ids ? editData?.airline : ""}></input>
+                    <input name='airline' id='airline' defaultValue={ids ? editData?.airline : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='fromAirport'>From Airport</label>
-                    <input name='fromAirport' id='fromAirport' defaultValue={ids ? editData?.fromAirport : ""}></input>
+                    <input name='fromAirport' id='fromAirport' defaultValue={ids ? editData?.fromAirport : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='toAirport'>To Airport</label>
-                    <input name='toAirport' id='toAirport' defaultValue={ids ? editData?.toAirport : ""}></input>
+                    <input name='toAirport' id='toAirport' defaultValue={ids ? editData?.toAirport : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='flightNumber'>Flight Number</label>
-                    <input name='flightNumber' id='flightNumber' defaultValue={ids ? editData?.flightNumber : ""}></input>
+                    <input name='flightNumber' id='flightNumber' defaultValue={ids ? editData?.flightNumber : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='departureDate'>Departure Date</label>
-                    <input type="date" name='departureDate' id='departureDate' defaultValue={ids ? editData?.departureDate : ""}></input>
+                    <input type="date" name='departureDate' id='departureDate' defaultValue={ids ? editData?.departureDate : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='boarding'>Boarding Time</label>
-                    <input type="time" name='boarding' id='boarding' defaultValue={ids ? editData?.boarding : ""}></input>
+                    <input type="time" name='boarding' id='boarding' defaultValue={ids ? editData?.boarding : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='notes'>Notes</label>

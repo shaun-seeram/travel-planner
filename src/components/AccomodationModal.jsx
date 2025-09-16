@@ -45,7 +45,7 @@ const AccomodationModal = ({ref}) => {
                 <input name='accomodationId' className="sr-only" id='accomodationId' defaultValue={ids ? ids.accomodationId : undefined} readOnly></input>
                 <span className={classes.formGroup}>
                     <label htmlFor='name'>Name</label>
-                    <input name='name' id='name' defaultValue={ids ? editData?.name : ""}></input>
+                    <input name='name' id='name' defaultValue={ids ? editData?.name : ""} required></input>
                 </span>
                 <span className={classes.formGroup}>
                     <label htmlFor='street'>Street</label>

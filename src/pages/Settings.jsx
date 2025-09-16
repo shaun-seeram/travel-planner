@@ -41,7 +41,7 @@ const Settings = () => {
         <div>
             <span className={classes.formGroup}>
                 <label htmlFor='name'>First Name</label>
-                <input ref={nameRef} type='text' name="name" id='name' defaultValue={name}></input>
+                <input ref={nameRef} type='text' name="name" id='name' defaultValue={name} required></input>
             </span>
             <span className={classes.buttonsContainer}>
                 <Button icon={save} onClick={handleSave}>Save</Button>

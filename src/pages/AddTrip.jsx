@@ -15,19 +15,19 @@ const AddTrip = () => {
         <Form method='post'>
             <span className={classes.formGroup}>
                 <label htmlFor='city'>City</label>
-                <input type='text' name="city" id='city'></input>
+                <input type='text' name="city" id='city' required></input>
             </span>
             <span className={classes.formGroup}>
                 <label htmlFor='country'>Country</label>
-                <input type='text' name="country" id='country'></input>
+                <input type='text' name="country" id='country' required></input>
             </span>
             <span className={classes.formGroup}>
                 <label htmlFor='travelfrom'>From</label>
-                <input type='date' name="travelfrom" id='travelfrom'></input>
+                <input type='date' name="travelfrom" id='travelfrom' required></input>
             </span>
             <span className={classes.formGroup}>
                 <label htmlFor='travelto'>To</label>
-                <input type='date' name="travelto" id='travelto'></input>
+                <input type='date' name="travelto" id='travelto' required></input>
             </span>
             <span className={classes.buttonsContainer}>
                 <Button icon={save} type="submit">Add Trip</Button>
