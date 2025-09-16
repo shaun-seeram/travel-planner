@@ -24,7 +24,7 @@ const Authentication = () => {
             {data?.auth && <p>{data.auth}</p>}
             {mode === "register" && (
                 <span className={formClasses.formGroup}>
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">First Name</label>
                     <input name="name" id="name" />
                 </span>
             )}

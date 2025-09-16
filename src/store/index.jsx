@@ -25,6 +25,7 @@ const authSlice = createSlice({
             state.currentPage = null
         },
         changePage(state, action) { state.currentPage = action.payload },
+        changeName(state, action) { state.name = action.payload}
     }
 })
 
