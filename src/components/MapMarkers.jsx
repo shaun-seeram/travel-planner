@@ -19,6 +19,7 @@ const MapMarkers = ({ id }) => {
                 setMarkers((pv) => [...pv, trip[dayId].plans[key]])
             })
         })
+        if (!accomodations) return
         Object.keys(accomodations).forEach(accomodation => {
             if (!accomodations[accomodation].lat) return
             setMarkers((pv) => [...pv, {

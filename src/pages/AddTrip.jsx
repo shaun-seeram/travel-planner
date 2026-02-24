@@ -54,6 +54,7 @@ export const addTripAction = async ({request}) => {
         }
     })
     const currencyResJson = await currencyRes.json();
+    console.log(data.get("travelfrom"), data.get("travelto"))
 
     const plannerMap = plannerMapping(data.get("travelfrom"), data.get("travelto"))
 
@@ -68,7 +69,8 @@ export const addTripAction = async ({request}) => {
         budget: {
             budget: 0
         },
-        planner: plannerMap(),
+        planner: plannerMap,
+        accomodations: {},
         notes: ""
     })
     // IF SUCCESSFUL...
@@ -86,7 +88,8 @@ export const addTripAction = async ({request}) => {
             budget: {
                 budget: 0
             },
-            planner: plannerMap(),
+            planner: plannerMap,
+            accomodations: {},
             notes: ""
         }
     }))
