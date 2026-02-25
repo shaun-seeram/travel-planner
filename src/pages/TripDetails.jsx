@@ -168,7 +168,8 @@ export const tripDetailsAction = async ({ request, params }) => {
 
     } else if (purpose === "updateTrip") {
         const { city, country, from, to } = formData
-        const {from: oldFrom, to: oldTo, city: oldCity, country: oldCountry} = store.getState().auth.trips[tripId]
+        console.log(store.getState().trips)
+        const {from: oldFrom, to: oldTo, city: oldCity, country: oldCountry} = store.getState().trips.trips[tripId]
 
         if (from !== oldFrom || to !== oldTo) {
             const planner = plannerMapping(from, to)
